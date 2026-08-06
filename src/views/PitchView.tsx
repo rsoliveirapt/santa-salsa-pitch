@@ -543,31 +543,28 @@ export const PitchView: React.FC<PitchViewProps> = ({
                 </p>
               </div>
             ) : (
-              <div className={`grid gap-2.5 pb-2 ${getGridClass(totalCount)}`}>
+              <div className={`grid gap-3 pb-2 ${getGridClass(totalCount)}`}>
                 {perros.map((perro: PerroRecord, idx: number) => {
                   const nivelLabel = getNivelCaracasLabel(perro.nivel_caracas);
                   const isFirst = idx === 0;
-                  const isCompact = totalCount >= 6;
 
                   return (
                     <div
                       key={perro.id}
-                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-3 rounded-xl flex flex-col justify-between shadow-[0_6px_0_#000] transition-all duration-300 ${
-                        isCompact ? 'p-2.5' : 'p-3'
-                      } ${
+                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-3 rounded-2xl p-3.5 flex flex-col justify-between shadow-[0_8px_0_#000] transition-all duration-300 ${
                         isFirst
                           ? 'border-[#FFEB01] ring-4 ring-[#FFEB01]/40 animate-pop-in'
                           : 'border-zinc-900 hover:border-amber-500/60'
                       }`}
                     >
-                      {/* Menu Item Header */}
-                      <div className="flex justify-between items-start gap-1.5 mb-1">
-                        <div className="flex items-center gap-1 flex-wrap">
-                          <span className="text-[9px] font-mono font-black text-amber-400 uppercase bg-[#991B1B] px-1.5 py-0.5 rounded border border-amber-500/50">
+                      {/* Menu Item Header: ID + NOVO badge on left, % on right */}
+                      <div className="flex justify-between items-center gap-2 mb-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-mono font-black text-[#FFEB01] uppercase bg-[#991B1B] px-2 py-0.5 rounded-lg border border-amber-500/50">
                             #{perro.id.slice(0, 5)}
                           </span>
                           {isFirst && (
-                            <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse">
+                            <span className="px-2 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse shadow-sm">
                               NOVO!
                             </span>
                           )}
@@ -575,51 +572,51 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
                         {/* Caracas Gauge Badge */}
                         <span
-                          className={`text-[10px] font-black font-mono px-2 py-0.5 rounded border-2 ${
+                          className={`text-xs font-black font-mono px-2.5 py-0.5 rounded-lg border-2 ${
                             perro.nivel_caracas === 100
                               ? 'bg-red-950 border-red-500 text-red-400'
-                              : 'bg-zinc-950 border-amber-500 text-amber-400'
+                              : 'bg-zinc-950 border-amber-500 text-[#FFEB01]'
                           }`}
                         >
                           {perro.nivel_caracas}%
                         </span>
                       </div>
 
-                      {/* Hot Dog Mini Visualizer */}
-                      <div className="my-1 flex justify-center bg-black/80 rounded-lg py-1.5 border border-zinc-800">
+                      {/* Hot Dog Mini Visualizer Showcase */}
+                      <div className="my-1.5 flex justify-center bg-black/80 rounded-xl py-2.5 border border-zinc-800/80 shadow-inner">
                         <HotDogVisualizer
                           selectedIngredients={perro.ingredientes}
                           size={totalCount === 1 ? 'md' : 'sm'}
                         />
                       </div>
 
-                      {/* Caracas Level Label */}
-                      <div className="text-center mb-1">
-                        <div className={`text-[11px] font-black uppercase font-display leading-tight ${nivelLabel.colorClass}`}>
+                      {/* Caracas Level Title - BIG, BOLD & READABLE */}
+                      <div className="text-center my-1.5">
+                        <h4 className={`text-base sm:text-lg font-black uppercase font-display tracking-wide leading-tight ${nivelLabel.colorClass}`}>
                           {nivelLabel.title}
-                        </div>
+                        </h4>
                       </div>
 
-                      {/* Ingredient Pills (Menu Item Ingredients) */}
-                      <div className="flex flex-wrap gap-1 mb-1.5">
+                      {/* Sleek Ingredient Icon Badges Bar (Icons only with title tooltips) */}
+                      <div className="flex flex-wrap justify-center gap-1.5 my-2">
                         {perro.ingredientes.map((ingId) => {
                           const def = INGREDIENTS.find((i) => i.id === ingId);
                           if (!def) return null;
                           return (
-                            <span
+                            <div
                               key={ingId}
-                              className={`text-[8px] font-bold px-1.5 py-0.5 rounded border flex items-center gap-1 ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
+                              className={`p-1.5 rounded-xl border-2 flex items-center justify-center transition-transform hover:scale-110 shadow-sm ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
+                              title={def.name}
                             >
-                              <IngredientIcon name={def.iconName} className="w-2.5 h-2.5" />
-                              <span>{def.name}</span>
-                            </span>
+                              <IngredientIcon name={def.iconName} className="w-4 h-4" />
+                            </div>
                           );
                         })}
                       </div>
 
                       {/* Footer Timestamp */}
-                      <div className="pt-1 border-t border-zinc-800/80 flex justify-between items-center text-[8px] font-mono text-zinc-400">
-                        <span>{perro.ingredientes.length} ing.</span>
+                      <div className="pt-2 border-t border-zinc-800/80 flex justify-between items-center text-xs font-mono font-bold text-zinc-400">
+                        <span>{perro.ingredientes.length} ingredientes</span>
                         <span>
                           {new Date(perro.criado_em).toLocaleTimeString([], {
                             hour: '2-digit',
@@ -681,7 +678,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
               e adiciona o teu Perro ao vivo no menu do restaurante! 🌭🔥
             </p>
 
-            {/* Giant 340px QR Code Board Frame */}
+            {/* Giant 320px QR Code Board Frame */}
             <div className="p-6 bg-[#FDF6E2] rounded-3xl shadow-[0_8px_0_#000] border-4 border-zinc-950 inline-block mb-6 transform hover:scale-102 transition-transform">
               {appUrl && (
                 <QRCodeSVG
