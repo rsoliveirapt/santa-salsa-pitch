@@ -6,14 +6,13 @@ import {
   VolumeX,
   Maximize2,
   Sparkles,
-  Plus,
-  Database,
   Smartphone,
   CheckCircle2,
   Disc,
   Eye,
   EyeOff,
-  Trash2
+  Trash2,
+  Database
 } from 'lucide-react';
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import {
@@ -34,12 +33,18 @@ interface PitchViewProps {
   onNavigateToMobile?: () => void;
   showHeader?: boolean;
   onToggleHeader?: () => void;
+  onRegisterControls?: (controls: {
+    simulate: () => void;
+    openConfig: () => void;
+    isConnected: boolean;
+  }) => void;
 }
 
 export const PitchView: React.FC<PitchViewProps> = ({
   onNavigateToMobile,
   showHeader = true,
-  onToggleHeader
+  onToggleHeader,
+  onRegisterControls
 }) => {
   const [perros, setPerros] = useState<PerroRecord[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -210,6 +215,17 @@ export const PitchView: React.FC<PitchViewProps> = ({
     handleNewPerroArrived(simulated);
   };
 
+  // Register controls to top Navbar in App.tsx
+  useEffect(() => {
+    if (onRegisterControls) {
+      onRegisterControls({
+        simulate: handleSimulatePerro,
+        openConfig: () => setShowConfigModal(true),
+        isConnected: supabaseConnected
+      });
+    }
+  }, [supabaseConnected, onRegisterControls]);
+
   // Clear wall & database
   const handleClearWall = async () => {
     if (confirm('Tem a certeza que deseja limpar todos os Perros do menu ao vivo?')) {
@@ -296,23 +312,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
             </div>
 
             <div className="hidden sm:block">
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-[#DC2626] border border-amber-400 text-white shadow-sm">
-                  PITCH LIVE SCREEN
-                </span>
-                <button
-                  onClick={() => setShowConfigModal(true)}
-                  className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border-2 flex items-center gap-1 ${
-                    supabaseConnected
-                      ? 'bg-emerald-950 border-emerald-500 text-emerald-400'
-                      : 'bg-amber-950 border-amber-500 text-amber-300'
-                  }`}
-                >
-                  <Database className="w-3 h-3" />
-                  <span>{supabaseConnected ? 'Supabase Connected' : 'Local Realtime Mode'}</span>
-                </button>
-              </div>
-              <p className="text-[11px] font-hand text-amber-300">
+              <p className="text-xs font-hand text-amber-300">
                 Live Perros Menu Wall from Brooklyn NYC 🌭
               </p>
             </div>
@@ -357,15 +357,6 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
             {/* Action Toolbar */}
             <div className="flex items-center gap-1.5 bg-[#0F0F0F] p-1 rounded-xl border-2 border-zinc-800 shadow-md ml-auto">
-              <button
-                onClick={handleSimulatePerro}
-                className="p-2 rounded-lg bg-[#DC2626] text-white border-2 border-amber-400 hover:bg-red-700 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider shadow-[0_2px_0_#000]"
-                title="Simular Novo Perro"
-              >
-                <Plus className="w-3.5 h-3.5 stroke-[3]" />
-                <span className="hidden sm:inline">Simular Perro</span>
-              </button>
-
               <button
                 onClick={toggleSound}
                 className={`p-2 rounded-lg border-2 transition-all ${
@@ -522,13 +513,6 @@ export const PitchView: React.FC<PitchViewProps> = ({
                 <p className="text-xs text-amber-200/90 max-w-sm font-hand mb-4">
                   Aponta o telemóvel ao QR Code à esquerda e cria a tua combinação para apareceres aqui no Menu do Santa Salsa! 🌭
                 </p>
-                <button
-                  onClick={handleSimulatePerro}
-                  className="px-4 py-2.5 rounded-xl bg-[#DC2626] text-white border-2 border-amber-400 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_3px_0_#000] hover:scale-105"
-                >
-                  <Plus className="w-3.5 h-3.5 stroke-[3]" />
-                  <span>Adicionar Perro ao Menu</span>
-                </button>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-2">
