@@ -13,7 +13,11 @@ import {
   EyeOff,
   Trash2,
   Database,
-  ZoomIn
+  ZoomIn,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+  History
 } from 'lucide-react';
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import { IngredientIcon } from '../components/IngredientIcons';
@@ -30,6 +34,46 @@ import {
   localBroadcast
 } from '../lib/supabase';
 import { soundFx } from '../utils/audio';
+
+interface StoryMilestone {
+  id: string;
+  year: string;
+  title: string;
+  subtitle: string;
+  image: string;
+  text: string;
+  highlight: string;
+}
+
+const STORY_MILESTONES: StoryMilestone[] = [
+  {
+    id: 'brooklyn',
+    year: '2011',
+    title: 'O Início em Brooklyn, NYC',
+    subtitle: 'Street Food & Vibe de Nova Iorque',
+    image: '/story-brooklyn.png',
+    text: 'Em 2011, o Santa Salsa nasceu nas ruas de Williamsburg e Bushwick em Brooklyn, Nova Iorque. Começou como um ponto de comida de rua que rapidamente se tornou um marco de culto urbano, combinando a energia de Nova Iorque com a autêntica gastronomia venezuelana.',
+    highlight: 'De carrinha de rua em Brooklyn a conceito de restauração de culto.'
+  },
+  {
+    id: 'caracas',
+    year: 'A RECEITA',
+    title: 'Autêntico Perro Caliente',
+    subtitle: 'A combinação "Con Todo"',
+    image: '/story-caracas.png',
+    text: 'A essência do Santa Salsa é o Perro Caliente de Caracas: pão artesanal tostado, salsicha suculenta, repolho crocante, queijo fresco ralado, batata palha estaladiça e os três molhos de marca — alho, milho doce e salsa rosada.',
+    highlight: 'Tradição venezuelana reimaginada para a restauração moderna.'
+  },
+  {
+    id: 'expansion',
+    year: 'VISÃO',
+    title: 'Expansão & Comunidade',
+    subtitle: 'O Próximo Capítulo do Santa Salsa',
+    image: '/story-expansion.png',
+    text: 'O Santa Salsa une comida de rua de alta qualidade com tecnologia interativa e ambiente de comunidade. Esta aplicação demonstra a nossa capacidade de envolver o público em tempo real e escalar a marca para novas praças.',
+    highlight: 'Entretenimento, tecnologia em tempo real e comida urbana de excelência.'
+  }
+];
 
 interface PitchViewProps {
   onNavigateToMobile?: () => void;
@@ -53,6 +97,9 @@ export const PitchView: React.FC<PitchViewProps> = ({
   const [appUrl, setAppUrl] = useState<string>('');
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
+  const [showStoryDeck, setShowStoryDeck] = useState(false);
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState<number | null>(null);
+
   const [supabaseConnected, setSupabaseConnected] = useState(false);
   const [, setIsFullscreen] = useState(false);
 
@@ -64,13 +111,16 @@ export const PitchView: React.FC<PitchViewProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const menuBoardRef = useRef<HTMLDivElement>(null);
 
-  // Fullscreen change listener & auto-collapse option
+  // Fullscreen change listener & auto-show story deck
   useEffect(() => {
     const handleFullscreenChange = () => {
       const isFS = Boolean(document.fullscreenElement);
       setIsFullscreen(isFS);
-      if (isFS && showHeader && onToggleHeader) {
-        onToggleHeader();
+      if (isFS) {
+        setShowStoryDeck(true);
+        if (showHeader && onToggleHeader) {
+          onToggleHeader();
+        }
       }
     };
 
@@ -290,6 +340,8 @@ export const PitchView: React.FC<PitchViewProps> = ({
     return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'; // 4+ items: 4 columns in expanded 75% menu board!
   };
 
+  const selectedStory = selectedStoryIndex !== null ? STORY_MILESTONES[selectedStoryIndex] : null;
+
   return (
     <div
       ref={containerRef}
@@ -373,6 +425,20 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
             {/* Action Toolbar */}
             <div className="flex items-center gap-1.5 bg-[#0F0F0F] p-1 rounded-xl border-2 border-zinc-800 shadow-md ml-auto">
+              {/* TOGGLE STORY DECK BUTTON */}
+              <button
+                onClick={() => setShowStoryDeck((prev) => !prev)}
+                className={`p-2 rounded-lg border-2 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider ${
+                  showStoryDeck
+                    ? 'bg-[#FFEB01] text-zinc-950 border-zinc-950 font-black shadow-sm'
+                    : 'bg-zinc-800 text-amber-300 border-amber-500/60 hover:bg-zinc-700'
+                }`}
+                title="Abrir Secções de História do Pitch"
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">História</span>
+              </button>
+
               <button
                 onClick={toggleSound}
                 className={`p-2 rounded-lg border-2 transition-all ${
@@ -429,7 +495,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
       )}
 
       {/* Main Pitch Split Screen Layout (Maximizing Menu Board to 9/12 cols, QR Sidebar to 3/12 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0 overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0 overflow-hidden relative">
         {/* LEFT COLUMN: COMPACT FOCUSED QR CODE SIDEBAR (3 cols on lg) */}
         <aside className="lg:col-span-3 flex flex-col h-full overflow-hidden">
           {/* Compact QR Code Presentation Box */}
@@ -617,6 +683,63 @@ export const PitchView: React.FC<PitchViewProps> = ({
             )}
           </div>
 
+          {/* SLIDE-UP BOTTOM STORY CARDS DOCK */}
+          {showStoryDeck && (
+            <div className="absolute bottom-10 left-4 right-4 z-40 bg-[#0D0D0D]/95 backdrop-blur-md border-4 border-[#FFEB01] rounded-2xl p-3 shadow-[0_12px_24px_rgba(0,0,0,0.9)] animate-pop-in">
+              <div className="flex justify-between items-center mb-2 px-1">
+                <div className="flex items-center gap-2">
+                  <History className="w-4 h-4 text-[#FFEB01]" />
+                  <span className="text-xs font-black uppercase tracking-wider text-white font-mono">
+                    NOSSA HISTÓRIA • PITCH PRESENTATION
+                  </span>
+                </div>
+                <button
+                  onClick={() => setShowStoryDeck(false)}
+                  className="text-zinc-400 hover:text-white text-xs font-bold px-2 py-0.5 rounded bg-zinc-800"
+                >
+                  Ocultar ✕
+                </button>
+              </div>
+
+              {/* 3 Polaroid Story Cards Carousel Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {STORY_MILESTONES.map((story, idx) => (
+                  <div
+                    key={story.id}
+                    onClick={() => setSelectedStoryIndex(idx)}
+                    className="bg-[#1A1A1A] border-3 border-zinc-800 hover:border-[#FFEB01] rounded-xl p-2 cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-md group flex items-center gap-3 sm:flex-col sm:items-stretch"
+                  >
+                    {/* Story Image Thumbnail */}
+                    <div className="relative w-20 h-16 sm:w-full sm:h-24 rounded-lg overflow-hidden border border-zinc-700 flex-shrink-0">
+                      <img
+                        src={story.image}
+                        alt={story.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <span className="absolute top-1 left-1 bg-[#991B1B] text-[#FFEB01] text-[9px] font-black font-mono px-1.5 py-0.5 rounded border border-[#FFEB01]/60 shadow">
+                        {story.year}
+                      </span>
+                    </div>
+
+                    {/* Story Title & Subtitle */}
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-xs font-black uppercase text-white font-display tracking-wide truncate group-hover:text-[#FFEB01]">
+                        {story.title}
+                      </h4>
+                      <p className="text-[10px] text-zinc-400 truncate font-hand">
+                        {story.subtitle}
+                      </p>
+                      <div className="mt-1 text-[9px] font-bold text-amber-400 flex items-center gap-1 font-mono">
+                        <span>Clica para ler</span>
+                        <ChevronRight className="w-3 h-3" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Menu Board Footer Bar (Original Graphic Footer: Contains Meat / @santasalsastreet / Veg) */}
           <div className="relative z-10 bg-black/90 px-4 py-1.5 border-t-2 border-amber-400 flex flex-wrap justify-between items-center text-[10px] font-bold text-amber-300 font-mono flex-shrink-0">
             <span className="flex items-center gap-1.5">
@@ -633,6 +756,111 @@ export const PitchView: React.FC<PitchViewProps> = ({
           </div>
         </main>
       </div>
+
+      {/* STORY DETAIL PRESENTATION MODAL */}
+      {selectedStory && (
+        <div
+          className="fixed inset-0 z-50 bg-black/92 backdrop-blur-md flex items-center justify-center p-4 animate-pop-in"
+          onClick={() => setSelectedStoryIndex(null)}
+        >
+          <div
+            className="bg-[#1A1A1A] border-4 border-[#FFEB01] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-[0_16px_0_#000] relative overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedStoryIndex(null)}
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white font-black text-xl bg-[#0D0D0D] border-2 border-zinc-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-md z-20"
+            >
+              ✕
+            </button>
+
+            {/* Modal Body */}
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+              {/* Left Column: Big Story Image Frame */}
+              <div className="sm:col-span-5 relative">
+                <div className="p-2.5 bg-[#FDF6E2] rounded-2xl shadow-[0_8px_0_#000] border-4 border-zinc-950 transform -rotate-1">
+                  <img
+                    src={selectedStory.image}
+                    alt={selectedStory.title}
+                    className="w-full h-48 sm:h-56 object-cover rounded-xl border border-zinc-900"
+                  />
+                  <div className="text-center mt-2">
+                    <span className="text-xs font-black uppercase text-zinc-900 font-mono tracking-widest">
+                      SANTA SALSA • {selectedStory.year}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Story Text Content */}
+              <div className="sm:col-span-7 space-y-3">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#991B1B] border-2 border-[#FFEB01] text-[#FFEB01] text-xs font-black uppercase tracking-wider shadow-sm">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>HISTÓRIA DO SANTA SALSA</span>
+                </div>
+
+                <h2 className="text-3xl font-black uppercase text-white tracking-wide font-display leading-tight">
+                  {selectedStory.title}
+                </h2>
+
+                <p className="text-xs font-hand text-[#FFEB01]">
+                  {selectedStory.subtitle}
+                </p>
+
+                <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans bg-[#0D0D0D] p-3.5 rounded-xl border border-zinc-800">
+                  {selectedStory.text}
+                </p>
+
+                <div className="p-3 bg-[#78350F]/40 border-l-4 border-[#FFEB01] rounded-r-xl">
+                  <p className="text-xs font-bold text-amber-200 italic font-mono">
+                    "{selectedStory.highlight}"
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Story Modal Navigation Controls */}
+            <div className="mt-6 pt-4 border-t border-zinc-800 flex justify-between items-center">
+              <button
+                onClick={() =>
+                  setSelectedStoryIndex((prev) =>
+                    prev !== null ? (prev - 1 + STORY_MILESTONES.length) % STORY_MILESTONES.length : 0
+                  )
+                }
+                className="px-4 py-2 rounded-xl bg-[#0D0D0D] text-amber-300 hover:text-white border-2 border-zinc-800 text-xs font-bold uppercase flex items-center gap-1.5 transition-all"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span>Anterior</span>
+              </button>
+
+              <div className="flex gap-1.5">
+                {STORY_MILESTONES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSelectedStoryIndex(i)}
+                    className={`w-3 h-3 rounded-full transition-all ${
+                      i === selectedStoryIndex ? 'bg-[#FFEB01] scale-125' : 'bg-zinc-700'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={() =>
+                  setSelectedStoryIndex((prev) =>
+                    prev !== null ? (prev + 1) % STORY_MILESTONES.length : 0
+                  )
+                }
+                className="px-4 py-2 rounded-xl bg-[#DC2626] text-[#FFEB01] hover:bg-red-700 border-2 border-[#FFEB01] text-xs font-black uppercase flex items-center gap-1.5 transition-all shadow-[0_3px_0_#000]"
+              >
+                <span>Próximo</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Expanded Giant QR Code Modal for Presentation Audience */}
       {showQrModal && (
