@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MobileView } from './views/MobileView';
 import { PitchView } from './views/PitchView';
-import { Smartphone, Tv, ExternalLink, Layers } from 'lucide-react';
+import { Smartphone, Tv, Layers, Eye, EyeOff } from 'lucide-react';
 
 export function App() {
   // Track current route based on window.location.pathname or state switcher
@@ -13,6 +13,7 @@ export function App() {
   });
 
   const [showNav, setShowNav] = useState(true);
+  const [showHeader, setShowHeader] = useState(true);
 
   // Sync route on popstate (browser back/forward)
   useEffect(() => {
@@ -33,14 +34,9 @@ export function App() {
     }
   };
 
-  const openPitchInNewTab = () => {
-    const pitchUrl = `${window.location.origin}/pitch`;
-    window.open(pitchUrl, '_blank');
-  };
-
   return (
     <div className="min-h-screen bg-[#0F0F0F] text-slate-100 flex flex-col font-sans">
-      {/* Top Navigation Bar ONLY shown on Pitch View or when presenter activates it */}
+      {/* Top Navigation Bar ONLY shown on Pitch View */}
       {currentRoute === 'pitch' && showNav && (
         <nav className="bg-[#0D0D0D] border-b-4 border-[#991B1B] px-4 py-2 flex items-center justify-between text-xs select-none sticky top-0 z-40 shadow-xl">
           <div className="flex items-center gap-3">
@@ -66,17 +62,22 @@ export function App() {
                 <Tv className="w-3.5 h-3.5" />
                 <span>Pitch (Projetor / Wall)</span>
               </button>
-
             </div>
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Replace "Abrir Pitch em Novo Separador" with "Mostrar / Ocultar Banner" button directly inside navbar */}
             <button
-              onClick={openPitchInNewTab}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#1A1A1A] hover:bg-zinc-800 text-amber-400 border-2 border-zinc-700 font-bold transition-colors"
+              onClick={() => setShowHeader((prev) => !prev)}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#1A1A1A] hover:bg-zinc-800 text-amber-400 border-2 border-amber-500/60 font-black transition-all shadow-sm"
+              title={showHeader ? 'Ocultar Banner Superior' : 'Mostrar Banner Superior'}
             >
-              <span>Abrir Pitch em Novo Separador</span>
-              <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+              {showHeader ? (
+                <EyeOff className="w-3.5 h-3.5 text-[#DC2626]" />
+              ) : (
+                <Eye className="w-3.5 h-3.5 text-emerald-400" />
+              )}
+              <span>{showHeader ? 'Ocultar Banner' : 'Mostrar Banner'}</span>
             </button>
 
             <button
@@ -90,7 +91,7 @@ export function App() {
         </nav>
       )}
 
-      {/* Floating Restore Navigation Button if hidden on Pitch */}
+      {/* Floating Restore Navigation Button if navbar hidden on Pitch */}
       {currentRoute === 'pitch' && !showNav && (
         <button
           onClick={() => setShowNav(true)}
@@ -101,13 +102,16 @@ export function App() {
         </button>
       )}
 
-
       {/* Render Current View */}
       <div className="flex-1">
         {currentRoute === 'mobile' ? (
           <MobileView />
         ) : (
-          <PitchView onNavigateToMobile={() => navigateTo('mobile')} />
+          <PitchView
+            onNavigateToMobile={() => navigateTo('mobile')}
+            showHeader={showHeader}
+            onToggleHeader={() => setShowHeader((prev) => !prev)}
+          />
         )}
       </div>
     </div>

@@ -32,15 +32,20 @@ import { soundFx } from '../utils/audio';
 
 interface PitchViewProps {
   onNavigateToMobile?: () => void;
+  showHeader?: boolean;
+  onToggleHeader?: () => void;
 }
 
-export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
+export const PitchView: React.FC<PitchViewProps> = ({
+  onNavigateToMobile,
+  showHeader = true,
+  onToggleHeader
+}) => {
   const [perros, setPerros] = useState<PerroRecord[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [appUrl, setAppUrl] = useState<string>('');
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [supabaseConnected, setSupabaseConnected] = useState(false);
-  const [showHeader, setShowHeader] = useState(true);
   const [, setIsFullscreen] = useState(false);
 
   // Config modal state
@@ -55,16 +60,14 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
     const handleFullscreenChange = () => {
       const isFS = Boolean(document.fullscreenElement);
       setIsFullscreen(isFS);
-      if (isFS) {
-        setShowHeader(false);
-      } else {
-        setShowHeader(true);
+      if (isFS && showHeader && onToggleHeader) {
+        onToggleHeader();
       }
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-  }, []);
+  }, [showHeader, onToggleHeader]);
 
   // Initialize app URL for QR Code & Supabase listener
   useEffect(() => {
@@ -224,19 +227,6 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
       ref={containerRef}
       className="min-h-screen bg-[#0F0F0F] text-slate-100 p-4 lg:p-6 flex flex-col justify-between select-none relative"
     >
-      {/* Floating Restore Header Button when Header is Hidden */}
-      {!showHeader && (
-        <button
-          onClick={() => setShowHeader(true)}
-          className="fixed top-14 right-4 z-40 bg-[#1A1A1A]/95 border-2 border-amber-400 text-amber-400 px-3 py-1.5 rounded-xl text-xs font-black shadow-2xl hover:bg-zinc-800 flex items-center gap-1.5 backdrop-blur-md transition-all hover:scale-105"
-          title="Mostrar Banner Superior"
-        >
-          <Eye className="w-4 h-4 text-[#DC2626]" />
-          <span>Mostrar Banner</span>
-        </button>
-      )}
-
-
       {/* Physical Venue Overhead Header Banner (Collapsible) */}
       {showHeader && (
         <header className="relative bg-gradient-to-r from-[#7F1D1D] via-[#991B1B] to-[#7F1D1D] border-4 border-amber-500 rounded-2xl p-4 lg:p-6 shadow-[0_10px_0_#000] mb-6 flex flex-wrap items-center justify-between gap-4 overflow-hidden">
@@ -331,18 +321,20 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
                 {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </button>
 
-              <button
-                onClick={() => setShowHeader(false)}
-                className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-amber-400 border-2 border-amber-500/60 transition-all"
-                title="Ocultar Banner Superior"
-              >
-                <EyeOff className="w-4 h-4" />
-              </button>
+              {onToggleHeader && (
+                <button
+                  onClick={onToggleHeader}
+                  className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-amber-400 border-2 border-amber-500/60 transition-all"
+                  title={showHeader ? 'Ocultar Banner Superior' : 'Mostrar Banner Superior'}
+                >
+                  {showHeader ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              )}
 
               <button
                 onClick={toggleFullscreen}
                 className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-2 border-zinc-700 transition-all"
-                title="Ecrã Inteiro (Oculta Banner Automaticamente)"
+                title="Ecrã Inteiro"
               >
                 <Maximize2 className="w-4 h-4" />
               </button>
