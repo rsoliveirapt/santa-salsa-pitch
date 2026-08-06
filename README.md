@@ -4,16 +4,37 @@
 Copia **apenas o código SQL** abaixo (não copies as aspas ``` ou a palavra sql):
 
 ```sql
-create table cachorros_pitch (
+create table if not exists cachorros_pitch (
   id uuid default gen_random_uuid() primary key,
   ingredientes jsonb not null,
   nivel_caracas int not null,
   criado_em timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Ativar Realtime na tabela
-alter publication supabase_realtime add table cachorros_pitch;
+-- Permitir acesso público de Inserção e Leitura (RLS)
+alter table cachorros_pitch enable row level security;
+
+drop policy if exists "Permitir leitura pública" on cachorros_pitch;
+create policy "Permitir leitura pública" on cachorros_pitch for select using (true);
+
+drop policy if exists "Permitir inserção pública" on cachorros_pitch;
+create policy "Permitir inserção pública" on cachorros_pitch for insert with check (true);
+
+-- Garantir transmissão completa de eventos no Realtime
+alter table cachorros_pitch replica identity full;
+
+-- Ativar Realtime na tabela (ignorar se já adicionado)
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables 
+    where pubname = 'supabase_realtime' and tablename = 'cachorros_pitch'
+  ) then
+    alter publication supabase_realtime add table cachorros_pitch;
+  end if;
+end $$;
 ```
+
 
 
 ---
