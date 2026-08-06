@@ -4,11 +4,8 @@ import {
   Flame,
   Check,
   Send,
-  RotateCcw,
-  Tv,
-  ExternalLink
+  RotateCcw
 } from 'lucide-react';
-
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import { IngredientIcon } from '../components/IngredientIcons';
 import { VenueHeaderDecor } from '../components/VenueHeaderDecor';
@@ -21,11 +18,7 @@ import {
 import { getSupabaseClient, localBroadcast } from '../lib/supabase';
 import { soundFx } from '../utils/audio';
 
-interface MobileViewProps {
-  onNavigateToPitch?: () => void;
-}
-
-export const MobileView: React.FC<MobileViewProps> = ({ onNavigateToPitch }) => {
+export const MobileView: React.FC = () => {
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>(['cabbage', 'queso_blanco', 'papas_fosforito']);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -164,18 +157,8 @@ export const MobileView: React.FC<MobileViewProps> = ({ onNavigateToPitch }) => 
               <RotateCcw className="w-5 h-5 stroke-[2.5]" />
               <span>Criar Outro Perro 🌭</span>
             </button>
-
-            {onNavigateToPitch && (
-              <button
-                onClick={onNavigateToPitch}
-                className="w-full py-3.5 px-6 rounded-xl font-extrabold text-xs uppercase bg-[#1A1A1A] hover:bg-zinc-800 text-amber-400 border-3 border-zinc-700 transition-all flex items-center justify-center gap-2"
-              >
-                <Tv className="w-4 h-4" />
-                <span>Ver Ecrã do Pitch (/pitch)</span>
-                <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-              </button>
-            )}
           </div>
+
         </main>
       ) : (
         /* Main Hot Dog Builder Form */
