@@ -18,7 +18,36 @@
   }
 }
 
-/* Santa Salsa Brooklyn Physical Venue Theme (No Glassmorphism!) */
+/* Santa Salsa Brooklyn Brand Colors & Physical Venue Theme */
+:root {
+  --brand-yellow: #FFEB01;
+  --brand-red: #DC2626;
+  --brand-dark-red: #991B1B;
+}
+
+/* Force restaurant signature yellow (#FFEB01) on all border frames & accents */
+.border-amber-400,
+.border-amber-500,
+.border-amber-600,
+.border-amber-500\/60,
+.border-amber-400\/40,
+.border-amber-400\/50,
+.border-amber-400\/60 {
+  border-color: #FFEB01 !important;
+}
+
+/* Yellow text accents */
+.text-amber-400,
+.text-amber-300 {
+  color: #FFEB01 !important;
+}
+
+/* Yellow background accents */
+.bg-amber-400,
+.bg-amber-500 {
+  background-color: #FFEB01 !important;
+}
+
 
 /* Crimson Red Roof Header & Accents */
 .bg-venue-red {
@@ -33,10 +62,9 @@
   background-color: #1A1A1A;
 }
 
-
 /* Solid High-Contrast Borders (Hand-painted poster frame style) */
 .border-retro-wood {
-  border: 3px solid #D97706;
+  border: 3px solid #FFEB01;
 }
 
 .border-retro-red {
@@ -44,21 +72,20 @@
 }
 
 .border-retro-yellow {
-  border: 3px solid #F59E0B;
+  border: 4px solid #FFEB01;
 }
 
 .border-retro-brandred {
   border: 3px solid #E50914;
 }
 
-
 .frame-poster {
-  border: 4px solid #262626;
+  border: 4px solid #FFEB01;
   box-shadow: 0 8px 0px #0A0A0A, 0 12px 20px rgba(0, 0, 0, 0.8);
 }
 
 .frame-yellow {
-  border: 4px solid #F59E0B;
+  border: 4px solid #FFEB01;
   box-shadow: 0 6px 0px #78350F;
 }
 
@@ -81,7 +108,7 @@
 }
 
 .neon-glow-yellow {
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), inset 0 0 5px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 20px rgba(255, 235, 1, 0.7), inset 0 0 5px rgba(255, 235, 1, 0.4);
 }
 
 .text-neon-red {
@@ -90,79 +117,35 @@
 }
 
 .text-neon-yellow {
-  color: #FBBF24;
-  text-shadow: 0 0 12px rgba(251, 191, 36, 0.8), 2px 2px 0px #000000;
+  color: #FFEB01;
+  text-shadow: 0 0 12px rgba(255, 235, 1, 0.8), 2px 2px 0px #000000;
 }
 
 /* String Lights & Disco Ball Sparkle Animation */
 @keyframes stringLightGlow {
-  0%, 100% { filter: drop-shadow(0 0 4px #FBBF24); opacity: 0.9; }
-  50% { filter: drop-shadow(0 0 10px #F59E0B); opacity: 1; }
+  0%, 100% { filter: drop-shadow(0 0 4px #FFEB01); opacity: 0.9; }
+  50% { filter: drop-shadow(0 0 10px #FFEB01); opacity: 1; }
 }
 
-@keyframes discoSparkle {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.05); }
-  100% { transform: rotate(360deg) scale(1); }
+.animate-string-light {
+  animation: stringLightGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes discoRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-disco {
+  animation: discoRotate 12s linear infinite;
 }
 
 @keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.85) translateY(15px);
-  }
-  70% {
-    transform: scale(1.03) translateY(-3px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes stackLayer {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px) scale(1.08);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  0% { transform: scale(0.85); opacity: 0; }
+  70% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .animate-pop-in {
   animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.animate-stack-layer {
-  animation: stackLayer 0.3s ease-out forwards;
-}
-
-.animate-disco {
-  animation: discoSparkle 20s linear infinite;
-}
-
-.animate-string-light {
-  animation: stringLightGlow 2.5s ease-in-out infinite;
-}
-
-/* Custom Opaque Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #121212;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #B91C1C;
-  border-radius: 4px;
-  border: 2px solid #0D0D0D;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #F59E0B;
 }
