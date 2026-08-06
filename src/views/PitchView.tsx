@@ -243,7 +243,6 @@ export const PitchView: React.FC<PitchViewProps> = ({
     }
   };
 
-
   // Save Supabase credentials from modal
   const handleSaveConfig = () => {
     saveSupabaseCredentials(inputUrl, inputKey);
@@ -319,24 +318,45 @@ export const PitchView: React.FC<PitchViewProps> = ({
             </div>
           </div>
 
-          {/* Live Counter & Action Toolbar */}
-          <div className="flex flex-wrap items-center gap-4 relative z-10">
-            {/* Live Counter Badge */}
-            <div className="bg-[#0F0F0F] border-4 border-amber-400 rounded-2xl px-5 py-2 flex items-center gap-3 shadow-[0_6px_0_#000]">
+          {/* Integrated Live Counter & Street Stats */}
+          <div className="flex flex-wrap items-center gap-3 relative z-10">
+            {/* Total Live Perros Badge */}
+            <div className="bg-[#0F0F0F] border-4 border-amber-400 rounded-2xl px-4 py-2 flex items-center gap-3 shadow-[0_6px_0_#000]">
               <Flame className="w-7 h-7 text-[#DC2626] animate-bounce fill-[#DC2626]" />
               <div>
                 <div className="text-[10px] font-black text-amber-400 uppercase tracking-widest leading-none font-mono">
-                  PERROS NO MENU AO VIVO
+                  PERROS AO VIVO
                 </div>
-                <div className="text-3xl font-black text-white font-mono leading-tight">
-                  {totalCount}{' '}
-                  <span className="text-xs font-normal text-amber-400 font-sans">Perros</span>
+                <div className="text-2xl font-black text-white font-mono leading-tight">
+                  {totalCount} <span className="text-xs font-normal text-amber-400 font-sans">Perros</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Street Stats - Média Caracas */}
+            <div className="bg-[#0F0F0F] border-3 border-zinc-800 rounded-2xl px-4 py-2 flex items-center gap-2.5 shadow-md">
+              <div className="text-center">
+                <div className="text-2xl font-black text-amber-400 font-mono leading-none">{avgNivel}%</div>
+                <div className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5">
+                  Média Caracas
+                </div>
+              </div>
+            </div>
+
+            {/* Street Stats - Perros Con Todo */}
+            <div className="bg-[#0F0F0F] border-3 border-zinc-800 rounded-2xl px-4 py-2 flex items-center gap-2.5 shadow-md">
+              <div className="text-center">
+                <div className="text-2xl font-black text-emerald-400 font-mono leading-none">
+                  {perros.filter((p) => p.nivel_caracas === 100).length}
+                </div>
+                <div className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5">
+                  "Con Todo" 🚀
                 </div>
               </div>
             </div>
 
             {/* Action Toolbar */}
-            <div className="flex items-center gap-2 bg-[#0F0F0F] p-1.5 rounded-xl border-3 border-zinc-800 shadow-md">
+            <div className="flex items-center gap-2 bg-[#0F0F0F] p-1.5 rounded-xl border-3 border-zinc-800 shadow-md ml-auto">
               <button
                 onClick={handleSimulatePerro}
                 className="p-2.5 rounded-lg bg-[#DC2626] text-white border-2 border-amber-400 hover:bg-red-700 transition-all flex items-center gap-1.5 text-xs font-black uppercase tracking-wider shadow-[0_3px_0_#000]"
@@ -401,78 +421,60 @@ export const PitchView: React.FC<PitchViewProps> = ({
         </header>
       )}
 
-      {/* Main Pitch Split Screen Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
-        {/* LEFT COLUMN: QR Code & Audience Call to Action (4 cols on lg) */}
-        <aside className="lg:col-span-4 flex flex-col gap-6">
-          {/* QR Code Presentation Box */}
-          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-[0_8px_0_#000]">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#991B1B] border-2 border-amber-400 text-amber-300 text-xs font-black uppercase tracking-wider mb-4 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Participa no Pitch</span>
+      {/* Main Pitch Split Screen Layout (Expanded 5 cols / 7 cols for larger QR Code) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
+        {/* LEFT COLUMN: EXPANDED PROMINENT QR CODE SIDEBAR (5 cols on lg) */}
+        <aside className="lg:col-span-5 flex flex-col h-full">
+          {/* Expanded QR Code Presentation Box */}
+          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-6 lg:p-8 flex flex-col items-center justify-between text-center shadow-[0_10px_0_#000] h-full">
+            <div className="flex flex-col items-center">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#991B1B] border-2 border-amber-400 text-amber-300 text-xs font-black uppercase tracking-wider mb-4 shadow-sm">
+                <Sparkles className="w-4 h-4" />
+                <span>PARTICIPA NO PITCH AO VIVO</span>
+              </div>
+
+              <h2 className="text-3xl lg:text-4xl font-black uppercase text-white tracking-wide mb-1 font-display">
+                APONTA O TELEMÓVEL
+              </h2>
+              <p className="text-base font-hand text-amber-400 mb-6">
+                e adiciona o teu Perro ao Menu do Pitch! 🌭🔥
+              </p>
             </div>
 
-            <h2 className="text-2xl font-black uppercase text-white tracking-wide mb-1 font-display">
-              APONTA O TELEMÓVEL
-            </h2>
-            <p className="text-sm font-hand text-amber-400 mb-5">
-              e adiciona o teu Perro ao Menu! 🌭🔥
-            </p>
-
-            {/* QR Code Solid Board Frame */}
-            <div className="p-4 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 mb-5 transform hover:scale-105 transition-transform cursor-pointer">
+            {/* Massive QR Code Solid Board Frame */}
+            <div className="p-6 bg-[#FDF6E2] rounded-3xl shadow-[0_8px_0_#000] border-4 border-zinc-950 my-2 transform hover:scale-105 transition-transform cursor-pointer flex items-center justify-center">
               {appUrl && (
                 <QRCodeSVG
                   value={appUrl}
-                  size={190}
+                  size={260}
                   level="H"
                   includeMargin={true}
                   imageSettings={{
                     src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌭</text></svg>',
                     x: undefined,
                     y: undefined,
-                    height: 36,
-                    width: 36,
+                    height: 48,
+                    width: 48,
                     excavate: true
                   }}
                 />
               )}
             </div>
 
-            <div className="bg-[#0D0D0D] px-4 py-2 rounded-xl border-2 border-zinc-800 text-xs font-mono text-amber-300 break-all select-all font-bold">
-              {appUrl}
-            </div>
-          </div>
-
-          {/* Quick Stats Box */}
-          <div className="bg-[#1A1A1A] border-3 border-zinc-800 rounded-2xl p-5 shadow-[0_6px_0_#000] space-y-4">
-            <h3 className="text-xs font-black uppercase tracking-wider text-amber-400 font-mono flex items-center justify-between">
-              <span>ESTATÍSTICAS DA RUA</span>
-              <span className="text-emerald-400">● LIVE</span>
-            </h3>
-
-            <div className="grid grid-cols-2 gap-3 text-center">
-              <div className="bg-[#0D0D0D] p-3 rounded-xl border-2 border-zinc-800">
-                <div className="text-2xl font-black text-amber-400 font-mono">{avgNivel}%</div>
-                <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
-                  Média Caracas
-                </div>
+            {/* Direct URL Box */}
+            <div className="w-full mt-6">
+              <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 font-mono">
+                LINK DIRETO PARA AUDIÊNCIA
               </div>
-
-              <div className="bg-[#0D0D0D] p-3 rounded-xl border-2 border-zinc-800">
-                <div className="text-2xl font-black text-emerald-400 font-mono">
-                  {perros.filter((p) => p.nivel_caracas === 100).length}
-                </div>
-                <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
-                  Perros "Con Todo"
-                </div>
+              <div className="bg-[#0D0D0D] px-4 py-3 rounded-xl border-2 border-amber-400/80 text-sm font-mono text-amber-300 break-all select-all font-black text-center shadow-inner">
+                {appUrl}
               </div>
             </div>
           </div>
         </aside>
 
-        {/* RIGHT COLUMN: RESTAURANT MENU BOARD LIVE WALL (8 cols on lg) */}
-        <main className="lg:col-span-8 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_10px_0_#000] flex flex-col justify-between overflow-hidden min-h-[580px]">
+        {/* RIGHT COLUMN: RESTAURANT MENU BOARD LIVE WALL (7 cols on lg) */}
+        <main className="lg:col-span-7 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_10px_0_#000] flex flex-col justify-between overflow-hidden min-h-[580px] h-full">
           {/* Menu Board Background Image Overlay */}
           <div 
             className="absolute inset-0 bg-cover bg-center opacity-95 z-0"
@@ -484,7 +486,6 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
           {/* PERROS CALIENTES HOT DOGS Graphic Header Logo & Quick Clear Button */}
           <div className="relative z-10 pt-5 pb-3 px-6 flex justify-between items-center bg-gradient-to-b from-black/70 to-transparent">
-
             <div className="w-24"></div>
 
             <img
@@ -530,7 +531,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 pb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4">
                 {perros.map((perro: PerroRecord, idx: number) => {
                   const nivelLabel = getNivelCaracasLabel(perro.nivel_caracas);
                   const isFirst = idx === 0;
