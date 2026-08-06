@@ -284,9 +284,8 @@ export const PitchView: React.FC<PitchViewProps> = ({
   // Dynamic grid classes based on total item count
   const getGridClass = (count: number) => {
     if (count === 1) return 'grid-cols-1 max-w-xl mx-auto';
-    if (count <= 4) return 'grid-cols-1 sm:grid-cols-2';
-    if (count <= 8) return 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3';
-    return 'grid-cols-2 sm:grid-cols-3 xl:grid-cols-4'; // 9+ items: 4 columns!
+    if (count <= 3) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+    return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'; // 4+ items: 4 columns in expanded 75% menu board!
   };
 
   return (
@@ -427,40 +426,40 @@ export const PitchView: React.FC<PitchViewProps> = ({
         </header>
       )}
 
-      {/* Main Pitch Split Screen Layout (Compact 100% Viewport Height) */}
+      {/* Main Pitch Split Screen Layout (Maximizing Menu Board to 9/12 cols, QR Sidebar to 3/12 cols) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0 overflow-hidden">
-        {/* LEFT COLUMN: EXPANDED PROMINENT QR CODE SIDEBAR (5 cols on lg) */}
-        <aside className="lg:col-span-5 flex flex-col h-full overflow-hidden">
-          {/* Expanded QR Code Presentation Box */}
-          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-4 lg:p-5 flex flex-col items-center justify-between text-center shadow-[0_8px_0_#000] h-full overflow-hidden">
+        {/* LEFT COLUMN: COMPACT FOCUSED QR CODE SIDEBAR (3 cols on lg) */}
+        <aside className="lg:col-span-3 flex flex-col h-full overflow-hidden">
+          {/* Compact QR Code Presentation Box */}
+          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-3.5 lg:p-4 flex flex-col items-center justify-between text-center shadow-[0_8px_0_#000] h-full overflow-hidden">
             <div className="flex flex-col items-center">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#991B1B] border-2 border-amber-400 text-amber-300 text-[11px] font-black uppercase tracking-wider mb-2 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>PARTICIPA NO PITCH AO VIVO</span>
+              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#991B1B] border border-amber-400 text-amber-300 text-[10px] font-black uppercase tracking-wider mb-2 shadow-sm">
+                <Sparkles className="w-3 h-3" />
+                <span>PITCH AO VIVO</span>
               </div>
 
-              <h2 className="text-2xl lg:text-3xl font-black uppercase text-white tracking-wide mb-0.5 font-display">
+              <h2 className="text-xl lg:text-2xl font-black uppercase text-white tracking-wide mb-0.5 font-display leading-tight">
                 APONTA O TELEMÓVEL
               </h2>
-              <p className="text-xs font-hand text-amber-400 mb-3">
-                e adiciona o teu Perro ao Menu do Pitch! 🌭🔥
+              <p className="text-[11px] font-hand text-amber-400 mb-2">
+                e adiciona o teu Perro ao Menu! 🌭🔥
               </p>
             </div>
 
-            {/* Compact QR Code Solid Board Frame */}
-            <div className="p-4 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex items-center justify-center">
+            {/* Compact QR Code Frame */}
+            <div className="p-3 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex items-center justify-center">
               {appUrl && (
                 <QRCodeSVG
                   value={appUrl}
-                  size={200}
+                  size={165}
                   level="H"
                   includeMargin={true}
                   imageSettings={{
                     src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌭</text></svg>',
                     x: undefined,
                     y: undefined,
-                    height: 40,
-                    width: 40,
+                    height: 32,
+                    width: 32,
                     excavate: true
                   }}
                 />
@@ -468,19 +467,19 @@ export const PitchView: React.FC<PitchViewProps> = ({
             </div>
 
             {/* Direct URL Box */}
-            <div className="w-full mt-3">
-              <div className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-1 font-mono">
-                LINK DIRETO PARA AUDIÊNCIA
+            <div className="w-full mt-2">
+              <div className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5 font-mono">
+                LINK DA AUDIÊNCIA
               </div>
-              <div className="bg-[#0D0D0D] px-3 py-2 rounded-xl border-2 border-amber-400/80 text-xs font-mono text-amber-300 break-all select-all font-black text-center shadow-inner">
+              <div className="bg-[#0D0D0D] px-2.5 py-1.5 rounded-xl border-2 border-amber-400/80 text-[11px] font-mono text-amber-300 break-all select-all font-black text-center shadow-inner">
                 {appUrl}
               </div>
             </div>
           </div>
         </aside>
 
-        {/* RIGHT COLUMN: RESTAURANT MENU BOARD LIVE WALL (7 cols on lg) */}
-        <main className="lg:col-span-7 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_8px_0_#000] flex flex-col justify-between overflow-hidden h-full">
+        {/* RIGHT COLUMN: EXPANDED RESTAURANT MENU BOARD LIVE WALL (9 cols on lg - 75% Width!) */}
+        <main className="lg:col-span-9 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_8px_0_#000] flex flex-col justify-between overflow-hidden h-full">
           {/* Menu Board Background Image Overlay */}
           <div 
             className="absolute inset-0 bg-cover bg-center opacity-95 z-0"
@@ -537,7 +536,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
                 {perros.map((perro: PerroRecord, idx: number) => {
                   const nivelLabel = getNivelCaracasLabel(perro.nivel_caracas);
                   const isFirst = idx === 0;
-                  const isCompact = totalCount >= 8;
+                  const isCompact = totalCount >= 6;
 
                   return (
                     <div
