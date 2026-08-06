@@ -557,12 +557,9 @@ export const PitchView: React.FC<PitchViewProps> = ({
                           : 'border-zinc-900 hover:border-amber-500/60'
                       }`}
                     >
-                      {/* Menu Item Header: ID + NOVO badge on left, % on right */}
-                      <div className="flex justify-between items-center gap-2 mb-2">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-xs font-mono font-black text-[#FFEB01] uppercase bg-[#991B1B] px-2 py-0.5 rounded-lg border border-amber-500/50">
-                            #{perro.id.slice(0, 5)}
-                          </span>
+                      {/* Menu Item Header: NOVO badge on left if newest, % on right */}
+                      <div className="flex justify-between items-center gap-2 mb-1">
+                        <div>
                           {isFirst && (
                             <span className="px-2 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse shadow-sm">
                               NOVO!
@@ -582,8 +579,8 @@ export const PitchView: React.FC<PitchViewProps> = ({
                         </span>
                       </div>
 
-                      {/* Hot Dog Mini Visualizer Showcase */}
-                      <div className="my-1.5 flex justify-center bg-black/80 rounded-xl py-2.5 border border-zinc-800/80 shadow-inner">
+                      {/* Hot Dog Visualizer Showcase (Clean floating graphic) */}
+                      <div className="my-1 flex justify-center py-2">
                         <HotDogVisualizer
                           selectedIngredients={perro.ingredientes}
                           size={totalCount === 1 ? 'md' : 'sm'}
@@ -591,14 +588,14 @@ export const PitchView: React.FC<PitchViewProps> = ({
                       </div>
 
                       {/* Caracas Level Title - BIG, BOLD & READABLE */}
-                      <div className="text-center my-1.5">
+                      <div className="text-center my-1">
                         <h4 className={`text-base sm:text-lg font-black uppercase font-display tracking-wide leading-tight ${nivelLabel.colorClass}`}>
                           {nivelLabel.title}
                         </h4>
                       </div>
 
                       {/* Sleek Ingredient Icon Badges Bar (Icons only with title tooltips) */}
-                      <div className="flex flex-wrap justify-center gap-1.5 my-2">
+                      <div className="flex flex-wrap justify-center gap-1.5 mt-2">
                         {perro.ingredientes.map((ingId) => {
                           const def = INGREDIENTS.find((i) => i.id === ingId);
                           if (!def) return null;
@@ -612,18 +609,6 @@ export const PitchView: React.FC<PitchViewProps> = ({
                             </div>
                           );
                         })}
-                      </div>
-
-                      {/* Footer Timestamp */}
-                      <div className="pt-2 border-t border-zinc-800/80 flex justify-between items-center text-xs font-mono font-bold text-zinc-400">
-                        <span>{perro.ingredientes.length} ingredientes</span>
-                        <span>
-                          {new Date(perro.criado_em).toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit'
-                          })}
-                        </span>
                       </div>
                     </div>
                   );
@@ -704,7 +689,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
             <button
               onClick={() => setShowQrModal(false)}
-              className="mt-6 px-6 py-2.5 rounded-xl bg-[#DC2626] text-white border-2 border-[#FFEB01] text-xs font-black uppercase tracking-wider transition-all shadow-[0_4px_0_#000] hover:scale-105"
+              className="mt-6 px-6 py-2.5 rounded-xl bg-[#DC2626] text-[#FFEB01] border-2 border-[#FFEB01] text-xs font-black uppercase tracking-wider transition-all shadow-[0_4px_0_#000] hover:scale-105"
             >
               Fechar Ecrã
             </button>
