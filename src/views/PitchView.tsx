@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   Disc
 } from 'lucide-react';
-
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import {
   INGREDIENTS,
@@ -255,7 +254,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
               </button>
             </div>
             <p className="text-xs font-hand text-amber-300">
-              Live Perros Wall from Brooklyn NYC 🌭
+              Live Perros Menu Wall from Brooklyn NYC 🌭
             </p>
           </div>
         </div>
@@ -267,7 +266,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
             <Flame className="w-7 h-7 text-[#DC2626] animate-bounce fill-[#DC2626]" />
             <div>
               <div className="text-[10px] font-black text-amber-400 uppercase tracking-widest leading-none font-mono">
-                PERROS CRIADOS AO VIVO
+                PERROS NO MENU AO VIVO
               </div>
               <div className="text-3xl font-black text-white font-mono leading-tight">
                 {totalCount}{' '}
@@ -344,7 +343,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
               APONTA O TELEMÓVEL
             </h2>
             <p className="text-sm font-hand text-amber-400 mb-5">
-              e cria o teu Perro Con Todo! 🌭🔥
+              e adiciona o teu Perro ao Menu! 🌭🔥
             </p>
 
             {/* QR Code Solid Board Frame */}
@@ -399,126 +398,150 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
           </div>
         </aside>
 
-        {/* RIGHT COLUMN: Live Wall of Perros Grid (8 cols on lg) */}
-        <main className="lg:col-span-8 bg-[#1A1A1A] border-4 border-zinc-800 rounded-2xl p-4 lg:p-6 shadow-[0_8px_0_#000] flex flex-col justify-between overflow-hidden min-h-[500px]">
-          <div className="flex items-center justify-between pb-4 border-b-2 border-zinc-800 mb-4">
-            <h2 className="text-xl font-black uppercase tracking-wider text-white flex items-center gap-2 font-display">
-              <Flame className="w-6 h-6 text-[#DC2626] fill-[#DC2626]" />
-              <span>LIVE WALL OF PERROS</span>
-              <span className="text-xs font-mono text-amber-400 font-normal">({totalCount})</span>
-            </h2>
+        {/* RIGHT COLUMN: RESTAURANT MENU BOARD LIVE WALL (8 cols on lg) */}
+        <main className="lg:col-span-8 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_10px_0_#000] flex flex-col justify-between overflow-hidden min-h-[580px]">
+          {/* Menu Board Background Image Overlay */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-95 z-0"
+            style={{ backgroundImage: `url('/menu-board.png')` }}
+          />
 
-            {totalCount > 0 && (
-              <span className="text-xs text-zinc-400 font-mono font-bold">
-                ● Supabase Realtime Active
-              </span>
+          {/* Semi-transparent dark overlay for high contrast menu reading */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/50 z-0 pointer-events-none" />
+
+          {/* Menu Board Header Spacer to preserve original "PERROS CALIENTES HOT DOGS" graphic header */}
+          <div className="relative z-10 pt-16 px-6 pb-2 flex justify-between items-center text-amber-300 font-mono text-xs font-bold border-b border-amber-500/40">
+            <span className="bg-black/80 px-3 py-1 rounded-full border border-amber-400/50 flex items-center gap-1">
+              <Flame className="w-3.5 h-3.5 text-[#DC2626] fill-[#DC2626]" />
+              <span>MENU EM TEMPO REAL ({totalCount} ITEMS)</span>
+            </span>
+
+            <span className="bg-black/80 px-3 py-1 rounded-full border border-emerald-400/50 text-emerald-400">
+              ● REALTIME SYNC
+            </span>
+          </div>
+
+          {/* Grid Container inside Restaurant Menu Board */}
+          <div className="relative z-10 flex-1 p-4 lg:p-6 overflow-y-auto max-h-[640px]">
+            {totalCount === 0 ? (
+              <div className="h-full min-h-[350px] flex flex-col items-center justify-center text-center p-8 border-4 border-dashed border-amber-400/60 rounded-2xl bg-black/75">
+                <div className="w-16 h-16 rounded-full bg-[#78350F]/80 border-2 border-amber-400 flex items-center justify-center mb-4 text-amber-300">
+                  <Flame className="w-8 h-8 animate-bounce text-amber-400 fill-amber-400" />
+                </div>
+                <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-2 font-display">
+                  O MENU ESTÁ A AGUARDAR PEDIDOS!
+                </h3>
+                <p className="text-xs text-amber-200/90 max-w-sm font-hand">
+                  Aponta o telemóvel ao QR Code à esquerda e cria a tua combinação para apareceres aqui no Menu do Santa Salsa! 🌭
+                </p>
+                <button
+                  onClick={handleSimulatePerro}
+                  className="mt-6 px-5 py-3 rounded-xl bg-[#DC2626] text-white border-2 border-amber-400 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_4px_0_#000] hover:scale-105"
+                >
+                  <Plus className="w-4 h-4 stroke-[3]" />
+                  <span>Adicionar Perro ao Menu</span>
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 pb-4">
+                {perros.map((perro: PerroRecord, idx: number) => {
+                  const nivelLabel = getNivelCaracasLabel(perro.nivel_caracas);
+                  const isFirst = idx === 0;
+
+                  return (
+                    <div
+                      key={perro.id}
+                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-4 rounded-2xl p-4 flex flex-col justify-between shadow-[0_8px_0_#000] transition-all duration-300 ${
+                        isFirst
+                          ? 'border-amber-400 ring-4 ring-amber-400/30 animate-pop-in'
+                          : 'border-zinc-900 hover:border-amber-500/60'
+                      }`}
+                    >
+                      {/* Menu Item Header */}
+                      <div className="flex justify-between items-start gap-2 mb-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px] font-mono font-black text-amber-400 uppercase bg-[#991B1B] px-1.5 py-0.5 rounded border border-amber-500/50">
+                            #{perro.id.slice(0, 5)}
+                          </span>
+                          {isFirst && (
+                            <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse">
+                              NOVO NO MENU!
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Caracas Gauge Badge */}
+                        <span
+                          className={`text-xs font-black font-mono px-2.5 py-0.5 rounded border-2 ${
+                            perro.nivel_caracas === 100
+                              ? 'bg-red-950 border-red-500 text-red-400'
+                              : 'bg-zinc-950 border-amber-500 text-amber-400'
+                          }`}
+                        >
+                          {perro.nivel_caracas}%
+                        </span>
+                      </div>
+
+                      {/* Hot Dog Mini Visualizer */}
+                      <div className="my-2 flex justify-center bg-black/80 rounded-xl py-3 border-2 border-zinc-800">
+                        <HotDogVisualizer selectedIngredients={perro.ingredientes} size="sm" />
+                      </div>
+
+                      {/* Caracas Level Label */}
+                      <div className="text-center mb-2">
+                        <div className={`text-xs font-black uppercase font-display ${nivelLabel.colorClass}`}>
+                          {nivelLabel.title}
+                        </div>
+                      </div>
+
+                      {/* Ingredient Pills (Menu Item Ingredients) */}
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {perro.ingredientes.map((ingId) => {
+                          const def = INGREDIENTS.find((i) => i.id === ingId);
+                          if (!def) return null;
+                          return (
+                            <span
+                              key={ingId}
+                              className={`text-[9px] font-bold px-2 py-0.5 rounded border ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
+                            >
+                              {def.name}
+                            </span>
+                          );
+                        })}
+                      </div>
+
+                      {/* Footer Timestamp */}
+                      <div className="pt-2 border-t border-zinc-800/80 flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                        <span>{perro.ingredientes.length} ingredientes</span>
+                        <span>
+                          {new Date(perro.criado_em).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit'
+                          })}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
 
-          {/* Grid Container */}
-          {totalCount === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border-4 border-dashed border-zinc-800 rounded-2xl my-4 bg-[#0D0D0D]">
-              <div className="w-16 h-16 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center mb-4 text-zinc-600">
-                <Flame className="w-8 h-8 animate-pulse text-amber-500" />
-              </div>
-              <h3 className="text-xl font-black text-white uppercase tracking-wider mb-2 font-display">
-                A AGUARDAR OS PRIMEIROS PERROS!
-              </h3>
-              <p className="text-xs text-zinc-400 max-w-sm">
-                Aponta o telemóvel ao QR Code à esquerda e cria a tua primeira combinação para veres aqui ao vivo!
-              </p>
-              <button
-                onClick={handleSimulatePerro}
-                className="mt-6 px-4 py-2.5 rounded-xl bg-[#DC2626] text-white border-2 border-amber-400 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_4px_0_#000]"
-              >
-                <Plus className="w-4 h-4 stroke-[3]" />
-                <span>Simular Perro de Teste</span>
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 overflow-y-auto max-h-[680px] pr-2 pb-4">
-              {perros.map((perro: PerroRecord, idx: number) => {
-                const nivelLabel = getNivelCaracasLabel(perro.nivel_caracas);
-                const isFirst = idx === 0;
+          {/* Menu Board Footer Bar (Original Graphic Footer: Contains Meat / @santasalsastreet / Veg) */}
+          <div className="relative z-10 bg-black/90 px-6 py-2 border-t-2 border-amber-400 flex flex-wrap justify-between items-center text-[11px] font-bold text-amber-300 font-mono">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 bg-amber-400 inline-block"></span>
+              <span>Contains Meat / Con Todo</span>
+            </span>
 
-                return (
-                  <div
-                    key={perro.id}
-                    className={`bg-[#0D0D0D] border-3 rounded-2xl p-4 flex flex-col justify-between shadow-[0_6px_0_#000] transition-all duration-300 ${
-                      isFirst
-                        ? 'border-amber-400 ring-4 ring-amber-400/20 animate-pop-in'
-                        : 'border-zinc-800 hover:border-zinc-700'
-                    }`}
-                  >
-                    {/* Card Top Row */}
-                    <div className="flex justify-between items-start gap-2 mb-2">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase">
-                          #{perro.id.slice(0, 6)}
-                        </span>
-                        {isFirst && (
-                          <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse">
-                            NOVO!
-                          </span>
-                        )}
-                      </div>
+            <span className="text-white font-hand">@santasalsastreet</span>
 
-                      {/* Caracas Gauge Badge */}
-                      <span
-                        className={`text-xs font-black font-mono px-2.5 py-0.5 rounded-md border-2 ${
-                          perro.nivel_caracas === 100
-                            ? 'bg-red-950 border-red-500 text-red-400'
-                            : 'bg-zinc-950 border-zinc-800 text-amber-400'
-                        }`}
-                      >
-                        {perro.nivel_caracas}%
-                      </span>
-                    </div>
-
-                    {/* Hot Dog Mini Preview Frame */}
-                    <div className="my-2 flex justify-center bg-[#141414] rounded-xl py-3 border-2 border-zinc-800">
-                      <HotDogVisualizer selectedIngredients={perro.ingredientes} size="sm" />
-                    </div>
-
-                    {/* Caracas Level Label */}
-                    <div className="text-center mb-3">
-                      <div className={`text-xs font-black uppercase font-display ${nivelLabel.colorClass}`}>
-                        {nivelLabel.title}
-                      </div>
-                    </div>
-
-                    {/* Ingredient Pills */}
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {perro.ingredientes.map((ingId) => {
-                        const def = INGREDIENTS.find((i) => i.id === ingId);
-                        if (!def) return null;
-                        return (
-                          <span
-                            key={ingId}
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded border ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
-                          >
-                            {def.name}
-                          </span>
-                        );
-                      })}
-                    </div>
-
-                    {/* Footer Timestamp */}
-                    <div className="pt-2 border-t border-zinc-800 flex justify-between items-center text-[10px] font-mono text-zinc-500">
-                      <span>{perro.ingredientes.length} ingredientes</span>
-                      <span>
-                        {new Date(perro.criado_em).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          second: '2-digit'
-                        })}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+            <span className="flex items-center gap-1.5 text-emerald-400">
+              <span className="w-2.5 h-2.5 bg-emerald-400 inline-block"></span>
+              <span>Vegetarian or Vegan Option</span>
+            </span>
+          </div>
         </main>
       </div>
 
