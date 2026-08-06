@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Outfit', sans-serif;
+    background-color: #121212;
+    color: #F5F5F5;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Bebas Neue', cursive, sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  .font-hand {
+    font-family: 'Permanent Marker', cursive;
+  }
+}
+
+/* Custom Neon & Urban Street Art Utilities */
+.neon-glow-red {
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.5), 0 0 30px rgba(229, 9, 20, 0.2);
+}
+
+.neon-glow-yellow {
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.5), 0 0 30px rgba(255, 193, 7, 0.2);
+}
+
+.neon-glow-green {
+  box-shadow: 0 0 15px rgba(78, 159, 61, 0.5), 0 0 30px rgba(78, 159, 61, 0.2);
+}
+
+.text-neon-red {
+  color: #E50914;
+  text-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
+}
+
+.text-neon-yellow {
+  color: #FFC107;
+  text-shadow: 0 0 10px rgba(255, 193, 7, 0.6);
+}
+
+.text-neon-green {
+  color: #4E9F3D;
+  text-shadow: 0 0 10px rgba(78, 159, 61, 0.6);
+}
+
+/* Animations */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(20px);
+  }
+  70% {
+    transform: scale(1.05) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes stackLayer {
+  0% {
+    opacity: 0;
+    transform: translateY(-25px) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(229, 9, 20, 0.4), inset 0 0 10px rgba(229, 9, 20, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 193, 7, 0.7), inset 0 0 20px rgba(255, 193, 7, 0.4);
+  }
+}
+
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-pop-in {
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-stack-layer {
+  animation: stackLayer 0.35s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+.animate-float {
+  animation: floatAnim 3s infinite ease-in-out;
+}
+
+/* Custom Scrollbar for Pitch Grid */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #181818;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E50914;
+}
