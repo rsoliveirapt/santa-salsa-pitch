@@ -68,14 +68,14 @@ const STORY_MILESTONES: StoryMilestone[] = [
     highlight: 'Um espaço de culto em Nova Iorque com ambiente urbano inimitável.'
   },
   {
-    id: 'recipe',
+    id: 'perro-real',
     year: '#3 • RECEITA',
     badge: 'HISTÓRIA #3',
-    title: 'Autêntico Perro Caliente "Con Todo"',
-    subtitle: 'O Ritual de Sabores de Caracas',
-    image: '/story-caracas.png',
-    text: 'A chave do sucesso é a receita "Con Todo": pão macio tostado, repolho crocante, queijo fresco ralado, batata palha estaladiça e os molhos artesanais de alho, milho doce e salsa rosada.',
-    highlight: 'Tradição venezuelana reimaginada para a restauração moderna.'
+    title: 'O Autêntico Perro Caliente "Con Todo"',
+    subtitle: 'A Experiência Gastronómica de Caracas',
+    image: '/story-perro-real.png',
+    text: 'O ritual do Perro Caliente real: pão artesanal tostado, repolho crocante, queijo fresco ralado, batata palha crocante e a trilogia irresistível de molhos — alho, milho doce e salsa rosada.',
+    highlight: 'A verdadeira street food venezuelana servida com máxima qualidade.'
   }
 ];
 
@@ -687,53 +687,65 @@ export const PitchView: React.FC<PitchViewProps> = ({
             )}
           </div>
 
-          {/* 3D FLOATING STORY CUTOUT CARDS ON RIGHT SIDE OF MENU BOARD (#1 and #2) */}
+          {/* 3D FLOATING STORY CUTOUT CARDS ON RIGHT SIDE OF MENU BOARD (#1, #2, #3) */}
           {showStoryDeck && (
-            <div className="absolute inset-y-0 right-4 sm:right-8 z-30 pointer-events-none flex flex-col justify-around py-16">
+            <div className="absolute inset-y-0 right-2 sm:right-6 z-30 pointer-events-none flex flex-col justify-between py-6">
               {/* IMAGE #1: FOUNDER HOLDING SKATEBOARDS (TOP RIGHT) */}
               <div
                 onClick={() => setSelectedStoryIndex(0)}
-                className="pointer-events-auto cursor-pointer transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.9)] animate-pop-in group"
+                className="pointer-events-auto cursor-pointer transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_14px_24px_rgba(0,0,0,0.9)] animate-pop-in group"
                 title="Clica para ler História #1"
               >
                 <div className="relative">
                   <img
                     src="/story-founder.png"
                     alt="#1 Sergio Leiva & Santa Salsa"
-                    className="w-36 sm:w-48 lg:w-56 object-contain pointer-events-auto"
+                    className="w-28 sm:w-36 lg:w-44 object-contain"
                   />
                   {/* Floating Badge #1 */}
-                  <div className="absolute top-2 left-2 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2.5 py-1 rounded-xl shadow-lg flex items-center gap-1.5 font-mono text-[10px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
-                    <Sparkles className="w-3 h-3 animate-spin" />
+                  <div className="absolute top-1 left-1 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2 py-0.5 rounded-lg shadow-lg flex items-center gap-1 font-mono text-[9px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
+                    <Sparkles className="w-2.5 h-2.5 animate-spin" />
                     <span>#1 FUNDADOR</span>
-                  </div>
-                  {/* Click Subtitle Hint */}
-                  <div className="absolute bottom-2 right-2 bg-black/90 text-amber-300 border border-amber-400/80 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase font-mono shadow group-hover:bg-amber-400 group-hover:text-black">
-                    Clica p/ ler 📖
                   </div>
                 </div>
               </div>
 
-              {/* IMAGE #2: SANTA SALSA BROOKLYN STOREFRONT (BOTTOM RIGHT) */}
+              {/* IMAGE #2: SANTA SALSA BROOKLYN STOREFRONT (MIDDLE RIGHT) */}
               <div
                 onClick={() => setSelectedStoryIndex(1)}
-                className="pointer-events-auto cursor-pointer transform rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.9)] animate-pop-in group mt-4"
+                className="pointer-events-auto cursor-pointer transform rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_14px_24px_rgba(0,0,0,0.9)] animate-pop-in group"
                 title="Clica para ler História #2"
               >
                 <div className="relative">
                   <img
                     src="/story-storefront.png"
                     alt="#2 Santa Salsa Brooklyn Storefront"
-                    className="w-40 sm:w-52 lg:w-60 object-contain pointer-events-auto"
+                    className="w-32 sm:w-40 lg:w-48 object-contain"
                   />
                   {/* Floating Badge #2 */}
-                  <div className="absolute top-2 left-2 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2.5 py-1 rounded-xl shadow-lg flex items-center gap-1.5 font-mono text-[10px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
-                    <Sparkles className="w-3 h-3 animate-spin" />
+                  <div className="absolute top-1 left-1 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2 py-0.5 rounded-lg shadow-lg flex items-center gap-1 font-mono text-[9px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
+                    <Sparkles className="w-2.5 h-2.5 animate-spin" />
                     <span>#2 BROOKLYN NYC</span>
                   </div>
-                  {/* Click Subtitle Hint */}
-                  <div className="absolute bottom-2 right-2 bg-black/90 text-amber-300 border border-amber-400/80 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase font-mono shadow group-hover:bg-amber-400 group-hover:text-black">
-                    Clica p/ ler 📖
+                </div>
+              </div>
+
+              {/* IMAGE #3: REAL PERRO CALIENTES CON TODO (BOTTOM RIGHT) */}
+              <div
+                onClick={() => setSelectedStoryIndex(2)}
+                className="pointer-events-auto cursor-pointer transform -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_14px_24px_rgba(0,0,0,0.9)] animate-pop-in group"
+                title="Clica para ler História #3"
+              >
+                <div className="relative">
+                  <img
+                    src="/story-perro-real.png"
+                    alt="#3 Real Perro Caliente Con Todo"
+                    className="w-32 sm:w-40 lg:w-48 object-contain"
+                  />
+                  {/* Floating Badge #3 */}
+                  <div className="absolute top-1 left-1 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2 py-0.5 rounded-lg shadow-lg flex items-center gap-1 font-mono text-[9px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
+                    <Sparkles className="w-2.5 h-2.5 animate-spin" />
+                    <span>#3 CON TODO! 🌭</span>
                   </div>
                 </div>
               </div>
