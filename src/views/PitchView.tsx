@@ -15,6 +15,7 @@ import {
   Database
 } from 'lucide-react';
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
+import { IngredientIcon } from '../components/IngredientIcons';
 import {
   INGREDIENTS,
   getNivelCaracasLabel,
@@ -59,6 +60,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
   const [configMessage, setConfigMessage] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const menuBoardRef = useRef<HTMLDivElement>(null);
 
   // Fullscreen change listener & auto-collapse option
   useEffect(() => {
@@ -178,6 +180,11 @@ export const PitchView: React.FC<PitchViewProps> = ({
       if (prev.some((item) => item.id === newRecord.id)) return prev;
       return [newRecord, ...prev];
     });
+
+    // Auto-scroll menu board to top to reveal incoming item
+    setTimeout(() => {
+      menuBoardRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
   };
 
   // Toggle Sound SFX
@@ -273,6 +280,14 @@ export const PitchView: React.FC<PitchViewProps> = ({
   const avgNivel = totalCount
     ? Math.round(perros.reduce((acc, p) => acc + p.nivel_caracas, 0) / totalCount)
     : 0;
+
+  // Dynamic grid classes based on total item count
+  const getGridClass = (count: number) => {
+    if (count === 1) return 'grid-cols-1 max-w-xl mx-auto';
+    if (count <= 4) return 'grid-cols-1 sm:grid-cols-2';
+    if (count <= 8) return 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3';
+    return 'grid-cols-2 sm:grid-cols-3 xl:grid-cols-4'; // 9+ items: 4 columns!
+  };
 
   return (
     <div
@@ -501,7 +516,10 @@ export const PitchView: React.FC<PitchViewProps> = ({
           </div>
 
           {/* Grid Container inside Restaurant Menu Board */}
-          <div className="relative z-10 flex-1 p-3 lg:p-4 overflow-y-auto min-h-0">
+          <div
+            ref={menuBoardRef}
+            className="relative z-10 flex-1 p-3 lg:p-4 overflow-y-auto min-h-0 custom-scrollbar"
+          >
             {totalCount === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 border-4 border-dashed border-amber-400/60 rounded-2xl bg-black/75">
                 <div className="w-14 h-14 rounded-full bg-[#78350F]/80 border-2 border-amber-400 flex items-center justify-center mb-3 text-amber-300">
@@ -515,36 +533,39 @@ export const PitchView: React.FC<PitchViewProps> = ({
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-2">
+              <div className={`grid gap-2.5 pb-2 ${getGridClass(totalCount)}`}>
                 {perros.map((perro: PerroRecord, idx: number) => {
                   const nivelLabel = getNivelCaracasLabel(perro.nivel_caracas);
                   const isFirst = idx === 0;
+                  const isCompact = totalCount >= 8;
 
                   return (
                     <div
                       key={perro.id}
-                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-3 rounded-xl p-3 flex flex-col justify-between shadow-[0_6px_0_#000] transition-all duration-300 ${
+                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-3 rounded-xl flex flex-col justify-between shadow-[0_6px_0_#000] transition-all duration-300 ${
+                        isCompact ? 'p-2.5' : 'p-3'
+                      } ${
                         isFirst
-                          ? 'border-amber-400 ring-4 ring-amber-400/30 animate-pop-in'
+                          ? 'border-[#FFEB01] ring-4 ring-[#FFEB01]/40 animate-pop-in'
                           : 'border-zinc-900 hover:border-amber-500/60'
                       }`}
                     >
                       {/* Menu Item Header */}
-                      <div className="flex justify-between items-start gap-2 mb-1.5">
-                        <div className="flex items-center gap-1.5">
+                      <div className="flex justify-between items-start gap-1.5 mb-1">
+                        <div className="flex items-center gap-1 flex-wrap">
                           <span className="text-[9px] font-mono font-black text-amber-400 uppercase bg-[#991B1B] px-1.5 py-0.5 rounded border border-amber-500/50">
                             #{perro.id.slice(0, 5)}
                           </span>
                           {isFirst && (
                             <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse">
-                              NOVO NO MENU!
+                              NOVO!
                             </span>
                           )}
                         </div>
 
                         {/* Caracas Gauge Badge */}
                         <span
-                          className={`text-[11px] font-black font-mono px-2 py-0.5 rounded border-2 ${
+                          className={`text-[10px] font-black font-mono px-2 py-0.5 rounded border-2 ${
                             perro.nivel_caracas === 100
                               ? 'bg-red-950 border-red-500 text-red-400'
                               : 'bg-zinc-950 border-amber-500 text-amber-400'
@@ -555,36 +576,40 @@ export const PitchView: React.FC<PitchViewProps> = ({
                       </div>
 
                       {/* Hot Dog Mini Visualizer */}
-                      <div className="my-1 flex justify-center bg-black/80 rounded-lg py-2 border border-zinc-800">
-                        <HotDogVisualizer selectedIngredients={perro.ingredientes} size="sm" />
+                      <div className="my-1 flex justify-center bg-black/80 rounded-lg py-1.5 border border-zinc-800">
+                        <HotDogVisualizer
+                          selectedIngredients={perro.ingredientes}
+                          size={totalCount === 1 ? 'md' : 'sm'}
+                        />
                       </div>
 
                       {/* Caracas Level Label */}
-                      <div className="text-center mb-1.5">
-                        <div className={`text-xs font-black uppercase font-display ${nivelLabel.colorClass}`}>
+                      <div className="text-center mb-1">
+                        <div className={`text-[11px] font-black uppercase font-display leading-tight ${nivelLabel.colorClass}`}>
                           {nivelLabel.title}
                         </div>
                       </div>
 
                       {/* Ingredient Pills (Menu Item Ingredients) */}
-                      <div className="flex flex-wrap gap-1 mb-2">
+                      <div className="flex flex-wrap gap-1 mb-1.5">
                         {perro.ingredientes.map((ingId) => {
                           const def = INGREDIENTS.find((i) => i.id === ingId);
                           if (!def) return null;
                           return (
                             <span
                               key={ingId}
-                              className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
+                              className={`text-[8px] font-bold px-1.5 py-0.5 rounded border flex items-center gap-1 ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
                             >
-                              {def.name}
+                              <IngredientIcon name={def.iconName} className="w-2.5 h-2.5" />
+                              <span>{def.name}</span>
                             </span>
                           );
                         })}
                       </div>
 
                       {/* Footer Timestamp */}
-                      <div className="pt-1.5 border-t border-zinc-800/80 flex justify-between items-center text-[9px] font-mono text-zinc-400">
-                        <span>{perro.ingredientes.length} ingredientes</span>
+                      <div className="pt-1 border-t border-zinc-800/80 flex justify-between items-center text-[8px] font-mono text-zinc-400">
+                        <span>{perro.ingredientes.length} ing.</span>
                         <span>
                           {new Date(perro.criado_em).toLocaleTimeString([], {
                             hour: '2-digit',

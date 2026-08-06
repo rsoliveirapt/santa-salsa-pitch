@@ -48,7 +48,6 @@
   background-color: #FFEB01 !important;
 }
 
-
 /* Crimson Red Roof Header & Accents */
 .bg-venue-red {
   background-color: #991B1B;
@@ -148,4 +147,23 @@
 
 .animate-pop-in {
   animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Custom Styled Scrollbar for Menu Board */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #FFEB01;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #F59E0B;
 }
