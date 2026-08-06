@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import {
-  Tv,
   Flame,
   Volume2,
   VolumeX,
@@ -11,8 +10,10 @@ import {
   Plus,
   Database,
   Smartphone,
-  CheckCircle2
+  CheckCircle2,
+  Disc
 } from 'lucide-react';
+
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import {
   INGREDIENTS,
@@ -203,72 +204,94 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-[#121212] text-slate-100 p-4 lg:p-8 flex flex-col justify-between selection:bg-[#E50914]"
+      className="min-h-screen bg-[#0F0F0F] text-slate-100 p-4 lg:p-6 flex flex-col justify-between select-none"
     >
-      {/* Pitch Header Bar */}
-      <header className="flex flex-wrap items-center justify-between gap-4 bg-zinc-900/90 border border-zinc-800 rounded-2xl p-4 lg:p-6 shadow-2xl mb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#E50914] via-amber-500 to-[#FFC107] p-0.5 shadow-lg flex-shrink-0 animate-pulse">
-            <div className="w-full h-full bg-zinc-950 rounded-[14px] flex items-center justify-center">
-              <Tv className="w-6 h-6 text-amber-400" />
+      {/* Physical Venue Overhead Header Banner */}
+      <header className="relative bg-gradient-to-r from-[#7F1D1D] via-[#991B1B] to-[#7F1D1D] border-4 border-amber-500 rounded-2xl p-4 lg:p-6 shadow-[0_10px_0_#000] mb-6 flex flex-wrap items-center justify-between gap-4 overflow-hidden">
+        {/* Overhead String Lights Accent */}
+        <div className="absolute top-0 left-0 w-full flex justify-around px-2 pointer-events-none opacity-80">
+          {[...Array(12)].map((_, i) => (
+            <div key={i} className="flex flex-col items-center animate-string-light" style={{ animationDelay: `${i * 0.15}s` }}>
+              <div className="w-0.5 h-2.5 bg-zinc-900"></div>
+              <div className="w-3 h-3 rounded-full bg-amber-300 shadow-[0_0_8px_#F59E0B]"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Disco Ball Icon Accent */}
+        <div className="absolute right-4 top-2 opacity-30 pointer-events-none">
+          <Disc className="w-20 h-20 text-cyan-300 animate-disco" />
+        </div>
+
+        <div className="flex items-center gap-4 relative z-10">
+          {/* Hand-Painted Sign Board Header Logo */}
+          <div className="sign-board-white rounded-2xl px-5 py-2.5 shadow-[4px_4px_0_#000] transform -rotate-1">
+            <div className="text-[10px] font-black uppercase tracking-widest text-[#991B1B] font-mono">
+              BROOKLYN • NEW YORK
+            </div>
+            <h1 className="text-3xl lg:text-4xl font-black uppercase tracking-tight text-[#171717] leading-none font-display">
+              SANTA SALSA
+            </h1>
+            <div className="text-[10px] font-black uppercase tracking-widest text-amber-600 border-t border-zinc-900/40 pt-0.5 mt-0.5 font-mono">
+              VENEZUELAN STREET FOOD
             </div>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#E50914]/20 border border-[#E50914]/50 text-red-400">
+
+          <div className="hidden sm:block">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-[#DC2626] border border-amber-400 text-white shadow-sm">
                 PITCH LIVE SCREEN
               </span>
               <button
                 onClick={() => setShowConfigModal(true)}
-                className={`text-[10px] font-mono px-2 py-0.5 rounded flex items-center gap-1 border ${
+                className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border-2 flex items-center gap-1 ${
                   supabaseConnected
-                    ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-400'
-                    : 'bg-amber-950/60 border-amber-500/40 text-amber-300'
+                    ? 'bg-emerald-950 border-emerald-500 text-emerald-400'
+                    : 'bg-amber-950 border-amber-500 text-amber-300'
                 }`}
               >
                 <Database className="w-3 h-3" />
                 <span>{supabaseConnected ? 'Supabase Connected' : 'Local Realtime Mode'}</span>
               </button>
             </div>
-
-            <h1 className="text-3xl lg:text-4xl font-black uppercase tracking-wider text-white flex items-center gap-2">
-              <span className="text-[#E50914]">Santa Salsa</span> Brooklyn
-            </h1>
+            <p className="text-xs font-hand text-amber-300">
+              Live Perros Wall from Brooklyn NYC 🌭
+            </p>
           </div>
         </div>
 
-        {/* Live Counter & Toolbar */}
-        <div className="flex flex-wrap items-center gap-4">
-          {/* Animated Counter Badge */}
-          <div className="bg-zinc-950/90 border-2 border-amber-500/60 rounded-2xl px-6 py-2.5 flex items-center gap-3 shadow-xl neon-glow-yellow">
-            <Flame className="w-7 h-7 text-[#E50914] animate-bounce" />
+        {/* Live Counter & Action Toolbar */}
+        <div className="flex flex-wrap items-center gap-4 relative z-10">
+          {/* Live Counter Badge */}
+          <div className="bg-[#0F0F0F] border-4 border-amber-400 rounded-2xl px-5 py-2 flex items-center gap-3 shadow-[0_6px_0_#000]">
+            <Flame className="w-7 h-7 text-[#DC2626] animate-bounce fill-[#DC2626]" />
             <div>
-              <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest leading-none">
+              <div className="text-[10px] font-black text-amber-400 uppercase tracking-widest leading-none font-mono">
                 PERROS CRIADOS AO VIVO
               </div>
               <div className="text-3xl font-black text-white font-mono leading-tight">
                 {totalCount}{' '}
-                <span className="text-sm font-normal text-amber-400">Perros</span>
+                <span className="text-xs font-normal text-amber-400 font-sans">Perros</span>
               </div>
             </div>
           </div>
 
           {/* Action Toolbar */}
-          <div className="flex items-center gap-2 bg-zinc-950 p-1.5 rounded-xl border border-zinc-800">
+          <div className="flex items-center gap-2 bg-[#0F0F0F] p-1.5 rounded-xl border-3 border-zinc-800 shadow-md">
             <button
               onClick={handleSimulatePerro}
-              className="p-2.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 transition-all flex items-center gap-1.5 text-xs font-bold"
+              className="p-2.5 rounded-lg bg-[#DC2626] text-white border-2 border-amber-400 hover:bg-red-700 transition-all flex items-center gap-1.5 text-xs font-black uppercase tracking-wider shadow-[0_3px_0_#000]"
               title="Simular Novo Perro"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 stroke-[3]" />
               <span className="hidden sm:inline">Simular Perro</span>
             </button>
 
             <button
               onClick={toggleSound}
-              className={`p-2.5 rounded-lg border transition-all ${
+              className={`p-2.5 rounded-lg border-2 transition-all ${
                 soundEnabled
-                  ? 'bg-zinc-800 text-emerald-400 border-zinc-700'
+                  ? 'bg-zinc-800 text-emerald-400 border-emerald-500'
                   : 'bg-zinc-900 text-zinc-600 border-zinc-800'
               }`}
               title={soundEnabled ? 'Som Ativado' : 'Som Desativado'}
@@ -278,7 +301,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
 
             <button
               onClick={toggleFullscreen}
-              className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 transition-all"
+              className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-2 border-zinc-700 transition-all"
               title="Ecrã Inteiro"
             >
               <Maximize2 className="w-4 h-4" />
@@ -286,7 +309,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
 
             <button
               onClick={handleClearWall}
-              className="p-2.5 rounded-lg bg-zinc-900 hover:bg-red-950/60 text-zinc-500 hover:text-red-400 border border-zinc-800 transition-all"
+              className="p-2.5 rounded-lg bg-zinc-900 hover:bg-red-950 text-zinc-500 hover:text-red-400 border-2 border-zinc-800 transition-all"
               title="Limpar Grelha"
             >
               <RotateCcw className="w-4 h-4" />
@@ -295,7 +318,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
             {onNavigateToMobile && (
               <button
                 onClick={onNavigateToMobile}
-                className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-amber-400 border border-zinc-700 transition-all flex items-center gap-1 text-xs font-bold"
+                className="p-2.5 rounded-lg bg-[#F59E0B] text-zinc-950 border-2 border-zinc-950 font-black text-xs uppercase transition-all flex items-center gap-1"
                 title="Ir para Vista Mobile"
               >
                 <Smartphone className="w-4 h-4" />
@@ -311,64 +334,64 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
         {/* LEFT COLUMN: QR Code & Audience Call to Action (4 cols on lg) */}
         <aside className="lg:col-span-4 flex flex-col gap-6">
           {/* QR Code Presentation Box */}
-          <div className="bg-zinc-900/90 border-2 border-zinc-800 hover:border-amber-500/50 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-2xl transition-all">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">
+          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-[0_8px_0_#000]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#991B1B] border-2 border-amber-400 text-amber-300 text-xs font-black uppercase tracking-wider mb-4 shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Participa no Pitch</span>
             </div>
 
-            <h2 className="text-2xl font-black uppercase text-white tracking-wide mb-1">
-              Aponta o Telemóvel
+            <h2 className="text-2xl font-black uppercase text-white tracking-wide mb-1 font-display">
+              APONTA O TELEMÓVEL
             </h2>
-            <p className="text-sm font-hand text-amber-400 mb-6">
+            <p className="text-sm font-hand text-amber-400 mb-5">
               e cria o teu Perro Con Todo! 🌭🔥
             </p>
 
-            {/* QR Code Frame */}
-            <div className="p-4 bg-white rounded-2xl shadow-2xl border-4 border-amber-400 mb-6 transform hover:scale-105 transition-transform cursor-pointer">
+            {/* QR Code Solid Board Frame */}
+            <div className="p-4 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 mb-5 transform hover:scale-105 transition-transform cursor-pointer">
               {appUrl && (
                 <QRCodeSVG
                   value={appUrl}
-                  size={200}
+                  size={190}
                   level="H"
                   includeMargin={true}
                   imageSettings={{
                     src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌭</text></svg>',
                     x: undefined,
                     y: undefined,
-                    height: 38,
-                    width: 38,
+                    height: 36,
+                    width: 36,
                     excavate: true
                   }}
                 />
               )}
             </div>
 
-            <div className="bg-zinc-950 px-4 py-2 rounded-xl border border-zinc-800 text-xs font-mono text-zinc-400 break-all select-all">
+            <div className="bg-[#0D0D0D] px-4 py-2 rounded-xl border-2 border-zinc-800 text-xs font-mono text-amber-300 break-all select-all font-bold">
               {appUrl}
             </div>
           </div>
 
           {/* Quick Stats Box */}
-          <div className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 shadow-xl space-y-4">
-            <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400 flex items-center justify-between">
-              <span>Estatísticas em Tempo Real</span>
+          <div className="bg-[#1A1A1A] border-3 border-zinc-800 rounded-2xl p-5 shadow-[0_6px_0_#000] space-y-4">
+            <h3 className="text-xs font-black uppercase tracking-wider text-amber-400 font-mono flex items-center justify-between">
+              <span>ESTATÍSTICAS DA RUA</span>
               <span className="text-emerald-400">● LIVE</span>
             </h3>
 
             <div className="grid grid-cols-2 gap-3 text-center">
-              <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+              <div className="bg-[#0D0D0D] p-3 rounded-xl border-2 border-zinc-800">
                 <div className="text-2xl font-black text-amber-400 font-mono">{avgNivel}%</div>
-                <div className="text-[11px] text-zinc-500 font-medium uppercase">
+                <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
                   Média Caracas
                 </div>
               </div>
 
-              <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+              <div className="bg-[#0D0D0D] p-3 rounded-xl border-2 border-zinc-800">
                 <div className="text-2xl font-black text-emerald-400 font-mono">
                   {perros.filter((p) => p.nivel_caracas === 100).length}
                 </div>
-                <div className="text-[11px] text-zinc-500 font-medium uppercase">
+                <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
                   Perros "Con Todo"
                 </div>
               </div>
@@ -377,38 +400,38 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
         </aside>
 
         {/* RIGHT COLUMN: Live Wall of Perros Grid (8 cols on lg) */}
-        <main className="lg:col-span-8 bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-4 lg:p-6 shadow-2xl flex flex-col justify-between overflow-hidden min-h-[500px]">
-          <div className="flex items-center justify-between pb-4 border-b border-zinc-800 mb-4">
-            <h2 className="text-xl font-black uppercase tracking-wider text-white flex items-center gap-2">
-              <Flame className="w-5 h-5 text-[#E50914]" />
-              <span>Live Wall of Perros</span>
-              <span className="text-xs font-mono text-zinc-500 font-normal">({totalCount})</span>
+        <main className="lg:col-span-8 bg-[#1A1A1A] border-4 border-zinc-800 rounded-2xl p-4 lg:p-6 shadow-[0_8px_0_#000] flex flex-col justify-between overflow-hidden min-h-[500px]">
+          <div className="flex items-center justify-between pb-4 border-b-2 border-zinc-800 mb-4">
+            <h2 className="text-xl font-black uppercase tracking-wider text-white flex items-center gap-2 font-display">
+              <Flame className="w-6 h-6 text-[#DC2626] fill-[#DC2626]" />
+              <span>LIVE WALL OF PERROS</span>
+              <span className="text-xs font-mono text-amber-400 font-normal">({totalCount})</span>
             </h2>
 
             {totalCount > 0 && (
-              <span className="text-xs text-zinc-400 font-mono">
-                A atualizar em tempo real via Supabase Realtime
+              <span className="text-xs text-zinc-400 font-mono font-bold">
+                ● Supabase Realtime Active
               </span>
             )}
           </div>
 
           {/* Grid Container */}
           {totalCount === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-zinc-800 rounded-xl my-4">
-              <div className="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center mb-4 text-zinc-600">
-                <Flame className="w-8 h-8 animate-pulse text-amber-500/50" />
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border-4 border-dashed border-zinc-800 rounded-2xl my-4 bg-[#0D0D0D]">
+              <div className="w-16 h-16 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center mb-4 text-zinc-600">
+                <Flame className="w-8 h-8 animate-pulse text-amber-500" />
               </div>
-              <h3 className="text-xl font-black text-zinc-300 uppercase tracking-wider mb-2">
-                A aguardar os primeiros Perros!
+              <h3 className="text-xl font-black text-white uppercase tracking-wider mb-2 font-display">
+                A AGUARDAR OS PRIMEIROS PERROS!
               </h3>
-              <p className="text-sm text-zinc-500 max-w-sm">
+              <p className="text-xs text-zinc-400 max-w-sm">
                 Aponta o telemóvel ao QR Code à esquerda e cria a tua primeira combinação para veres aqui ao vivo!
               </p>
               <button
                 onClick={handleSimulatePerro}
-                className="mt-6 px-4 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/40 text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2"
+                className="mt-6 px-4 py-2.5 rounded-xl bg-[#DC2626] text-white border-2 border-amber-400 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_4px_0_#000]"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-4 h-4 stroke-[3]" />
                 <span>Simular Perro de Teste</span>
               </button>
             </div>
@@ -421,9 +444,9 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
                 return (
                   <div
                     key={perro.id}
-                    className={`bg-zinc-900 border rounded-2xl p-4 flex flex-col justify-between shadow-xl transition-all duration-300 ${
+                    className={`bg-[#0D0D0D] border-3 rounded-2xl p-4 flex flex-col justify-between shadow-[0_6px_0_#000] transition-all duration-300 ${
                       isFirst
-                        ? 'border-amber-400/80 ring-2 ring-amber-400/30 animate-pop-in neon-glow-yellow'
+                        ? 'border-amber-400 ring-4 ring-amber-400/20 animate-pop-in'
                         : 'border-zinc-800 hover:border-zinc-700'
                     }`}
                   >
@@ -434,7 +457,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
                           #{perro.id.slice(0, 6)}
                         </span>
                         {isFirst && (
-                          <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-[#E50914] text-white animate-pulse">
+                          <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse">
                             NOVO!
                           </span>
                         )}
@@ -442,7 +465,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
 
                       {/* Caracas Gauge Badge */}
                       <span
-                        className={`text-xs font-black font-mono px-2.5 py-0.5 rounded-full border ${
+                        className={`text-xs font-black font-mono px-2.5 py-0.5 rounded-md border-2 ${
                           perro.nivel_caracas === 100
                             ? 'bg-red-950 border-red-500 text-red-400'
                             : 'bg-zinc-950 border-zinc-800 text-amber-400'
@@ -452,14 +475,14 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
                       </span>
                     </div>
 
-                    {/* Hot Dog Mini Preview */}
-                    <div className="my-2 flex justify-center bg-zinc-950/60 rounded-xl py-3 border border-zinc-800/60">
+                    {/* Hot Dog Mini Preview Frame */}
+                    <div className="my-2 flex justify-center bg-[#141414] rounded-xl py-3 border-2 border-zinc-800">
                       <HotDogVisualizer selectedIngredients={perro.ingredientes} size="sm" />
                     </div>
 
                     {/* Caracas Level Label */}
                     <div className="text-center mb-3">
-                      <div className={`text-xs font-black uppercase ${nivelLabel.colorClass}`}>
+                      <div className={`text-xs font-black uppercase font-display ${nivelLabel.colorClass}`}>
                         {nivelLabel.title}
                       </div>
                     </div>
@@ -472,7 +495,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
                         return (
                           <span
                             key={ingId}
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded border ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
                           >
                             {def.name}
                           </span>
@@ -481,7 +504,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
                     </div>
 
                     {/* Footer Timestamp */}
-                    <div className="pt-2 border-t border-zinc-800/60 flex justify-between items-center text-[10px] font-mono text-zinc-500">
+                    <div className="pt-2 border-t border-zinc-800 flex justify-between items-center text-[10px] font-mono text-zinc-500">
                       <span>{perro.ingredientes.length} ingredientes</span>
                       <span>
                         {new Date(perro.criado_em).toLocaleTimeString([], {
@@ -501,16 +524,16 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
 
       {/* Supabase Config Modal */}
       {showConfigModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border-2 border-zinc-700 rounded-2xl max-w-md w-full p-6 shadow-2xl">
-            <div className="flex justify-between items-center pb-3 border-b border-zinc-800 mb-4">
-              <h3 className="text-lg font-black uppercase tracking-wider text-white flex items-center gap-2">
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl max-w-md w-full p-6 shadow-[0_10px_0_#000]">
+            <div className="flex justify-between items-center pb-3 border-b-2 border-zinc-800 mb-4">
+              <h3 className="text-lg font-black uppercase tracking-wider text-white flex items-center gap-2 font-display">
                 <Database className="w-5 h-5 text-amber-400" />
                 <span>Definições do Supabase</span>
               </h3>
               <button
                 onClick={() => setShowConfigModal(false)}
-                className="text-zinc-500 hover:text-white font-bold"
+                className="text-zinc-400 hover:text-white font-black text-lg"
               >
                 ✕
               </button>
@@ -523,7 +546,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
 
             <div className="space-y-4 mb-6">
               <div>
-                <label className="block text-xs font-bold uppercase text-zinc-300 mb-1">
+                <label className="block text-xs font-bold uppercase text-amber-400 mb-1 font-mono">
                   Supabase Project URL
                 </label>
                 <input
@@ -531,12 +554,12 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
                   value={inputUrl}
                   onChange={(e) => setInputUrl(e.target.value)}
                   placeholder="https://xyz.supabase.co"
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-xs font-mono text-white focus:border-amber-400 outline-none"
+                  className="w-full bg-[#0D0D0D] border-2 border-zinc-800 rounded-xl p-3 text-xs font-mono text-white focus:border-amber-400 outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase text-zinc-300 mb-1">
+                <label className="block text-xs font-bold uppercase text-amber-400 mb-1 font-mono">
                   Supabase Anon Key
                 </label>
                 <input
@@ -544,13 +567,13 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
                   value={inputKey}
                   onChange={(e) => setInputKey(e.target.value)}
                   placeholder="eyJhbGciOi..."
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-xs font-mono text-white focus:border-amber-400 outline-none"
+                  className="w-full bg-[#0D0D0D] border-2 border-zinc-800 rounded-xl p-3 text-xs font-mono text-white focus:border-amber-400 outline-none"
                 />
               </div>
             </div>
 
             {configMessage && (
-              <div className="mb-4 p-3 bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 text-xs rounded-xl flex items-center gap-2">
+              <div className="mb-4 p-3 bg-emerald-950 border border-emerald-500 text-emerald-400 text-xs rounded-xl flex items-center gap-2 font-bold">
                 <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                 <span>{configMessage}</span>
               </div>
@@ -565,7 +588,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
               </button>
               <button
                 onClick={handleSaveConfig}
-                className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#E50914] to-amber-500 text-zinc-950 font-black text-xs uppercase tracking-wider shadow-lg hover:brightness-110"
+                className="flex-1 py-3 px-4 rounded-xl bg-[#DC2626] text-white border-2 border-amber-400 font-black text-xs uppercase tracking-wider shadow-[0_4px_0_#000] hover:bg-red-600"
               >
                 Guardar & Ligar
               </button>
