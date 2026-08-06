@@ -28,7 +28,7 @@ export const INGREDIENTS: IngredientDefinition[] = [
     badgeBg: 'bg-emerald-950/80',
     badgeBorder: 'border-emerald-500/50',
     badgeText: 'text-emerald-400',
-    iconName: 'Salad',
+    iconName: 'cabbage',
     description: 'Repolho verde bem fininho e crocante'
   },
   {
@@ -40,7 +40,7 @@ export const INGREDIENTS: IngredientDefinition[] = [
     badgeBg: 'bg-slate-900/90',
     badgeBorder: 'border-slate-300/50',
     badgeText: 'text-slate-200',
-    iconName: 'Cheese',
+    iconName: 'queso_blanco',
     description: 'Queijo fresco venezuelano ralado suave'
   },
   {
@@ -52,7 +52,7 @@ export const INGREDIENTS: IngredientDefinition[] = [
     badgeBg: 'bg-amber-950/80',
     badgeBorder: 'border-amber-400/50',
     badgeText: 'text-amber-400',
-    iconName: 'Zap',
+    iconName: 'papas_fosforito',
     description: 'Batatas palha crocantes e estaladiças'
   },
   {
@@ -64,7 +64,7 @@ export const INGREDIENTS: IngredientDefinition[] = [
     badgeBg: 'bg-yellow-950/80',
     badgeBorder: 'border-yellow-400/50',
     badgeText: 'text-yellow-300',
-    iconName: 'Sparkles',
+    iconName: 'garlic_sauce',
     description: 'Salsa de ajo cremosa com alho fresco'
   },
   {
@@ -76,7 +76,7 @@ export const INGREDIENTS: IngredientDefinition[] = [
     badgeBg: 'bg-orange-950/80',
     badgeBorder: 'border-orange-400/50',
     badgeText: 'text-orange-400',
-    iconName: 'Wheat',
+    iconName: 'corn_sauce',
     description: 'Molho aveludado de milho doce de Caracas'
   },
   {
@@ -88,7 +88,7 @@ export const INGREDIENTS: IngredientDefinition[] = [
     badgeBg: 'bg-pink-950/80',
     badgeBorder: 'border-pink-500/50',
     badgeText: 'text-pink-400',
-    iconName: 'HeartHandshake',
+    iconName: 'pink_sauce',
     description: 'A clássica salsa rosada venezuelana'
   }
 ];
@@ -98,16 +98,42 @@ export function calculateNivelCaracas(selectedIds: string[]): number {
   return Math.round((selectedIds.length / INGREDIENTS.length) * 100);
 }
 
-export function getNivelCaracasLabel(percentage: number): { title: string; subtitle: string; colorClass: string } {
-  if (percentage === 0) {
-    return { title: 'Só Pão e Salsicha', subtitle: 'Escolhe ingredientes para subir o nível!', colorClass: 'text-slate-400' };
-  } else if (percentage <= 33) {
-    return { title: 'Sifrino Mild', subtitle: 'Bom começo, mas a rua pede mais!', colorClass: 'text-blue-400' };
-  } else if (percentage <= 67) {
-    return { title: 'Caracas Vibe', subtitle: 'Quase lá! Sabor autêntico da rua.', colorClass: 'text-amber-400' };
-  } else if (percentage < 100) {
-    return { title: 'Callejero Respeitado', subtitle: 'Quase "Con Todo"! Falta muito pouco.', colorClass: 'text-emerald-400' };
-  } else {
-    return { title: 'CARACAS BRUTAL (CON TODO!) 🚀🔥', subtitle: 'O autêntico Perro Caliente com tudo a que tem direito!', colorClass: 'text-neon-red font-extrabold' };
+export function getNivelCaracasLabel(nivel: number): {
+  title: string;
+  subtitle: string;
+  colorClass: string;
+} {
+  if (nivel === 0) {
+    return {
+      title: 'Pão & Salsicha Simples',
+      subtitle: 'Sem ingredientes adicionados',
+      colorClass: 'text-zinc-400'
+    };
   }
+  if (nivel <= 34) {
+    return {
+      title: 'Perro Suave',
+      subtitle: 'Começar a ganhar sabor de Caracas',
+      colorClass: 'text-emerald-400'
+    };
+  }
+  if (nivel <= 67) {
+    return {
+      title: 'Perro Tradicional',
+      subtitle: 'Excelente mistura venezuelana',
+      colorClass: 'text-[#FFEB01]'
+    };
+  }
+  if (nivel < 100) {
+    return {
+      title: 'Perro Caracas Pro',
+      subtitle: 'Muito perto do máximo sabor',
+      colorClass: 'text-amber-500'
+    };
+  }
+  return {
+    title: 'CARACAS BRUTAL (CON TODO!) 🚀🔥',
+    subtitle: 'Nível máximo! 6/6 ingredientes',
+    colorClass: 'text-[#DC2626] font-black animate-pulse'
+  };
 }
