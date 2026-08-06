@@ -17,7 +17,7 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
-  History
+  Layers
 } from 'lucide-react';
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import { IngredientIcon } from '../components/IngredientIcons';
@@ -38,6 +38,7 @@ import { soundFx } from '../utils/audio';
 interface StoryMilestone {
   id: string;
   year: string;
+  badge: string;
   title: string;
   subtitle: string;
   image: string;
@@ -47,31 +48,34 @@ interface StoryMilestone {
 
 const STORY_MILESTONES: StoryMilestone[] = [
   {
-    id: 'brooklyn',
-    year: '2011',
-    title: 'O Início em Brooklyn, NYC',
-    subtitle: 'Street Food & Vibe de Nova Iorque',
-    image: '/story-brooklyn.png',
-    text: 'Em 2011, o Santa Salsa nasceu nas ruas de Williamsburg e Bushwick em Brooklyn, Nova Iorque. Começou como um ponto de comida de rua que rapidamente se tornou um marco de culto urbano, combinando a energia de Nova Iorque com a autêntica gastronomia venezuelana.',
-    highlight: 'De carrinha de rua em Brooklyn a conceito de restauração de culto.'
+    id: 'founder',
+    year: '#1 • PITCH',
+    badge: 'HISTÓRIA #1',
+    title: 'Sergio Leiva & A Alma do Santa Salsa',
+    subtitle: 'Perros Calientes com a Cultura Skate de Brooklyn',
+    image: '/story-founder.png',
+    text: 'Sergio Leiva trouxe a paixão da street food venezuelana para as ruas de Brooklyn. Combinando a arte urbana, o skate e a receita autêntica do Perro Caliente, o Santa Salsa criou um conceito de restauração de culto inconfundível.',
+    highlight: 'Uma fusão perfeita de Street Food de Caracas com a cultura urbana de Brooklyn.'
   },
   {
-    id: 'caracas',
-    year: 'A RECEITA',
-    title: 'Autêntico Perro Caliente',
-    subtitle: 'A combinação "Con Todo"',
+    id: 'storefront',
+    year: '#2 • VENUE',
+    badge: 'HISTÓRIA #2',
+    title: 'O Restaurante em Brooklyn, NYC',
+    subtitle: 'Venezuelan Street Food & Cocktails em Bushwick',
+    image: '/story-storefront.png',
+    text: 'Com uma fachada icónica repleta de arte urbana e stickers, o restaurante Santa Salsa em Brooklyn tornou-se um marco em Nova Iorque. Um espaço de encontro onde gastronomia, cocktails e o espírito de comunidade se unem.',
+    highlight: 'Um espaço de culto em Nova Iorque com ambiente urbano inimitável.'
+  },
+  {
+    id: 'recipe',
+    year: '#3 • RECEITA',
+    badge: 'HISTÓRIA #3',
+    title: 'Autêntico Perro Caliente "Con Todo"',
+    subtitle: 'O Ritual de Sabores de Caracas',
     image: '/story-caracas.png',
-    text: 'A essência do Santa Salsa é o Perro Caliente de Caracas: pão artesanal tostado, salsicha suculenta, repolho crocante, queijo fresco ralado, batata palha estaladiça e os três molhos de marca — alho, milho doce e salsa rosada.',
+    text: 'A chave do sucesso é a receita "Con Todo": pão macio tostado, repolho crocante, queijo fresco ralado, batata palha estaladiça e os molhos artesanais de alho, milho doce e salsa rosada.',
     highlight: 'Tradição venezuelana reimaginada para a restauração moderna.'
-  },
-  {
-    id: 'expansion',
-    year: 'VISÃO',
-    title: 'Expansão & Comunidade',
-    subtitle: 'O Próximo Capítulo do Santa Salsa',
-    image: '/story-expansion.png',
-    text: 'O Santa Salsa une comida de rua de alta qualidade com tecnologia interativa e ambiente de comunidade. Esta aplicação demonstra a nossa capacidade de envolver o público em tempo real e escalar a marca para novas praças.',
-    highlight: 'Entretenimento, tecnologia em tempo real e comida urbana de excelência.'
   }
 ];
 
@@ -97,7 +101,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
   const [appUrl, setAppUrl] = useState<string>('');
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
-  const [showStoryDeck, setShowStoryDeck] = useState(false);
+  const [showStoryDeck, setShowStoryDeck] = useState(true);
   const [selectedStoryIndex, setSelectedStoryIndex] = useState<number | null>(null);
 
   const [supabaseConnected, setSupabaseConnected] = useState(false);
@@ -111,7 +115,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const menuBoardRef = useRef<HTMLDivElement>(null);
 
-  // Fullscreen change listener & auto-show story deck
+  // Fullscreen change listener & auto-show 3D story cutouts
   useEffect(() => {
     const handleFullscreenChange = () => {
       const isFS = Boolean(document.fullscreenElement);
@@ -425,7 +429,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
             {/* Action Toolbar */}
             <div className="flex items-center gap-1.5 bg-[#0F0F0F] p-1 rounded-xl border-2 border-zinc-800 shadow-md ml-auto">
-              {/* TOGGLE STORY DECK BUTTON */}
+              {/* TOGGLE 3D STORY CARDS BUTTON */}
               <button
                 onClick={() => setShowStoryDeck((prev) => !prev)}
                 className={`p-2 rounded-lg border-2 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider ${
@@ -433,10 +437,10 @@ export const PitchView: React.FC<PitchViewProps> = ({
                     ? 'bg-[#FFEB01] text-zinc-950 border-zinc-950 font-black shadow-sm'
                     : 'bg-zinc-800 text-amber-300 border-amber-500/60 hover:bg-zinc-700'
                 }`}
-                title="Abrir Secções de História do Pitch"
+                title="Mostrar/Ocultar Imagens 3D de História no Pitch"
               >
-                <BookOpen className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">História</span>
+                <Layers className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Cartões 3D</span>
               </button>
 
               <button
@@ -683,59 +687,55 @@ export const PitchView: React.FC<PitchViewProps> = ({
             )}
           </div>
 
-          {/* SLIDE-UP BOTTOM STORY CARDS DOCK */}
+          {/* 3D FLOATING STORY CUTOUT CARDS ON RIGHT SIDE OF MENU BOARD (#1 and #2) */}
           {showStoryDeck && (
-            <div className="absolute bottom-10 left-4 right-4 z-40 bg-[#0D0D0D]/95 backdrop-blur-md border-4 border-[#FFEB01] rounded-2xl p-3 shadow-[0_12px_24px_rgba(0,0,0,0.9)] animate-pop-in">
-              <div className="flex justify-between items-center mb-2 px-1">
-                <div className="flex items-center gap-2">
-                  <History className="w-4 h-4 text-[#FFEB01]" />
-                  <span className="text-xs font-black uppercase tracking-wider text-white font-mono">
-                    NOSSA HISTÓRIA • PITCH PRESENTATION
-                  </span>
+            <div className="absolute inset-y-0 right-4 sm:right-8 z-30 pointer-events-none flex flex-col justify-around py-16">
+              {/* IMAGE #1: FOUNDER HOLDING SKATEBOARDS (TOP RIGHT) */}
+              <div
+                onClick={() => setSelectedStoryIndex(0)}
+                className="pointer-events-auto cursor-pointer transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.9)] animate-pop-in group"
+                title="Clica para ler História #1"
+              >
+                <div className="relative">
+                  <img
+                    src="/story-founder.png"
+                    alt="#1 Sergio Leiva & Santa Salsa"
+                    className="w-36 sm:w-48 lg:w-56 object-contain pointer-events-auto"
+                  />
+                  {/* Floating Badge #1 */}
+                  <div className="absolute top-2 left-2 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2.5 py-1 rounded-xl shadow-lg flex items-center gap-1.5 font-mono text-[10px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
+                    <Sparkles className="w-3 h-3 animate-spin" />
+                    <span>#1 FUNDADOR</span>
+                  </div>
+                  {/* Click Subtitle Hint */}
+                  <div className="absolute bottom-2 right-2 bg-black/90 text-amber-300 border border-amber-400/80 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase font-mono shadow group-hover:bg-amber-400 group-hover:text-black">
+                    Clica p/ ler 📖
+                  </div>
                 </div>
-                <button
-                  onClick={() => setShowStoryDeck(false)}
-                  className="text-zinc-400 hover:text-white text-xs font-bold px-2 py-0.5 rounded bg-zinc-800"
-                >
-                  Ocultar ✕
-                </button>
               </div>
 
-              {/* 3 Polaroid Story Cards Carousel Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {STORY_MILESTONES.map((story, idx) => (
-                  <div
-                    key={story.id}
-                    onClick={() => setSelectedStoryIndex(idx)}
-                    className="bg-[#1A1A1A] border-3 border-zinc-800 hover:border-[#FFEB01] rounded-xl p-2 cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-md group flex items-center gap-3 sm:flex-col sm:items-stretch"
-                  >
-                    {/* Story Image Thumbnail */}
-                    <div className="relative w-20 h-16 sm:w-full sm:h-24 rounded-lg overflow-hidden border border-zinc-700 flex-shrink-0">
-                      <img
-                        src={story.image}
-                        alt={story.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <span className="absolute top-1 left-1 bg-[#991B1B] text-[#FFEB01] text-[9px] font-black font-mono px-1.5 py-0.5 rounded border border-[#FFEB01]/60 shadow">
-                        {story.year}
-                      </span>
-                    </div>
-
-                    {/* Story Title & Subtitle */}
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-xs font-black uppercase text-white font-display tracking-wide truncate group-hover:text-[#FFEB01]">
-                        {story.title}
-                      </h4>
-                      <p className="text-[10px] text-zinc-400 truncate font-hand">
-                        {story.subtitle}
-                      </p>
-                      <div className="mt-1 text-[9px] font-bold text-amber-400 flex items-center gap-1 font-mono">
-                        <span>Clica para ler</span>
-                        <ChevronRight className="w-3 h-3" />
-                      </div>
-                    </div>
+              {/* IMAGE #2: SANTA SALSA BROOKLYN STOREFRONT (BOTTOM RIGHT) */}
+              <div
+                onClick={() => setSelectedStoryIndex(1)}
+                className="pointer-events-auto cursor-pointer transform rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.9)] animate-pop-in group mt-4"
+                title="Clica para ler História #2"
+              >
+                <div className="relative">
+                  <img
+                    src="/story-storefront.png"
+                    alt="#2 Santa Salsa Brooklyn Storefront"
+                    className="w-40 sm:w-52 lg:w-60 object-contain pointer-events-auto"
+                  />
+                  {/* Floating Badge #2 */}
+                  <div className="absolute top-2 left-2 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2.5 py-1 rounded-xl shadow-lg flex items-center gap-1.5 font-mono text-[10px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
+                    <Sparkles className="w-3 h-3 animate-spin" />
+                    <span>#2 BROOKLYN NYC</span>
                   </div>
-                ))}
+                  {/* Click Subtitle Hint */}
+                  <div className="absolute bottom-2 right-2 bg-black/90 text-amber-300 border border-amber-400/80 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase font-mono shadow group-hover:bg-amber-400 group-hover:text-black">
+                    Clica p/ ler 📖
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -778,12 +778,12 @@ export const PitchView: React.FC<PitchViewProps> = ({
             {/* Modal Body */}
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
               {/* Left Column: Big Story Image Frame */}
-              <div className="sm:col-span-5 relative">
-                <div className="p-2.5 bg-[#FDF6E2] rounded-2xl shadow-[0_8px_0_#000] border-4 border-zinc-950 transform -rotate-1">
+              <div className="sm:col-span-5 relative flex justify-center">
+                <div className="p-2.5 bg-[#FDF6E2] rounded-2xl shadow-[0_8px_0_#000] border-4 border-zinc-950 transform -rotate-1 max-w-xs">
                   <img
                     src={selectedStory.image}
                     alt={selectedStory.title}
-                    className="w-full h-48 sm:h-56 object-cover rounded-xl border border-zinc-900"
+                    className="w-full h-56 sm:h-64 object-contain rounded-xl"
                   />
                   <div className="text-center mt-2">
                     <span className="text-xs font-black uppercase text-zinc-900 font-mono tracking-widest">
@@ -797,7 +797,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
               <div className="sm:col-span-7 space-y-3">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#991B1B] border-2 border-[#FFEB01] text-[#FFEB01] text-xs font-black uppercase tracking-wider shadow-sm">
                   <BookOpen className="w-3.5 h-3.5" />
-                  <span>HISTÓRIA DO SANTA SALSA</span>
+                  <span>{selectedStory.badge}</span>
                 </div>
 
                 <h2 className="text-3xl font-black uppercase text-white tracking-wide font-display leading-tight">
