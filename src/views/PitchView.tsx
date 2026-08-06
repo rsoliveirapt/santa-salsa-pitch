@@ -261,48 +261,48 @@ export const PitchView: React.FC<PitchViewProps> = ({
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-[#0F0F0F] text-slate-100 p-4 lg:p-6 flex flex-col justify-between select-none relative"
+      className="h-[calc(100vh-42px)] max-h-screen bg-[#0F0F0F] text-slate-100 p-3 lg:p-4 flex flex-col justify-between select-none relative overflow-hidden"
     >
       {/* Physical Venue Overhead Header Banner (Collapsible) */}
       {showHeader && (
-        <header className="relative bg-gradient-to-r from-[#7F1D1D] via-[#991B1B] to-[#7F1D1D] border-4 border-amber-500 rounded-2xl p-4 lg:p-6 shadow-[0_10px_0_#000] mb-6 flex flex-wrap items-center justify-between gap-4 overflow-hidden">
+        <header className="relative bg-gradient-to-r from-[#7F1D1D] via-[#991B1B] to-[#7F1D1D] border-4 border-amber-500 rounded-2xl p-3 lg:p-4 shadow-[0_8px_0_#000] mb-3 flex flex-wrap items-center justify-between gap-3 overflow-hidden flex-shrink-0">
           {/* Overhead String Lights Accent */}
           <div className="absolute top-0 left-0 w-full flex justify-around px-2 pointer-events-none opacity-80">
             {[...Array(12)].map((_, i) => (
               <div key={i} className="flex flex-col items-center animate-string-light" style={{ animationDelay: `${i * 0.15}s` }}>
-                <div className="w-0.5 h-2.5 bg-zinc-900"></div>
-                <div className="w-3 h-3 rounded-full bg-amber-300 shadow-[0_0_8px_#F59E0B]"></div>
+                <div className="w-0.5 h-2 bg-zinc-900"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-amber-300 shadow-[0_0_8px_#F59E0B]"></div>
               </div>
             ))}
           </div>
 
           {/* Disco Ball Icon Accent */}
-          <div className="absolute right-4 top-2 opacity-30 pointer-events-none">
-            <Disc className="w-20 h-20 text-cyan-300 animate-disco" />
+          <div className="absolute right-4 top-1 opacity-25 pointer-events-none">
+            <Disc className="w-16 h-16 text-cyan-300 animate-disco" />
           </div>
 
-          <div className="flex items-center gap-4 relative z-10">
+          <div className="flex items-center gap-3 relative z-10">
             {/* Hand-Painted Sign Board Header Logo */}
-            <div className="sign-board-white rounded-2xl px-5 py-2.5 shadow-[4px_4px_0_#000] transform -rotate-1">
-              <div className="text-[10px] font-black uppercase tracking-widest text-[#991B1B] font-mono">
+            <div className="sign-board-white rounded-xl px-4 py-2 shadow-[3px_3px_0_#000] transform -rotate-1">
+              <div className="text-[9px] font-black uppercase tracking-widest text-[#991B1B] font-mono">
                 BROOKLYN • NEW YORK
               </div>
-              <h1 className="text-3xl lg:text-4xl font-black uppercase tracking-tight text-[#171717] leading-none font-display">
+              <h1 className="text-2xl lg:text-3xl font-black uppercase tracking-tight text-[#171717] leading-none font-display">
                 SANTA SALSA
               </h1>
-              <div className="text-[10px] font-black uppercase tracking-widest text-amber-600 border-t border-zinc-900/40 pt-0.5 mt-0.5 font-mono">
+              <div className="text-[9px] font-black uppercase tracking-widest text-amber-600 border-t border-zinc-900/40 pt-0.5 mt-0.5 font-mono">
                 VENEZUELAN STREET FOOD
               </div>
             </div>
 
             <div className="hidden sm:block">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-[#DC2626] border border-amber-400 text-white shadow-sm">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-[#DC2626] border border-amber-400 text-white shadow-sm">
                   PITCH LIVE SCREEN
                 </span>
                 <button
                   onClick={() => setShowConfigModal(true)}
-                  className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border-2 flex items-center gap-1 ${
+                  className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border-2 flex items-center gap-1 ${
                     supabaseConnected
                       ? 'bg-emerald-950 border-emerald-500 text-emerald-400'
                       : 'bg-amber-950 border-amber-500 text-amber-300'
@@ -312,107 +312,107 @@ export const PitchView: React.FC<PitchViewProps> = ({
                   <span>{supabaseConnected ? 'Supabase Connected' : 'Local Realtime Mode'}</span>
                 </button>
               </div>
-              <p className="text-xs font-hand text-amber-300">
+              <p className="text-[11px] font-hand text-amber-300">
                 Live Perros Menu Wall from Brooklyn NYC 🌭
               </p>
             </div>
           </div>
 
           {/* Integrated Live Counter & Street Stats */}
-          <div className="flex flex-wrap items-center gap-3 relative z-10">
+          <div className="flex flex-wrap items-center gap-2.5 relative z-10">
             {/* Total Live Perros Badge */}
-            <div className="bg-[#0F0F0F] border-4 border-amber-400 rounded-2xl px-4 py-2 flex items-center gap-3 shadow-[0_6px_0_#000]">
-              <Flame className="w-7 h-7 text-[#DC2626] animate-bounce fill-[#DC2626]" />
+            <div className="bg-[#0F0F0F] border-3 border-amber-400 rounded-xl px-3.5 py-1.5 flex items-center gap-2.5 shadow-[0_4px_0_#000]">
+              <Flame className="w-6 h-6 text-[#DC2626] animate-bounce fill-[#DC2626]" />
               <div>
-                <div className="text-[10px] font-black text-amber-400 uppercase tracking-widest leading-none font-mono">
+                <div className="text-[9px] font-black text-amber-400 uppercase tracking-widest leading-none font-mono">
                   PERROS AO VIVO
                 </div>
-                <div className="text-2xl font-black text-white font-mono leading-tight">
-                  {totalCount} <span className="text-xs font-normal text-amber-400 font-sans">Perros</span>
+                <div className="text-xl font-black text-white font-mono leading-tight">
+                  {totalCount} <span className="text-[10px] font-normal text-amber-400 font-sans">Perros</span>
                 </div>
               </div>
             </div>
 
             {/* Street Stats - Média Caracas */}
-            <div className="bg-[#0F0F0F] border-3 border-zinc-800 rounded-2xl px-4 py-2 flex items-center gap-2.5 shadow-md">
+            <div className="bg-[#0F0F0F] border-2 border-zinc-800 rounded-xl px-3 py-1.5 flex items-center gap-2 shadow-md">
               <div className="text-center">
-                <div className="text-2xl font-black text-amber-400 font-mono leading-none">{avgNivel}%</div>
-                <div className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5">
+                <div className="text-xl font-black text-amber-400 font-mono leading-none">{avgNivel}%</div>
+                <div className="text-[8px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5">
                   Média Caracas
                 </div>
               </div>
             </div>
 
             {/* Street Stats - Perros Con Todo */}
-            <div className="bg-[#0F0F0F] border-3 border-zinc-800 rounded-2xl px-4 py-2 flex items-center gap-2.5 shadow-md">
+            <div className="bg-[#0F0F0F] border-2 border-zinc-800 rounded-xl px-3 py-1.5 flex items-center gap-2 shadow-md">
               <div className="text-center">
-                <div className="text-2xl font-black text-emerald-400 font-mono leading-none">
+                <div className="text-xl font-black text-emerald-400 font-mono leading-none">
                   {perros.filter((p) => p.nivel_caracas === 100).length}
                 </div>
-                <div className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5">
+                <div className="text-[8px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5">
                   "Con Todo" 🚀
                 </div>
               </div>
             </div>
 
             {/* Action Toolbar */}
-            <div className="flex items-center gap-2 bg-[#0F0F0F] p-1.5 rounded-xl border-3 border-zinc-800 shadow-md ml-auto">
+            <div className="flex items-center gap-1.5 bg-[#0F0F0F] p-1 rounded-xl border-2 border-zinc-800 shadow-md ml-auto">
               <button
                 onClick={handleSimulatePerro}
-                className="p-2.5 rounded-lg bg-[#DC2626] text-white border-2 border-amber-400 hover:bg-red-700 transition-all flex items-center gap-1.5 text-xs font-black uppercase tracking-wider shadow-[0_3px_0_#000]"
+                className="p-2 rounded-lg bg-[#DC2626] text-white border-2 border-amber-400 hover:bg-red-700 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider shadow-[0_2px_0_#000]"
                 title="Simular Novo Perro"
               >
-                <Plus className="w-4 h-4 stroke-[3]" />
+                <Plus className="w-3.5 h-3.5 stroke-[3]" />
                 <span className="hidden sm:inline">Simular Perro</span>
               </button>
 
               <button
                 onClick={toggleSound}
-                className={`p-2.5 rounded-lg border-2 transition-all ${
+                className={`p-2 rounded-lg border-2 transition-all ${
                   soundEnabled
                     ? 'bg-zinc-800 text-emerald-400 border-emerald-500'
                     : 'bg-zinc-900 text-zinc-600 border-zinc-800'
                 }`}
                 title={soundEnabled ? 'Som Ativado' : 'Som Desativado'}
               >
-                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
               </button>
 
               {onToggleHeader && (
                 <button
                   onClick={onToggleHeader}
-                  className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-amber-400 border-2 border-amber-500/60 transition-all"
+                  className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-amber-400 border-2 border-amber-500/60 transition-all"
                   title={showHeader ? 'Ocultar Banner Superior' : 'Mostrar Banner Superior'}
                 >
-                  {showHeader ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showHeader ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                 </button>
               )}
 
               <button
                 onClick={toggleFullscreen}
-                className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-2 border-zinc-700 transition-all"
+                className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-2 border-zinc-700 transition-all"
                 title="Ecrã Inteiro"
               >
-                <Maximize2 className="w-4 h-4" />
+                <Maximize2 className="w-3.5 h-3.5" />
               </button>
 
               {/* CLEAR MENU BUTTON WITH TRASH ICON & PROMINENT TEXT */}
               <button
                 onClick={handleClearWall}
-                className="p-2.5 rounded-lg bg-red-950/80 hover:bg-red-900 text-red-300 border-2 border-red-600 transition-all flex items-center gap-1.5 text-xs font-black uppercase tracking-wider shadow-sm"
+                className="p-2 rounded-lg bg-red-950/80 hover:bg-red-900 text-red-300 border-2 border-red-600 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider shadow-sm"
                 title="Limpar todos os Perros do Menu"
               >
-                <Trash2 className="w-4 h-4 text-red-400 stroke-[2.5]" />
+                <Trash2 className="w-3.5 h-3.5 text-red-400 stroke-[2.5]" />
                 <span className="hidden sm:inline">Limpar Menu</span>
               </button>
 
               {onNavigateToMobile && (
                 <button
                   onClick={onNavigateToMobile}
-                  className="p-2.5 rounded-lg bg-[#F59E0B] text-zinc-950 border-2 border-zinc-950 font-black text-xs uppercase transition-all flex items-center gap-1"
+                  className="p-2 rounded-lg bg-[#F59E0B] text-zinc-950 border-2 border-zinc-950 font-black text-xs uppercase transition-all flex items-center gap-1"
                   title="Ir para Vista Mobile"
                 >
-                  <Smartphone className="w-4 h-4" />
+                  <Smartphone className="w-3.5 h-3.5" />
                   <span className="hidden md:inline">Vista Mobile</span>
                 </button>
               )}
@@ -421,40 +421,40 @@ export const PitchView: React.FC<PitchViewProps> = ({
         </header>
       )}
 
-      {/* Main Pitch Split Screen Layout (Expanded 5 cols / 7 cols for larger QR Code) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
+      {/* Main Pitch Split Screen Layout (Compact 100% Viewport Height) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0 overflow-hidden">
         {/* LEFT COLUMN: EXPANDED PROMINENT QR CODE SIDEBAR (5 cols on lg) */}
-        <aside className="lg:col-span-5 flex flex-col h-full">
+        <aside className="lg:col-span-5 flex flex-col h-full overflow-hidden">
           {/* Expanded QR Code Presentation Box */}
-          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-6 lg:p-8 flex flex-col items-center justify-between text-center shadow-[0_10px_0_#000] h-full">
+          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-4 lg:p-5 flex flex-col items-center justify-between text-center shadow-[0_8px_0_#000] h-full overflow-hidden">
             <div className="flex flex-col items-center">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#991B1B] border-2 border-amber-400 text-amber-300 text-xs font-black uppercase tracking-wider mb-4 shadow-sm">
-                <Sparkles className="w-4 h-4" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#991B1B] border-2 border-amber-400 text-amber-300 text-[11px] font-black uppercase tracking-wider mb-2 shadow-sm">
+                <Sparkles className="w-3.5 h-3.5" />
                 <span>PARTICIPA NO PITCH AO VIVO</span>
               </div>
 
-              <h2 className="text-3xl lg:text-4xl font-black uppercase text-white tracking-wide mb-1 font-display">
+              <h2 className="text-2xl lg:text-3xl font-black uppercase text-white tracking-wide mb-0.5 font-display">
                 APONTA O TELEMÓVEL
               </h2>
-              <p className="text-base font-hand text-amber-400 mb-6">
+              <p className="text-xs font-hand text-amber-400 mb-3">
                 e adiciona o teu Perro ao Menu do Pitch! 🌭🔥
               </p>
             </div>
 
-            {/* Massive QR Code Solid Board Frame */}
-            <div className="p-6 bg-[#FDF6E2] rounded-3xl shadow-[0_8px_0_#000] border-4 border-zinc-950 my-2 transform hover:scale-105 transition-transform cursor-pointer flex items-center justify-center">
+            {/* Compact QR Code Solid Board Frame */}
+            <div className="p-4 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex items-center justify-center">
               {appUrl && (
                 <QRCodeSVG
                   value={appUrl}
-                  size={260}
+                  size={200}
                   level="H"
                   includeMargin={true}
                   imageSettings={{
                     src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌭</text></svg>',
                     x: undefined,
                     y: undefined,
-                    height: 48,
-                    width: 48,
+                    height: 40,
+                    width: 40,
                     excavate: true
                   }}
                 />
@@ -462,11 +462,11 @@ export const PitchView: React.FC<PitchViewProps> = ({
             </div>
 
             {/* Direct URL Box */}
-            <div className="w-full mt-6">
-              <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 font-mono">
+            <div className="w-full mt-3">
+              <div className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-1 font-mono">
                 LINK DIRETO PARA AUDIÊNCIA
               </div>
-              <div className="bg-[#0D0D0D] px-4 py-3 rounded-xl border-2 border-amber-400/80 text-sm font-mono text-amber-300 break-all select-all font-black text-center shadow-inner">
+              <div className="bg-[#0D0D0D] px-3 py-2 rounded-xl border-2 border-amber-400/80 text-xs font-mono text-amber-300 break-all select-all font-black text-center shadow-inner">
                 {appUrl}
               </div>
             </div>
@@ -474,7 +474,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
         </aside>
 
         {/* RIGHT COLUMN: RESTAURANT MENU BOARD LIVE WALL (7 cols on lg) */}
-        <main className="lg:col-span-7 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_10px_0_#000] flex flex-col justify-between overflow-hidden min-h-[580px] h-full">
+        <main className="lg:col-span-7 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_8px_0_#000] flex flex-col justify-between overflow-hidden h-full">
           {/* Menu Board Background Image Overlay */}
           <div 
             className="absolute inset-0 bg-cover bg-center opacity-95 z-0"
@@ -485,21 +485,21 @@ export const PitchView: React.FC<PitchViewProps> = ({
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/50 z-0 pointer-events-none" />
 
           {/* PERROS CALIENTES HOT DOGS Graphic Header Logo & Quick Clear Button */}
-          <div className="relative z-10 pt-5 pb-3 px-6 flex justify-between items-center bg-gradient-to-b from-black/70 to-transparent">
-            <div className="w-24"></div>
+          <div className="relative z-10 pt-3 pb-2 px-5 flex justify-between items-center bg-gradient-to-b from-black/70 to-transparent">
+            <div className="w-20"></div>
 
             <img
               src="/perros-logo.png"
               alt="Perros Calientes Hot Dogs"
-              className="h-16 sm:h-20 lg:h-24 object-contain filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] transform hover:scale-105 transition-transform"
+              className="h-14 sm:h-16 lg:h-18 object-contain filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] transform hover:scale-105 transition-transform"
             />
 
             {/* Quick Clear Menu Button inside Board */}
-            <div className="w-24 flex justify-end">
+            <div className="w-20 flex justify-end">
               {totalCount > 0 && (
                 <button
                   onClick={handleClearWall}
-                  className="px-2.5 py-1 rounded-lg bg-red-950/80 border border-red-500 text-red-300 hover:bg-red-900 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 transition-all shadow-md"
+                  className="px-2 py-0.5 rounded-lg bg-red-950/80 border border-red-500 text-red-300 hover:bg-red-900 text-[9px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 transition-all shadow-md"
                   title="Limpar todos os Perros do Menu"
                 >
                   <Trash2 className="w-3 h-3 text-red-400" />
@@ -510,28 +510,28 @@ export const PitchView: React.FC<PitchViewProps> = ({
           </div>
 
           {/* Grid Container inside Restaurant Menu Board */}
-          <div className="relative z-10 flex-1 p-4 lg:p-6 overflow-y-auto max-h-[640px]">
+          <div className="relative z-10 flex-1 p-3 lg:p-4 overflow-y-auto min-h-0">
             {totalCount === 0 ? (
-              <div className="h-full min-h-[350px] flex flex-col items-center justify-center text-center p-8 border-4 border-dashed border-amber-400/60 rounded-2xl bg-black/75">
-                <div className="w-16 h-16 rounded-full bg-[#78350F]/80 border-2 border-amber-400 flex items-center justify-center mb-4 text-amber-300">
-                  <Flame className="w-8 h-8 animate-bounce text-amber-400 fill-amber-400" />
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 border-4 border-dashed border-amber-400/60 rounded-2xl bg-black/75">
+                <div className="w-14 h-14 rounded-full bg-[#78350F]/80 border-2 border-amber-400 flex items-center justify-center mb-3 text-amber-300">
+                  <Flame className="w-7 h-7 animate-bounce text-amber-400 fill-amber-400" />
                 </div>
-                <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-2 font-display">
+                <h3 className="text-xl lg:text-2xl font-black text-white uppercase tracking-wider mb-1 font-display">
                   O MENU ESTÁ A AGUARDAR PEDIDOS!
                 </h3>
-                <p className="text-xs text-amber-200/90 max-w-sm font-hand">
+                <p className="text-xs text-amber-200/90 max-w-sm font-hand mb-4">
                   Aponta o telemóvel ao QR Code à esquerda e cria a tua combinação para apareceres aqui no Menu do Santa Salsa! 🌭
                 </p>
                 <button
                   onClick={handleSimulatePerro}
-                  className="mt-6 px-5 py-3 rounded-xl bg-[#DC2626] text-white border-2 border-amber-400 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_4px_0_#000] hover:scale-105"
+                  className="px-4 py-2.5 rounded-xl bg-[#DC2626] text-white border-2 border-amber-400 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_3px_0_#000] hover:scale-105"
                 >
-                  <Plus className="w-4 h-4 stroke-[3]" />
+                  <Plus className="w-3.5 h-3.5 stroke-[3]" />
                   <span>Adicionar Perro ao Menu</span>
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-2">
                 {perros.map((perro: PerroRecord, idx: number) => {
                   const nivelLabel = getNivelCaracasLabel(perro.nivel_caracas);
                   const isFirst = idx === 0;
@@ -539,20 +539,20 @@ export const PitchView: React.FC<PitchViewProps> = ({
                   return (
                     <div
                       key={perro.id}
-                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-4 rounded-2xl p-4 flex flex-col justify-between shadow-[0_8px_0_#000] transition-all duration-300 ${
+                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-3 rounded-xl p-3 flex flex-col justify-between shadow-[0_6px_0_#000] transition-all duration-300 ${
                         isFirst
                           ? 'border-amber-400 ring-4 ring-amber-400/30 animate-pop-in'
                           : 'border-zinc-900 hover:border-amber-500/60'
                       }`}
                     >
                       {/* Menu Item Header */}
-                      <div className="flex justify-between items-start gap-2 mb-2">
+                      <div className="flex justify-between items-start gap-2 mb-1.5">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-[10px] font-mono font-black text-amber-400 uppercase bg-[#991B1B] px-1.5 py-0.5 rounded border border-amber-500/50">
+                          <span className="text-[9px] font-mono font-black text-amber-400 uppercase bg-[#991B1B] px-1.5 py-0.5 rounded border border-amber-500/50">
                             #{perro.id.slice(0, 5)}
                           </span>
                           {isFirst && (
-                            <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse">
+                            <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider bg-[#DC2626] text-white animate-pulse">
                               NOVO NO MENU!
                             </span>
                           )}
@@ -560,7 +560,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
                         {/* Caracas Gauge Badge */}
                         <span
-                          className={`text-xs font-black font-mono px-2.5 py-0.5 rounded border-2 ${
+                          className={`text-[11px] font-black font-mono px-2 py-0.5 rounded border-2 ${
                             perro.nivel_caracas === 100
                               ? 'bg-red-950 border-red-500 text-red-400'
                               : 'bg-zinc-950 border-amber-500 text-amber-400'
@@ -571,26 +571,26 @@ export const PitchView: React.FC<PitchViewProps> = ({
                       </div>
 
                       {/* Hot Dog Mini Visualizer */}
-                      <div className="my-2 flex justify-center bg-black/80 rounded-xl py-3 border-2 border-zinc-800">
+                      <div className="my-1 flex justify-center bg-black/80 rounded-lg py-2 border border-zinc-800">
                         <HotDogVisualizer selectedIngredients={perro.ingredientes} size="sm" />
                       </div>
 
                       {/* Caracas Level Label */}
-                      <div className="text-center mb-2">
+                      <div className="text-center mb-1.5">
                         <div className={`text-xs font-black uppercase font-display ${nivelLabel.colorClass}`}>
                           {nivelLabel.title}
                         </div>
                       </div>
 
                       {/* Ingredient Pills (Menu Item Ingredients) */}
-                      <div className="flex flex-wrap gap-1 mb-3">
+                      <div className="flex flex-wrap gap-1 mb-2">
                         {perro.ingredientes.map((ingId) => {
                           const def = INGREDIENTS.find((i) => i.id === ingId);
                           if (!def) return null;
                           return (
                             <span
                               key={ingId}
-                              className={`text-[9px] font-bold px-2 py-0.5 rounded border ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
+                              className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
                             >
                               {def.name}
                             </span>
@@ -599,7 +599,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
                       </div>
 
                       {/* Footer Timestamp */}
-                      <div className="pt-2 border-t border-zinc-800/80 flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                      <div className="pt-1.5 border-t border-zinc-800/80 flex justify-between items-center text-[9px] font-mono text-zinc-400">
                         <span>{perro.ingredientes.length} ingredientes</span>
                         <span>
                           {new Date(perro.criado_em).toLocaleTimeString([], {
@@ -617,16 +617,16 @@ export const PitchView: React.FC<PitchViewProps> = ({
           </div>
 
           {/* Menu Board Footer Bar (Original Graphic Footer: Contains Meat / @santasalsastreet / Veg) */}
-          <div className="relative z-10 bg-black/90 px-6 py-2 border-t-2 border-amber-400 flex flex-wrap justify-between items-center text-[11px] font-bold text-amber-300 font-mono">
+          <div className="relative z-10 bg-black/90 px-4 py-1.5 border-t-2 border-amber-400 flex flex-wrap justify-between items-center text-[10px] font-bold text-amber-300 font-mono flex-shrink-0">
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 bg-amber-400 inline-block"></span>
+              <span className="w-2 h-2 bg-amber-400 inline-block"></span>
               <span>Contains Meat / Con Todo</span>
             </span>
 
             <span className="text-white font-hand">@santasalsastreet</span>
 
             <span className="flex items-center gap-1.5 text-emerald-400">
-              <span className="w-2.5 h-2.5 bg-emerald-400 inline-block"></span>
+              <span className="w-2 h-2 bg-emerald-400 inline-block"></span>
               <span>Vegetarian or Vegan Option</span>
             </span>
           </div>
