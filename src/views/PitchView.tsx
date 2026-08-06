@@ -409,17 +409,15 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
           {/* Semi-transparent dark overlay for high contrast menu reading */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/50 z-0 pointer-events-none" />
 
-          {/* Menu Board Header Spacer to preserve original "PERROS CALIENTES HOT DOGS" graphic header */}
-          <div className="relative z-10 pt-16 px-6 pb-2 flex justify-between items-center text-amber-300 font-mono text-xs font-bold border-b border-amber-500/40">
-            <span className="bg-black/80 px-3 py-1 rounded-full border border-amber-400/50 flex items-center gap-1">
-              <Flame className="w-3.5 h-3.5 text-[#DC2626] fill-[#DC2626]" />
-              <span>MENU EM TEMPO REAL ({totalCount} ITEMS)</span>
-            </span>
-
-            <span className="bg-black/80 px-3 py-1 rounded-full border border-emerald-400/50 text-emerald-400">
-              ● REALTIME SYNC
-            </span>
+          {/* PERROS CALIENTES HOT DOGS Graphic Header Logo */}
+          <div className="relative z-10 pt-5 pb-3 px-6 flex justify-center items-center border-b-2 border-amber-400/40 bg-gradient-to-b from-black/70 to-transparent">
+            <img
+              src="/perros-logo.png"
+              alt="Perros Calientes Hot Dogs"
+              className="h-16 sm:h-20 lg:h-24 object-contain filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] transform hover:scale-105 transition-transform"
+            />
           </div>
+
 
           {/* Grid Container inside Restaurant Menu Board */}
           <div className="relative z-10 flex-1 p-4 lg:p-6 overflow-y-auto max-h-[640px]">
