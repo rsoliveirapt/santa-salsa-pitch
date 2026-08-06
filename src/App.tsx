@@ -94,12 +94,13 @@ export function App() {
       {currentRoute === 'pitch' && !showNav && (
         <button
           onClick={() => setShowNav(true)}
-          className="fixed top-3 right-3 z-50 bg-[#1A1A1A] border-2 border-amber-400 text-amber-400 px-3 py-1 rounded-xl text-xs font-black shadow-2xl hover:bg-zinc-800 flex items-center gap-1"
+          className="fixed top-3 left-4 z-50 bg-[#1A1A1A] border-2 border-amber-400 text-amber-400 px-3 py-1 rounded-xl text-xs font-black shadow-2xl hover:bg-zinc-800 flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-all"
         >
           <Layers className="w-3.5 h-3.5 text-[#DC2626]" />
-          <span>Nav</span>
+          <span>Restaurar Barra Nav</span>
         </button>
       )}
+
 
       {/* Render Current View */}
       <div className="flex-1">

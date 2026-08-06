@@ -228,13 +228,14 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
       {!showHeader && (
         <button
           onClick={() => setShowHeader(true)}
-          className="fixed top-3 right-3 z-50 bg-[#1A1A1A]/90 border-2 border-amber-400 text-amber-400 px-3 py-1.5 rounded-xl text-xs font-black shadow-2xl hover:bg-zinc-800 flex items-center gap-1.5 opacity-40 hover:opacity-100 transition-all backdrop-blur-sm"
+          className="fixed top-14 right-4 z-40 bg-[#1A1A1A]/95 border-2 border-amber-400 text-amber-400 px-3 py-1.5 rounded-xl text-xs font-black shadow-2xl hover:bg-zinc-800 flex items-center gap-1.5 backdrop-blur-md transition-all hover:scale-105"
           title="Mostrar Banner Superior"
         >
           <Eye className="w-4 h-4 text-[#DC2626]" />
           <span>Mostrar Banner</span>
         </button>
       )}
+
 
       {/* Physical Venue Overhead Header Banner (Collapsible) */}
       {showHeader && (
