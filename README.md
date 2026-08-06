@@ -20,6 +20,10 @@ create policy "Permitir leitura pública" on cachorros_pitch for select using (t
 drop policy if exists "Permitir inserção pública" on cachorros_pitch;
 create policy "Permitir inserção pública" on cachorros_pitch for insert with check (true);
 
+drop policy if exists "Permitir eliminação pública" on cachorros_pitch;
+create policy "Permitir eliminação pública" on cachorros_pitch for delete using (true);
+
+
 -- Garantir transmissão completa de eventos no Realtime
 alter table cachorros_pitch replica identity full;
 

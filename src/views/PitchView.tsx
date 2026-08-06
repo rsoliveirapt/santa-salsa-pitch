@@ -214,6 +214,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
   const handleClearWall = async () => {
     if (confirm('Tem a certeza que deseja limpar todos os Perros do menu ao vivo?')) {
       setPerros([]);
+      localStorage.setItem('SANTA_SALSA_PERROS_DB', '[]');
       localStorage.removeItem('SANTA_SALSA_PERROS_DB');
 
       // Clear local broadcast
@@ -225,13 +226,23 @@ export const PitchView: React.FC<PitchViewProps> = ({
       const supabase = getSupabaseClient();
       if (supabase) {
         try {
-          await supabase.from('cachorros_pitch').delete().gte('nivel_caracas', 0);
+          const { error } = await supabase
+            .from('cachorros_pitch')
+            .delete()
+            .neq('id', '00000000-0000-0000-0000-000000000000');
+
+          if (error) {
+            console.error('Erro ao eliminar no Supabase:', error);
+          } else {
+            console.log('✅ Tabela cachorros_pitch no Supabase limpa com sucesso!');
+          }
         } catch (e) {
           console.warn('Could not delete from Supabase:', e);
         }
       }
     }
   };
+
 
   // Save Supabase credentials from modal
   const handleSaveConfig = () => {
