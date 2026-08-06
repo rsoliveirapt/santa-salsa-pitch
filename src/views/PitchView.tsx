@@ -5,7 +5,6 @@ import {
   Volume2,
   VolumeX,
   Maximize2,
-  RotateCcw,
   Sparkles,
   Plus,
   Database,
@@ -13,7 +12,8 @@ import {
   CheckCircle2,
   Disc,
   Eye,
-  EyeOff
+  EyeOff,
+  Trash2
 } from 'lucide-react';
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import {
@@ -113,7 +113,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
           }
         });
 
-      // Subscribe to Realtime INSERT events
+      // Subscribe to Realtime INSERT & DELETE events
       supabaseChannel = supabase
         .channel('public:cachorros_pitch')
         .on(
@@ -122,6 +122,14 @@ export const PitchView: React.FC<PitchViewProps> = ({
           (payload) => {
             const newRecord = payload.new as PerroRecord;
             handleNewPerroArrived(newRecord);
+          }
+        )
+        .on(
+          'postgres_changes',
+          { event: 'DELETE', schema: 'public', table: 'cachorros_pitch' },
+          () => {
+            setPerros([]);
+            localStorage.removeItem('SANTA_SALSA_PERROS_DB');
           }
         )
         .subscribe((status) => {
@@ -138,6 +146,9 @@ export const PitchView: React.FC<PitchViewProps> = ({
       if (event.data && event.data.type === 'NEW_PERRO') {
         const newRecord = event.data.payload as PerroRecord;
         handleNewPerroArrived(newRecord);
+      } else if (event.data && event.data.type === 'CLEAR_PERROS') {
+        setPerros([]);
+        localStorage.removeItem('SANTA_SALSA_PERROS_DB');
       }
     };
 
@@ -199,11 +210,26 @@ export const PitchView: React.FC<PitchViewProps> = ({
     handleNewPerroArrived(simulated);
   };
 
-  // Clear wall
-  const handleClearWall = () => {
-    if (confirm('Tem a certeza que deseja limpar o ecrã do Pitch?')) {
+  // Clear wall & database
+  const handleClearWall = async () => {
+    if (confirm('Tem a certeza que deseja limpar todos os Perros do menu ao vivo?')) {
       setPerros([]);
       localStorage.removeItem('SANTA_SALSA_PERROS_DB');
+
+      // Clear local broadcast
+      if (localBroadcast) {
+        localBroadcast.postMessage({ type: 'CLEAR_PERROS' });
+      }
+
+      // Also clear Supabase database table if connected
+      const supabase = getSupabaseClient();
+      if (supabase) {
+        try {
+          await supabase.from('cachorros_pitch').delete().gte('nivel_caracas', 0);
+        } catch (e) {
+          console.warn('Could not delete from Supabase:', e);
+        }
+      }
     }
   };
 
@@ -339,12 +365,14 @@ export const PitchView: React.FC<PitchViewProps> = ({
                 <Maximize2 className="w-4 h-4" />
               </button>
 
+              {/* CLEAR MENU BUTTON WITH TRASH ICON & PROMINENT TEXT */}
               <button
                 onClick={handleClearWall}
-                className="p-2.5 rounded-lg bg-zinc-900 hover:bg-red-950 text-zinc-500 hover:text-red-400 border-2 border-zinc-800 transition-all"
-                title="Limpar Grelha"
+                className="p-2.5 rounded-lg bg-red-950/80 hover:bg-red-900 text-red-300 border-2 border-red-600 transition-all flex items-center gap-1.5 text-xs font-black uppercase tracking-wider shadow-sm"
+                title="Limpar todos os Perros do Menu"
               >
-                <RotateCcw className="w-4 h-4" />
+                <Trash2 className="w-4 h-4 text-red-400 stroke-[2.5]" />
+                <span className="hidden sm:inline">Limpar Menu</span>
               </button>
 
               {onNavigateToMobile && (
@@ -443,13 +471,29 @@ export const PitchView: React.FC<PitchViewProps> = ({
           {/* Semi-transparent dark overlay for high contrast menu reading */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/50 z-0 pointer-events-none" />
 
-          {/* PERROS CALIENTES HOT DOGS Graphic Header Logo */}
-          <div className="relative z-10 pt-5 pb-3 px-6 flex justify-center items-center border-b-2 border-amber-400/40 bg-gradient-to-b from-black/70 to-transparent">
+          {/* PERROS CALIENTES HOT DOGS Graphic Header Logo & Quick Clear Button */}
+          <div className="relative z-10 pt-5 pb-3 px-6 flex justify-between items-center border-b-2 border-amber-400/40 bg-gradient-to-b from-black/70 to-transparent">
+            <div className="w-24"></div>
+
             <img
               src="/perros-logo.png"
               alt="Perros Calientes Hot Dogs"
               className="h-16 sm:h-20 lg:h-24 object-contain filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] transform hover:scale-105 transition-transform"
             />
+
+            {/* Quick Clear Menu Button inside Board */}
+            <div className="w-24 flex justify-end">
+              {totalCount > 0 && (
+                <button
+                  onClick={handleClearWall}
+                  className="px-2.5 py-1 rounded-lg bg-red-950/80 border border-red-500 text-red-300 hover:bg-red-900 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 transition-all shadow-md"
+                  title="Limpar todos os Perros do Menu"
+                >
+                  <Trash2 className="w-3 h-3 text-red-400" />
+                  <span>Limpar</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Grid Container inside Restaurant Menu Board */}
