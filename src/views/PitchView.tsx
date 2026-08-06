@@ -11,7 +11,9 @@ import {
   Database,
   Smartphone,
   CheckCircle2,
-  Disc
+  Disc,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import {
@@ -38,6 +40,8 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
   const [appUrl, setAppUrl] = useState<string>('');
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [supabaseConnected, setSupabaseConnected] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [, setIsFullscreen] = useState(false);
 
   // Config modal state
   const [inputUrl, setInputUrl] = useState('');
@@ -45,6 +49,22 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
   const [configMessage, setConfigMessage] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Fullscreen change listener & auto-collapse option
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isFS = Boolean(document.fullscreenElement);
+      setIsFullscreen(isFS);
+      if (isFS) {
+        setShowHeader(false);
+      } else {
+        setShowHeader(true);
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   // Initialize app URL for QR Code & Supabase listener
   useEffect(() => {
@@ -136,7 +156,6 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
   const handleNewPerroArrived = (newRecord: PerroRecord) => {
     soundFx.playPitchChime();
     setPerros((prev) => {
-      // Prevent duplicates
       if (prev.some((item) => item.id === newRecord.id)) return prev;
       return [newRecord, ...prev];
     });
@@ -203,130 +222,152 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-[#0F0F0F] text-slate-100 p-4 lg:p-6 flex flex-col justify-between select-none"
+      className="min-h-screen bg-[#0F0F0F] text-slate-100 p-4 lg:p-6 flex flex-col justify-between select-none relative"
     >
-      {/* Physical Venue Overhead Header Banner */}
-      <header className="relative bg-gradient-to-r from-[#7F1D1D] via-[#991B1B] to-[#7F1D1D] border-4 border-amber-500 rounded-2xl p-4 lg:p-6 shadow-[0_10px_0_#000] mb-6 flex flex-wrap items-center justify-between gap-4 overflow-hidden">
-        {/* Overhead String Lights Accent */}
-        <div className="absolute top-0 left-0 w-full flex justify-around px-2 pointer-events-none opacity-80">
-          {[...Array(12)].map((_, i) => (
-            <div key={i} className="flex flex-col items-center animate-string-light" style={{ animationDelay: `${i * 0.15}s` }}>
-              <div className="w-0.5 h-2.5 bg-zinc-900"></div>
-              <div className="w-3 h-3 rounded-full bg-amber-300 shadow-[0_0_8px_#F59E0B]"></div>
-            </div>
-          ))}
-        </div>
+      {/* Floating Restore Header Button when Header is Hidden */}
+      {!showHeader && (
+        <button
+          onClick={() => setShowHeader(true)}
+          className="fixed top-3 right-3 z-50 bg-[#1A1A1A]/90 border-2 border-amber-400 text-amber-400 px-3 py-1.5 rounded-xl text-xs font-black shadow-2xl hover:bg-zinc-800 flex items-center gap-1.5 opacity-40 hover:opacity-100 transition-all backdrop-blur-sm"
+          title="Mostrar Banner Superior"
+        >
+          <Eye className="w-4 h-4 text-[#DC2626]" />
+          <span>Mostrar Banner</span>
+        </button>
+      )}
 
-        {/* Disco Ball Icon Accent */}
-        <div className="absolute right-4 top-2 opacity-30 pointer-events-none">
-          <Disc className="w-20 h-20 text-cyan-300 animate-disco" />
-        </div>
+      {/* Physical Venue Overhead Header Banner (Collapsible) */}
+      {showHeader && (
+        <header className="relative bg-gradient-to-r from-[#7F1D1D] via-[#991B1B] to-[#7F1D1D] border-4 border-amber-500 rounded-2xl p-4 lg:p-6 shadow-[0_10px_0_#000] mb-6 flex flex-wrap items-center justify-between gap-4 overflow-hidden">
+          {/* Overhead String Lights Accent */}
+          <div className="absolute top-0 left-0 w-full flex justify-around px-2 pointer-events-none opacity-80">
+            {[...Array(12)].map((_, i) => (
+              <div key={i} className="flex flex-col items-center animate-string-light" style={{ animationDelay: `${i * 0.15}s` }}>
+                <div className="w-0.5 h-2.5 bg-zinc-900"></div>
+                <div className="w-3 h-3 rounded-full bg-amber-300 shadow-[0_0_8px_#F59E0B]"></div>
+              </div>
+            ))}
+          </div>
 
-        <div className="flex items-center gap-4 relative z-10">
-          {/* Hand-Painted Sign Board Header Logo */}
-          <div className="sign-board-white rounded-2xl px-5 py-2.5 shadow-[4px_4px_0_#000] transform -rotate-1">
-            <div className="text-[10px] font-black uppercase tracking-widest text-[#991B1B] font-mono">
-              BROOKLYN • NEW YORK
+          {/* Disco Ball Icon Accent */}
+          <div className="absolute right-4 top-2 opacity-30 pointer-events-none">
+            <Disc className="w-20 h-20 text-cyan-300 animate-disco" />
+          </div>
+
+          <div className="flex items-center gap-4 relative z-10">
+            {/* Hand-Painted Sign Board Header Logo */}
+            <div className="sign-board-white rounded-2xl px-5 py-2.5 shadow-[4px_4px_0_#000] transform -rotate-1">
+              <div className="text-[10px] font-black uppercase tracking-widest text-[#991B1B] font-mono">
+                BROOKLYN • NEW YORK
+              </div>
+              <h1 className="text-3xl lg:text-4xl font-black uppercase tracking-tight text-[#171717] leading-none font-display">
+                SANTA SALSA
+              </h1>
+              <div className="text-[10px] font-black uppercase tracking-widest text-amber-600 border-t border-zinc-900/40 pt-0.5 mt-0.5 font-mono">
+                VENEZUELAN STREET FOOD
+              </div>
             </div>
-            <h1 className="text-3xl lg:text-4xl font-black uppercase tracking-tight text-[#171717] leading-none font-display">
-              SANTA SALSA
-            </h1>
-            <div className="text-[10px] font-black uppercase tracking-widest text-amber-600 border-t border-zinc-900/40 pt-0.5 mt-0.5 font-mono">
-              VENEZUELAN STREET FOOD
+
+            <div className="hidden sm:block">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-[#DC2626] border border-amber-400 text-white shadow-sm">
+                  PITCH LIVE SCREEN
+                </span>
+                <button
+                  onClick={() => setShowConfigModal(true)}
+                  className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border-2 flex items-center gap-1 ${
+                    supabaseConnected
+                      ? 'bg-emerald-950 border-emerald-500 text-emerald-400'
+                      : 'bg-amber-950 border-amber-500 text-amber-300'
+                  }`}
+                >
+                  <Database className="w-3 h-3" />
+                  <span>{supabaseConnected ? 'Supabase Connected' : 'Local Realtime Mode'}</span>
+                </button>
+              </div>
+              <p className="text-xs font-hand text-amber-300">
+                Live Perros Menu Wall from Brooklyn NYC 🌭
+              </p>
             </div>
           </div>
 
-          <div className="hidden sm:block">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-[#DC2626] border border-amber-400 text-white shadow-sm">
-                PITCH LIVE SCREEN
-              </span>
+          {/* Live Counter & Action Toolbar */}
+          <div className="flex flex-wrap items-center gap-4 relative z-10">
+            {/* Live Counter Badge */}
+            <div className="bg-[#0F0F0F] border-4 border-amber-400 rounded-2xl px-5 py-2 flex items-center gap-3 shadow-[0_6px_0_#000]">
+              <Flame className="w-7 h-7 text-[#DC2626] animate-bounce fill-[#DC2626]" />
+              <div>
+                <div className="text-[10px] font-black text-amber-400 uppercase tracking-widest leading-none font-mono">
+                  PERROS NO MENU AO VIVO
+                </div>
+                <div className="text-3xl font-black text-white font-mono leading-tight">
+                  {totalCount}{' '}
+                  <span className="text-xs font-normal text-amber-400 font-sans">Perros</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Toolbar */}
+            <div className="flex items-center gap-2 bg-[#0F0F0F] p-1.5 rounded-xl border-3 border-zinc-800 shadow-md">
               <button
-                onClick={() => setShowConfigModal(true)}
-                className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border-2 flex items-center gap-1 ${
-                  supabaseConnected
-                    ? 'bg-emerald-950 border-emerald-500 text-emerald-400'
-                    : 'bg-amber-950 border-amber-500 text-amber-300'
+                onClick={handleSimulatePerro}
+                className="p-2.5 rounded-lg bg-[#DC2626] text-white border-2 border-amber-400 hover:bg-red-700 transition-all flex items-center gap-1.5 text-xs font-black uppercase tracking-wider shadow-[0_3px_0_#000]"
+                title="Simular Novo Perro"
+              >
+                <Plus className="w-4 h-4 stroke-[3]" />
+                <span className="hidden sm:inline">Simular Perro</span>
+              </button>
+
+              <button
+                onClick={toggleSound}
+                className={`p-2.5 rounded-lg border-2 transition-all ${
+                  soundEnabled
+                    ? 'bg-zinc-800 text-emerald-400 border-emerald-500'
+                    : 'bg-zinc-900 text-zinc-600 border-zinc-800'
                 }`}
+                title={soundEnabled ? 'Som Ativado' : 'Som Desativado'}
               >
-                <Database className="w-3 h-3" />
-                <span>{supabaseConnected ? 'Supabase Connected' : 'Local Realtime Mode'}</span>
+                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </button>
-            </div>
-            <p className="text-xs font-hand text-amber-300">
-              Live Perros Menu Wall from Brooklyn NYC 🌭
-            </p>
-          </div>
-        </div>
 
-        {/* Live Counter & Action Toolbar */}
-        <div className="flex flex-wrap items-center gap-4 relative z-10">
-          {/* Live Counter Badge */}
-          <div className="bg-[#0F0F0F] border-4 border-amber-400 rounded-2xl px-5 py-2 flex items-center gap-3 shadow-[0_6px_0_#000]">
-            <Flame className="w-7 h-7 text-[#DC2626] animate-bounce fill-[#DC2626]" />
-            <div>
-              <div className="text-[10px] font-black text-amber-400 uppercase tracking-widest leading-none font-mono">
-                PERROS NO MENU AO VIVO
-              </div>
-              <div className="text-3xl font-black text-white font-mono leading-tight">
-                {totalCount}{' '}
-                <span className="text-xs font-normal text-amber-400 font-sans">Perros</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Action Toolbar */}
-          <div className="flex items-center gap-2 bg-[#0F0F0F] p-1.5 rounded-xl border-3 border-zinc-800 shadow-md">
-            <button
-              onClick={handleSimulatePerro}
-              className="p-2.5 rounded-lg bg-[#DC2626] text-white border-2 border-amber-400 hover:bg-red-700 transition-all flex items-center gap-1.5 text-xs font-black uppercase tracking-wider shadow-[0_3px_0_#000]"
-              title="Simular Novo Perro"
-            >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              <span className="hidden sm:inline">Simular Perro</span>
-            </button>
-
-            <button
-              onClick={toggleSound}
-              className={`p-2.5 rounded-lg border-2 transition-all ${
-                soundEnabled
-                  ? 'bg-zinc-800 text-emerald-400 border-emerald-500'
-                  : 'bg-zinc-900 text-zinc-600 border-zinc-800'
-              }`}
-              title={soundEnabled ? 'Som Ativado' : 'Som Desativado'}
-            >
-              {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-            </button>
-
-            <button
-              onClick={toggleFullscreen}
-              className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-2 border-zinc-700 transition-all"
-              title="Ecrã Inteiro"
-            >
-              <Maximize2 className="w-4 h-4" />
-            </button>
-
-            <button
-              onClick={handleClearWall}
-              className="p-2.5 rounded-lg bg-zinc-900 hover:bg-red-950 text-zinc-500 hover:text-red-400 border-2 border-zinc-800 transition-all"
-              title="Limpar Grelha"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
-
-            {onNavigateToMobile && (
               <button
-                onClick={onNavigateToMobile}
-                className="p-2.5 rounded-lg bg-[#F59E0B] text-zinc-950 border-2 border-zinc-950 font-black text-xs uppercase transition-all flex items-center gap-1"
-                title="Ir para Vista Mobile"
+                onClick={() => setShowHeader(false)}
+                className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-amber-400 border-2 border-amber-500/60 transition-all"
+                title="Ocultar Banner Superior"
               >
-                <Smartphone className="w-4 h-4" />
-                <span className="hidden md:inline">Vista Mobile</span>
+                <EyeOff className="w-4 h-4" />
               </button>
-            )}
+
+              <button
+                onClick={toggleFullscreen}
+                className="p-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-2 border-zinc-700 transition-all"
+                title="Ecrã Inteiro (Oculta Banner Automaticamente)"
+              >
+                <Maximize2 className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={handleClearWall}
+                className="p-2.5 rounded-lg bg-zinc-900 hover:bg-red-950 text-zinc-500 hover:text-red-400 border-2 border-zinc-800 transition-all"
+                title="Limpar Grelha"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
+
+              {onNavigateToMobile && (
+                <button
+                  onClick={onNavigateToMobile}
+                  className="p-2.5 rounded-lg bg-[#F59E0B] text-zinc-950 border-2 border-zinc-950 font-black text-xs uppercase transition-all flex items-center gap-1"
+                  title="Ir para Vista Mobile"
+                >
+                  <Smartphone className="w-4 h-4" />
+                  <span className="hidden md:inline">Vista Mobile</span>
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+      )}
 
       {/* Main Pitch Split Screen Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
@@ -417,7 +458,6 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
               className="h-16 sm:h-20 lg:h-24 object-contain filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] transform hover:scale-105 transition-transform"
             />
           </div>
-
 
           {/* Grid Container inside Restaurant Menu Board */}
           <div className="relative z-10 flex-1 p-4 lg:p-6 overflow-y-auto max-h-[640px]">
@@ -603,7 +643,7 @@ export const PitchView: React.FC<PitchViewProps> = ({ onNavigateToMobile }) => {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowConfigModal(false)}
-                className="flex-1 py-3 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs uppercase"
+                className="flex-1 py-3 px-4 rounded-xl bg-[#0D0D0D] text-zinc-400 hover:text-white font-bold text-xs uppercase"
               >
                 Cancelar
               </button>
