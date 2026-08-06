@@ -12,7 +12,8 @@ import {
   Eye,
   EyeOff,
   Trash2,
-  Database
+  Database,
+  ZoomIn
 } from 'lucide-react';
 import { HotDogVisualizer } from '../components/HotDogVisualizer';
 import { IngredientIcon } from '../components/IngredientIcons';
@@ -51,6 +52,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [appUrl, setAppUrl] = useState<string>('');
   const [showConfigModal, setShowConfigModal] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
   const [supabaseConnected, setSupabaseConnected] = useState(false);
   const [, setIsFullscreen] = useState(false);
 
@@ -446,8 +448,12 @@ export const PitchView: React.FC<PitchViewProps> = ({
               </p>
             </div>
 
-            {/* Compact QR Code Frame */}
-            <div className="p-3 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex items-center justify-center">
+            {/* Clickable QR Code Frame (Opens Zoomed Modal) */}
+            <div
+              onClick={() => setShowQrModal(true)}
+              className="p-3 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex flex-col items-center justify-center group relative"
+              title="Clica para ampliar o Código QR"
+            >
               {appUrl && (
                 <QRCodeSVG
                   value={appUrl}
@@ -464,6 +470,11 @@ export const PitchView: React.FC<PitchViewProps> = ({
                   }}
                 />
               )}
+              {/* Zoom Hover Badge */}
+              <div className="mt-1.5 flex items-center gap-1 text-[9px] font-mono font-bold text-zinc-900 bg-amber-400 px-2 py-0.5 rounded-full border border-zinc-950 shadow-sm group-hover:bg-amber-300">
+                <ZoomIn className="w-3 h-3" />
+                <span>Ampliar QR</span>
+              </div>
             </div>
 
             {/* Direct URL Box */}
@@ -640,6 +651,69 @@ export const PitchView: React.FC<PitchViewProps> = ({
           </div>
         </main>
       </div>
+
+      {/* Expanded Giant QR Code Modal for Presentation Audience */}
+      {showQrModal && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-pop-in"
+          onClick={() => setShowQrModal(false)}
+        >
+          <div
+            className="bg-[#1A1A1A] border-4 border-[#FFEB01] rounded-3xl max-w-md sm:max-w-lg w-full p-6 sm:p-8 text-center shadow-[0_12px_0_#000] relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowQrModal(false)}
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white font-black text-xl bg-[#0D0D0D] border-2 border-zinc-800 w-9 h-9 rounded-full flex items-center justify-center transition-colors shadow-md"
+            >
+              ✕
+            </button>
+
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#991B1B] border-2 border-[#FFEB01] text-[#FFEB01] text-xs font-black uppercase tracking-wider mb-4 shadow-sm">
+              <Sparkles className="w-4 h-4" />
+              <span>AUDIÊNCIA DO PITCH</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl font-black uppercase text-white tracking-wide mb-1 font-display">
+              APONTA O TELEMÓVEL
+            </h2>
+            <p className="text-sm font-hand text-[#FFEB01] mb-6">
+              e adiciona o teu Perro ao vivo no menu do restaurante! 🌭🔥
+            </p>
+
+            {/* Giant 340px QR Code Board Frame */}
+            <div className="p-6 bg-[#FDF6E2] rounded-3xl shadow-[0_8px_0_#000] border-4 border-zinc-950 inline-block mb-6 transform hover:scale-102 transition-transform">
+              {appUrl && (
+                <QRCodeSVG
+                  value={appUrl}
+                  size={320}
+                  level="H"
+                  includeMargin={true}
+                  imageSettings={{
+                    src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌭</text></svg>',
+                    x: undefined,
+                    y: undefined,
+                    height: 50,
+                    width: 50,
+                    excavate: true
+                  }}
+                />
+              )}
+            </div>
+
+            <div className="bg-[#0D0D0D] px-4 py-3 rounded-2xl border-2 border-[#FFEB01] text-sm font-mono text-[#FFEB01] break-all select-all font-black shadow-inner">
+              {appUrl}
+            </div>
+
+            <button
+              onClick={() => setShowQrModal(false)}
+              className="mt-6 px-6 py-2.5 rounded-xl bg-[#DC2626] text-white border-2 border-[#FFEB01] text-xs font-black uppercase tracking-wider transition-all shadow-[0_4px_0_#000] hover:scale-105"
+            >
+              Fechar Ecrã
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Supabase Config Modal */}
       {showConfigModal && (
