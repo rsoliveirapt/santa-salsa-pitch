@@ -472,7 +472,8 @@ export const PitchView: React.FC<PitchViewProps> = ({
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/50 z-0 pointer-events-none" />
 
           {/* PERROS CALIENTES HOT DOGS Graphic Header Logo & Quick Clear Button */}
-          <div className="relative z-10 pt-5 pb-3 px-6 flex justify-between items-center border-b-2 border-amber-400/40 bg-gradient-to-b from-black/70 to-transparent">
+          <div className="relative z-10 pt-5 pb-3 px-6 flex justify-between items-center bg-gradient-to-b from-black/70 to-transparent">
+
             <div className="w-24"></div>
 
             <img
