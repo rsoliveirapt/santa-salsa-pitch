@@ -162,35 +162,35 @@ export const MobileView: React.FC = () => {
         </main>
       ) : (
         /* Main Hot Dog Builder Form (Compact Non-Scroll Viewport Layout) */
-        <main className="flex-1 flex flex-col justify-between gap-2 min-h-0">
+        <main className="flex-1 flex flex-col justify-between gap-1.5 min-h-0">
           {/* Dynamic Visual Hot Dog Display Frame with Integrated Flavor Dashboard */}
-          <div className="bg-[#1A1A1A] border-3 border-amber-500 p-2.5 flex flex-col justify-between relative shadow-[0_4px_0_#000] flex-1 min-h-0">
+          <div className="bg-[#1A1A1A] border-3 border-amber-500 p-2 flex flex-col justify-between relative shadow-[0_3px_0_#000]">
             {/* Top Bar: LIVE PREVIEW Tag & Inline Flavor Badge */}
             <div className="w-full flex justify-between items-center z-10">
-              <div className="text-[9px] font-mono font-bold bg-[#991B1B] text-amber-300 px-2 py-0.5 border border-amber-400/60 flex items-center gap-1">
+              <div className="text-[8px] font-mono font-bold bg-[#991B1B] text-amber-300 px-1.5 py-0.5 border border-amber-400/60 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 bg-amber-400 animate-pulse"></span>
                 <span>LIVE PREVIEW</span>
               </div>
 
-              <div className="flex items-center gap-1.5 bg-[#0D0D0D] px-2 py-0.5 border border-zinc-800">
-                <span className="text-[9px] uppercase tracking-widest font-black text-zinc-400 font-mono">
+              <div className="flex items-center gap-1 bg-[#0D0D0D] px-1.5 py-0.5 border border-zinc-800">
+                <span className="text-[8px] uppercase tracking-widest font-black text-zinc-400 font-mono">
                   SABOR:
                 </span>
-                <span className={`text-xs font-black uppercase font-display ${nivelInfo.colorClass}`}>
+                <span className={`text-[11px] font-black uppercase font-display ${nivelInfo.colorClass}`}>
                   {nivelInfo.title}
                 </span>
-                <span className="text-xs font-black text-amber-400 font-mono">{nivelCaracas}%</span>
+                <span className="text-[11px] font-black text-amber-400 font-mono">{nivelCaracas}%</span>
               </div>
             </div>
 
-            {/* Big Prominent Hot Dog Graphic (Fills central card space) */}
-            <div className="my-auto py-1 flex items-center justify-center w-full">
-              <HotDogVisualizer selectedIngredients={selectedIngredients} size="lg" />
+            {/* Compact Scaled Hot Dog Graphic */}
+            <div className="my-0.5 py-0.5 flex items-center justify-center w-full">
+              <HotDogVisualizer selectedIngredients={selectedIngredients} size="md" />
             </div>
 
             {/* Bottom Bar: Flavor Meter Track & Quick Actions */}
-            <div className="w-full space-y-1.5 pt-1.5 border-t border-zinc-800">
-              <div className="w-full h-2 bg-[#0D0D0D] overflow-hidden p-0.5 border border-zinc-800">
+            <div className="w-full space-y-1 pt-1 border-t border-zinc-800">
+              <div className="w-full h-1.5 bg-[#0D0D0D] overflow-hidden p-0.5 border border-zinc-800">
                 <div
                   className="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-[#DC2626] transition-all duration-500 ease-out"
                   style={{ width: `${nivelCaracas}%` }}
@@ -200,15 +200,15 @@ export const MobileView: React.FC = () => {
               <div className="flex justify-between items-center text-xs">
                 <button
                   onClick={handleClearAll}
-                  className="text-zinc-400 hover:text-white font-bold uppercase tracking-wider text-[10px] underline underline-offset-2"
+                  className="text-zinc-400 hover:text-white font-bold uppercase tracking-wider text-[9px] underline underline-offset-2"
                 >
                   Limpar Tudo
                 </button>
                 <button
                   onClick={handleSelectAll}
-                  className="bg-[#DC2626] text-white px-2.5 py-1 border-2 border-amber-400 font-black text-[11px] uppercase tracking-wider flex items-center gap-1 hover:bg-red-700 active:scale-95 transition-all shadow-[0_2px_0_#000]"
+                  className="bg-[#DC2626] text-white px-2 py-0.5 border border-amber-400 font-black text-[10px] uppercase tracking-wider flex items-center gap-1 hover:bg-red-700 active:scale-95 transition-all shadow-[0_1.5px_0_#000]"
                 >
-                  <Flame className="w-3.5 h-3.5 fill-amber-400 stroke-amber-400" />
+                  <Flame className="w-3 h-3 fill-amber-400 stroke-amber-400" />
                   <span>Con Todo! (Todos)</span>
                 </button>
               </div>
@@ -216,17 +216,17 @@ export const MobileView: React.FC = () => {
           </div>
 
           {/* Ingredient Toggle Panel (6 Compact Buttons) */}
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             <div className="flex justify-between items-center px-1">
-              <h3 className="text-[10px] font-black uppercase tracking-wider text-amber-400 font-mono">
+              <h3 className="text-[9px] font-black uppercase tracking-wider text-amber-400 font-mono">
                 INGREDIENTES DISPONÍVEIS
               </h3>
-              <span className="text-[10px] font-bold text-zinc-400 font-mono">
+              <span className="text-[9px] font-bold text-zinc-400 font-mono">
                 ({selectedIngredients.length}/6)
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+            <div className="grid grid-cols-2 gap-1.5">
               {INGREDIENTS.map((ing: IngredientDefinition) => {
                 const isSelected = selectedIngredients.includes(ing.id);
                 return (
@@ -234,34 +234,31 @@ export const MobileView: React.FC = () => {
                     key={ing.id}
                     type="button"
                     onClick={() => toggleIngredient(ing.id)}
-                    className={`p-2 border-2 text-left flex items-center justify-between transition-all duration-150 active:translate-y-0.5 ${
+                    className={`p-1.5 border-2 text-left flex items-center justify-between transition-all duration-150 active:translate-y-0.5 ${
                       isSelected
-                        ? 'bg-[#1A1A1A] border-amber-400 shadow-[0_2px_0_#F59E0B] text-white'
+                        ? 'bg-[#1A1A1A] border-amber-400 shadow-[0_1.5px_0_#F59E0B] text-white'
                         : 'bg-[#141414] border-zinc-800 text-zinc-400 hover:border-zinc-700'
                     }`}
                   >
                     <div className="flex items-center gap-1.5 overflow-hidden">
-                      <div className={`p-1 font-bold ${isSelected ? ing.badgeText : 'text-zinc-500'}`}>
-                        <IngredientIcon name={ing.iconName} className="w-4 h-4" />
+                      <div className={`p-0.5 font-bold ${isSelected ? ing.badgeText : 'text-zinc-500'}`}>
+                        <IngredientIcon name={ing.iconName} className="w-3.5 h-3.5" />
                       </div>
                       <div className="overflow-hidden">
-                        <p className={`text-[11px] font-bold truncate leading-tight ${isSelected ? 'text-amber-300' : 'text-zinc-300'}`}>
+                        <p className={`text-[10px] font-bold truncate leading-tight ${isSelected ? 'text-amber-300' : 'text-zinc-300'}`}>
                           {ing.name}
-                        </p>
-                        <p className="text-[9px] text-zinc-500 truncate leading-tight">
-                          {ing.nameEn}
                         </p>
                       </div>
                     </div>
 
                     <div
-                      className={`w-4 h-4 border flex items-center justify-center font-bold transition-all ${
+                      className={`w-3.5 h-3.5 border flex items-center justify-center font-bold transition-all ${
                         isSelected
                           ? 'border-amber-400 bg-amber-400 text-zinc-950 scale-100'
                           : 'border-zinc-700 bg-zinc-900 scale-90'
                       }`}
                     >
-                      {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                      {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
                     </div>
                   </button>
                 );
@@ -274,9 +271,9 @@ export const MobileView: React.FC = () => {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className={`w-full py-3.5 px-4 font-black text-lg uppercase tracking-wider font-display transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`w-full py-3 px-4 font-black text-base uppercase tracking-wider font-display transition-all duration-200 flex items-center justify-center gap-2 ${
                 !isSubmitting
-                  ? 'bg-[#DC2626] text-white border-3 border-amber-400 shadow-[0_4px_0_#78350F] hover:bg-red-600 active:translate-y-1 active:shadow-none cursor-pointer'
+                  ? 'bg-[#DC2626] text-white border-3 border-amber-400 shadow-[0_3px_0_#78350F] hover:bg-red-600 active:translate-y-1 active:shadow-none cursor-pointer'
                   : 'bg-zinc-800 text-zinc-600 border-2 border-zinc-700 cursor-not-allowed'
               }`}
             >

@@ -14,14 +14,14 @@ export const VenueHeaderDecor: React.FC<VenueHeaderDecorProps> = ({
 }) => {
   return (
     <div className={`w-full relative overflow-hidden bg-gradient-to-b from-[#7F1D1D] via-[#991B1B] to-[#1A1A1A] border-b-4 border-amber-500 shadow-2xl text-center ${
-      compact ? 'pt-2 pb-2 px-3 mb-2' : 'pt-4 pb-5 px-4 mb-5'
+      compact ? 'pt-1.5 pb-1.5 px-2 mb-1.5' : 'pt-4 pb-5 px-4 mb-5'
     }`}>
       {/* String Lights Overhead */}
       <div className="absolute top-0 left-0 w-full flex justify-around px-2 pointer-events-none opacity-90 z-10">
         {[...Array(10)].map((_, i) => (
           <div key={i} className="flex flex-col items-center animate-string-light" style={{ animationDelay: `${i * 0.2}s` }}>
-            <div className={`bg-zinc-800 ${compact ? 'w-0.5 h-1.5' : 'w-0.5 h-3'}`}></div>
-            <div className={`bg-amber-300 shadow-[0_0_10px_#F59E0B] border border-amber-400 ${compact ? 'w-2 h-2' : 'w-3.5 h-3.5'}`}></div>
+            <div className={`bg-zinc-800 ${compact ? 'w-0.5 h-1' : 'w-0.5 h-3'}`}></div>
+            <div className={`bg-amber-300 shadow-[0_0_10px_#F59E0B] border border-amber-400 ${compact ? 'w-1.5 h-1.5' : 'w-3.5 h-3.5'}`}></div>
           </div>
         ))}
       </div>
@@ -40,13 +40,13 @@ export const VenueHeaderDecor: React.FC<VenueHeaderDecorProps> = ({
 
       {/* Hand-Painted Surfboard Signboard */}
       <div className="relative z-20 inline-block mx-auto max-w-full">
-        <div className={`sign-board-white shadow-[4px_4px_0px_#000000] transform -rotate-1 hover:rotate-0 transition-transform ${
-          compact ? 'px-3.5 py-1' : 'px-6 py-3'
+        <div className={`sign-board-white shadow-[3px_3px_0px_#000000] transform -rotate-1 hover:rotate-0 transition-transform ${
+          compact ? 'px-3 py-0.5' : 'px-6 py-3'
         }`}>
-          <div className={`font-black uppercase tracking-widest text-[#991B1B] font-mono ${compact ? 'text-[9px] mb-0' : 'text-xs mb-0.5'}`}>
+          <div className={`font-black uppercase tracking-widest text-[#991B1B] font-mono ${compact ? 'text-[8px] mb-0' : 'text-xs mb-0.5'}`}>
             BROOKLYN • NEW YORK
           </div>
-          <h1 className={`${isPitch ? 'text-4xl md:text-5xl' : compact ? 'text-2xl' : 'text-3xl'} font-black tracking-tight text-[#171717] uppercase leading-none font-display`}>
+          <h1 className={`${isPitch ? 'text-4xl md:text-5xl' : compact ? 'text-xl' : 'text-3xl'} font-black tracking-tight text-[#171717] uppercase leading-none font-display`}>
             SANTA SALSA
           </h1>
           {!compact && (
@@ -58,9 +58,9 @@ export const VenueHeaderDecor: React.FC<VenueHeaderDecorProps> = ({
       </div>
 
       {/* Subtitle / Venue Tagline */}
-      <div className={`${compact ? 'mt-1' : 'mt-3'} relative z-20`}>
+      <div className={`${compact ? 'mt-0.5' : 'mt-3'} relative z-20`}>
         <span className={`inline-block bg-[#0F0F0F] text-amber-400 font-hand border-2 border-amber-500 shadow-md ${
-          compact ? 'text-xs px-2.5 py-0.5' : 'text-sm px-4 py-1.5'
+          compact ? 'text-[11px] px-2 py-0.5' : 'text-sm px-4 py-1.5'
         }`}>
           {subtitle}
         </span>
