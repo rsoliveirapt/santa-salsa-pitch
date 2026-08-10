@@ -44,6 +44,7 @@ interface StoryMilestone {
   image: string;
   text: string;
   highlight: string;
+  video?: string;
 }
 
 const STORY_MILESTONES: StoryMilestone[] = [
@@ -75,7 +76,8 @@ const STORY_MILESTONES: StoryMilestone[] = [
     subtitle: 'A Experiência Gastronómica de Caracas',
     image: '/story-perro-real.png',
     text: 'O ritual do Perro Caliente real: pão artesanal tostado, repolho crocante, queijo fresco ralado, batata palha crocante e a trilogia irresistível de molhos — alho, milho doce e salsa rosada.',
-    highlight: 'A verdadeira street food venezuelana servida com máxima qualidade.'
+    highlight: 'A verdadeira street food venezuelana servida com máxima qualidade.',
+    video: '/diana.mp4'
   }
 ];
 
@@ -828,9 +830,23 @@ export const PitchView: React.FC<PitchViewProps> = ({
                   {selectedStory.subtitle}
                 </p>
 
-                <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans bg-[#0D0D0D] p-3.5 rounded-xl border border-zinc-800">
-                  {selectedStory.text}
-                </p>
+                {selectedStory.video ? (
+                  <div className="rounded-xl border-2 border-[#FFEB01] overflow-hidden bg-black shadow-lg">
+                    <video
+                      src={selectedStory.video}
+                      controls
+                      autoPlay
+                      playsInline
+                      className="w-full max-h-56 object-contain mx-auto"
+                    >
+                      O seu navegador não suporta a reprodução de vídeo.
+                    </video>
+                  </div>
+                ) : (
+                  <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans bg-[#0D0D0D] p-3.5 rounded-xl border border-zinc-800">
+                    {selectedStory.text}
+                  </p>
+                )}
 
                 <div className="p-3 bg-[#78350F]/40 border-l-4 border-[#FFEB01] rounded-r-xl">
                   <p className="text-xs font-bold text-amber-200 italic font-mono">
