@@ -47,7 +47,7 @@ export const MobileView: React.FC = () => {
 
   // Submit hot dog to Supabase / Realtime
   const handleSubmit = async () => {
-    if (selectedIngredients.length === 0 || isSubmitting) return;
+    if (isSubmitting) return;
 
     setIsSubmitting(true);
     soundFx.playSuccess();
@@ -282,9 +282,9 @@ export const MobileView: React.FC = () => {
           <div className="pt-2">
             <button
               onClick={handleSubmit}
-              disabled={selectedIngredients.length === 0 || isSubmitting}
+              disabled={isSubmitting}
               className={`w-full py-4 px-6 rounded-xl font-black text-xl uppercase tracking-wider font-display transition-all duration-200 flex items-center justify-center gap-3 ${
-                selectedIngredients.length > 0
+                !isSubmitting
                   ? 'bg-[#DC2626] text-white border-4 border-amber-400 shadow-[0_6px_0_#78350F] hover:bg-red-600 active:translate-y-1 active:shadow-none cursor-pointer'
                   : 'bg-zinc-800 text-zinc-600 border-2 border-zinc-700 cursor-not-allowed'
               }`}

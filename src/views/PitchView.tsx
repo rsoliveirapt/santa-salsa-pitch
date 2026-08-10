@@ -642,6 +642,8 @@ export const PitchView: React.FC<PitchViewProps> = ({
                           className={`text-xs font-black font-mono px-2.5 py-0.5 rounded-lg border-2 ${
                             perro.nivel_caracas === 100
                               ? 'bg-red-950 border-red-500 text-red-400'
+                              : perro.nivel_caracas === 0
+                              ? 'bg-zinc-900 border-zinc-700 text-zinc-400'
                               : 'bg-zinc-950 border-amber-500 text-[#FFEB01]'
                           }`}
                         >
@@ -665,20 +667,26 @@ export const PitchView: React.FC<PitchViewProps> = ({
                       </div>
 
                       {/* Sleek Ingredient Icon Badges Bar (Icons only with title tooltips) */}
-                      <div className="flex flex-wrap justify-center gap-1.5 mt-2">
-                        {perro.ingredientes.map((ingId) => {
-                          const def = INGREDIENTS.find((i) => i.id === ingId);
-                          if (!def) return null;
-                          return (
-                            <div
-                              key={ingId}
-                              className={`p-1.5 rounded-xl border-2 flex items-center justify-center transition-transform hover:scale-110 shadow-sm ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
-                              title={def.name}
-                            >
-                              <IngredientIcon name={def.iconName} className="w-4 h-4" />
-                            </div>
-                          );
-                        })}
+                      <div className="flex flex-wrap justify-center gap-1.5 mt-2 min-h-[28px] items-center">
+                        {perro.ingredientes.length === 0 ? (
+                          <span className="text-[11px] text-zinc-400 italic font-mono bg-zinc-900/80 px-2.5 py-0.5 rounded-full border border-zinc-700">
+                            Sem toppings (Simples)
+                          </span>
+                        ) : (
+                          perro.ingredientes.map((ingId) => {
+                            const def = INGREDIENTS.find((i) => i.id === ingId);
+                            if (!def) return null;
+                            return (
+                              <div
+                                key={ingId}
+                                className={`p-1.5 rounded-xl border-2 flex items-center justify-center transition-transform hover:scale-110 shadow-sm ${def.badgeBg} ${def.badgeBorder} ${def.badgeText}`}
+                                title={def.name}
+                              >
+                                <IngredientIcon name={def.iconName} className="w-4 h-4" />
+                              </div>
+                            );
+                          })
+                        )}
                       </div>
                     </div>
                   );
