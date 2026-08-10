@@ -52,8 +52,8 @@ const STORY_MILESTONES: StoryMilestone[] = [
     id: 'storefront',
     year: '#1 • VENUE',
     badge: 'HISTÓRIA #1',
-    title: 'O Restaurante em Brooklyn, NYC',
-    subtitle: 'Venezuelan Street Food & Cocktails em Bushwick',
+    title: 'O Contraste Cultural',
+    subtitle: 'De Caracas para Brooklyn: A Fusão de Sabores',
     image: '/story-storefront.png',
     text: 'Com uma fachada icónica repleta de arte urbana e stickers, o restaurante Santa Salsa em Brooklyn tornou-se um marco em Nova Iorque. Um espaço de encontro onde gastronomia, cocktails e o espírito de comunidade se unem.',
     highlight: 'Um espaço de culto em Nova Iorque com ambiente urbano inimitável.'
@@ -65,7 +65,7 @@ const STORY_MILESTONES: StoryMilestone[] = [
     title: 'Sergio Leiva & A Alma do Santa Salsa',
     subtitle: 'Perros Calientes com a Cultura Skate de Brooklyn',
     image: '/story-founder.png',
-    text: 'Sergio Leiva trouxe a paixão da street food venezuelana para as ruas de Brooklyn. Combinando a arte urbana, o skate e a receita autêntica do Perro Caliente, o Santa Salsa criou um conceito de restauração de culto inconfundível.',
+    text: "O Criador ('El Hace') - O Prato como Tela de Arte, Evolução da Marca",
     highlight: 'Uma fusão perfeita de Street Food de Caracas com a cultura urbana de Brooklyn.'
   },
   {
@@ -351,7 +351,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
   return (
     <div
       ref={containerRef}
-      className="h-[calc(100vh-42px)] max-h-screen bg-[#0F0F0F] text-slate-100 p-3 lg:p-4 flex flex-col justify-between select-none relative overflow-hidden"
+      className="min-h-screen lg:h-[calc(100vh-42px)] lg:max-h-screen bg-[#0F0F0F] text-slate-100 p-2 sm:p-3 lg:p-4 flex flex-col justify-between select-none relative overflow-y-auto lg:overflow-hidden"
     >
       {/* Physical Venue Overhead Header Banner (Collapsible) */}
       {showHeader && (
@@ -434,11 +434,10 @@ export const PitchView: React.FC<PitchViewProps> = ({
               {/* TOGGLE 3D STORY CARDS BUTTON */}
               <button
                 onClick={() => setShowStoryDeck((prev) => !prev)}
-                className={`p-2 rounded-lg border-2 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider ${
-                  showStoryDeck
-                    ? 'bg-[#FFEB01] text-zinc-950 border-zinc-950 font-black shadow-sm'
-                    : 'bg-zinc-800 text-amber-300 border-amber-500/60 hover:bg-zinc-700'
-                }`}
+                className={`p-2 rounded-lg border-2 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider ${showStoryDeck
+                  ? 'bg-[#FFEB01] text-zinc-950 border-zinc-950 font-black shadow-sm'
+                  : 'bg-zinc-800 text-amber-300 border-amber-500/60 hover:bg-zinc-700'
+                  }`}
                 title="Mostrar/Ocultar Imagens 3D de História no Pitch"
               >
                 <Layers className="w-3.5 h-3.5" />
@@ -447,11 +446,10 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
               <button
                 onClick={toggleSound}
-                className={`p-2 rounded-lg border-2 transition-all ${
-                  soundEnabled
-                    ? 'bg-zinc-800 text-emerald-400 border-emerald-500'
-                    : 'bg-zinc-900 text-zinc-600 border-zinc-800'
-                }`}
+                className={`p-2 rounded-lg border-2 transition-all ${soundEnabled
+                  ? 'bg-zinc-800 text-emerald-400 border-emerald-500'
+                  : 'bg-zinc-900 text-zinc-600 border-zinc-800'
+                  }`}
                 title={soundEnabled ? 'Som Ativado' : 'Som Desativado'}
               >
                 {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
@@ -501,12 +499,12 @@ export const PitchView: React.FC<PitchViewProps> = ({
       )}
 
       {/* Main Pitch Split Screen Layout (Maximizing Menu Board to 9/12 cols, QR Sidebar to 3/12 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0 overflow-hidden relative">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0 relative">
         {/* LEFT COLUMN: COMPACT FOCUSED QR CODE SIDEBAR (3 cols on lg) */}
-        <aside className="lg:col-span-3 flex flex-col h-full overflow-hidden">
+        <aside className="lg:col-span-3 flex flex-col lg:h-full">
           {/* Compact QR Code Presentation Box */}
-          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-3.5 lg:p-4 flex flex-col items-center justify-between text-center shadow-[0_8px_0_#000] h-full overflow-hidden">
-            <div className="flex flex-col items-center">
+          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row lg:flex-col items-center justify-between text-center sm:text-left lg:text-center shadow-[0_8px_0_#000] lg:h-full gap-3">
+            <div className="flex flex-col items-center sm:items-start lg:items-center">
               <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#991B1B] border border-amber-400 text-amber-300 text-[10px] font-black uppercase tracking-wider mb-2 shadow-sm">
                 <Sparkles className="w-3 h-3" />
                 <span>PITCH AO VIVO</span>
@@ -521,50 +519,52 @@ export const PitchView: React.FC<PitchViewProps> = ({
             </div>
 
             {/* Clickable QR Code Frame (Opens Zoomed Modal) */}
-            <div
-              onClick={() => setShowQrModal(true)}
-              className="p-3 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex flex-col items-center justify-center group relative"
-              title="Clica para ampliar o Código QR"
-            >
-              {appUrl && (
-                <QRCodeSVG
-                  value={appUrl}
-                  size={165}
-                  level="H"
-                  includeMargin={true}
-                  imageSettings={{
-                    src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌭</text></svg>',
-                    x: undefined,
-                    y: undefined,
-                    height: 32,
-                    width: 32,
-                    excavate: true
-                  }}
-                />
-              )}
-              {/* Zoom Hover Badge */}
-              <div className="mt-1.5 flex items-center gap-1 text-[9px] font-mono font-bold text-zinc-900 bg-amber-400 px-2 py-0.5 rounded-full border border-zinc-950 shadow-sm group-hover:bg-amber-300">
-                <ZoomIn className="w-3 h-3" />
-                <span>Ampliar QR</span>
+            <div className="flex flex-col sm:flex-row lg:flex-col items-center gap-3 w-full sm:w-auto">
+              <div
+                onClick={() => setShowQrModal(true)}
+                className="p-2.5 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex flex-col items-center justify-center group relative flex-shrink-0"
+                title="Clica para ampliar o Código QR"
+              >
+                {appUrl && (
+                  <QRCodeSVG
+                    value={appUrl}
+                    size={130}
+                    level="H"
+                    includeMargin={true}
+                    imageSettings={{
+                      src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌭</text></svg>',
+                      x: undefined,
+                      y: undefined,
+                      height: 28,
+                      width: 28,
+                      excavate: true
+                    }}
+                  />
+                )}
+                {/* Zoom Hover Badge */}
+                <div className="mt-1 flex items-center gap-1 text-[9px] font-mono font-bold text-zinc-900 bg-amber-400 px-2 py-0.5 rounded-full border border-zinc-950 shadow-sm group-hover:bg-amber-300">
+                  <ZoomIn className="w-3 h-3" />
+                  <span>Ampliar QR</span>
+                </div>
               </div>
-            </div>
 
-            {/* Direct URL Box */}
-            <div className="w-full mt-2">
-              <div className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5 font-mono">
-                LINK DA AUDIÊNCIA
-              </div>
-              <div className="bg-[#0D0D0D] px-2.5 py-1.5 rounded-xl border-2 border-amber-400/80 text-[11px] font-mono text-amber-300 break-all select-all font-black text-center shadow-inner">
-                {appUrl}
+              {/* Direct URL Box */}
+              <div className="w-full sm:w-48 lg:w-full mt-0 lg:mt-2">
+                <div className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5 font-mono text-center sm:text-left lg:text-center">
+                  LINK DA AUDIÊNCIA
+                </div>
+                <div className="bg-[#0D0D0D] px-2.5 py-1.5 rounded-xl border-2 border-amber-400/80 text-[10px] sm:text-[11px] font-mono text-amber-300 break-all select-all font-black text-center shadow-inner">
+                  {appUrl}
+                </div>
               </div>
             </div>
           </div>
         </aside>
 
         {/* RIGHT COLUMN: EXPANDED RESTAURANT MENU BOARD LIVE WALL (9 cols on lg - 75% Width!) */}
-        <main className="lg:col-span-9 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_8px_0_#000] flex flex-col justify-between overflow-hidden h-full">
+        <main className="lg:col-span-9 relative bg-[#500000] border-4 border-amber-500 rounded-2xl shadow-[0_8px_0_#000] flex flex-col justify-between overflow-hidden min-h-[450px] lg:h-full">
           {/* Menu Board Background Image Overlay */}
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-center opacity-95 z-0"
             style={{ backgroundImage: `url('/menu-board.png')` }}
           />
@@ -597,6 +597,38 @@ export const PitchView: React.FC<PitchViewProps> = ({
             </div>
           </div>
 
+          {/* MOBILE STORY CHIPS BAR (Visible only on screens < lg) */}
+          {showStoryDeck && (
+            <div className="flex lg:hidden overflow-x-auto gap-2 p-2 bg-[#0D0D0D]/95 border-b-2 border-amber-500/60 relative z-20 justify-start sm:justify-center items-center flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setSelectedStoryIndex(0)}
+                className="flex-none flex items-center gap-1.5 bg-[#1A1A1A] border-2 border-[#FFEB01] px-2.5 py-1 rounded-xl active:scale-95 transition-all shadow-md group"
+              >
+                <img src="/story-storefront.png" alt="História #1" className="w-6 h-6 object-contain" />
+                <span className="text-[10px] font-black uppercase text-[#FFEB01] font-mono whitespace-nowrap">#1 BROOKLYN</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedStoryIndex(1)}
+                className="flex-none flex items-center gap-1.5 bg-[#1A1A1A] border-2 border-[#FFEB01] px-2.5 py-1 rounded-xl active:scale-95 transition-all shadow-md group"
+              >
+                <img src="/story-founder.png" alt="História #2" className="w-6 h-6 object-contain" />
+                <span className="text-[10px] font-black uppercase text-[#FFEB01] font-mono whitespace-nowrap">#2 FUNDADOR</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedStoryIndex(2)}
+                className="flex-none flex items-center gap-1.5 bg-[#1A1A1A] border-2 border-[#FFEB01] px-2.5 py-1 rounded-xl active:scale-95 transition-all shadow-md group"
+              >
+                <img src="/story-perro-real.png" alt="História #3" className="w-6 h-6 object-contain" />
+                <span className="text-[10px] font-black uppercase text-[#FFEB01] font-mono whitespace-nowrap">#3 CON TODO! 🌭</span>
+              </button>
+            </div>
+          )}
+
           {/* Grid Container inside Restaurant Menu Board */}
           <div
             ref={menuBoardRef}
@@ -623,11 +655,10 @@ export const PitchView: React.FC<PitchViewProps> = ({
                   return (
                     <div
                       key={perro.id}
-                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-3 rounded-2xl p-3.5 flex flex-col justify-between shadow-[0_8px_0_#000] transition-all duration-300 ${
-                        isFirst
-                          ? 'border-[#FFEB01] ring-4 ring-[#FFEB01]/40 animate-pop-in'
-                          : 'border-zinc-900 hover:border-amber-500/60'
-                      }`}
+                      className={`bg-[#0F0F0F]/95 backdrop-brightness-75 border-3 rounded-2xl p-3.5 flex flex-col justify-between shadow-[0_8px_0_#000] transition-all duration-300 ${isFirst
+                        ? 'border-[#FFEB01] ring-4 ring-[#FFEB01]/40 animate-pop-in'
+                        : 'border-zinc-900 hover:border-amber-500/60'
+                        }`}
                     >
                       {/* Menu Item Header: NOVO badge on left if newest, % on right */}
                       <div className="flex justify-between items-center gap-2 mb-1">
@@ -641,13 +672,12 @@ export const PitchView: React.FC<PitchViewProps> = ({
 
                         {/* Caracas Gauge Badge */}
                         <span
-                          className={`text-xs font-black font-mono px-2.5 py-0.5 rounded-lg border-2 ${
-                            perro.nivel_caracas === 100
-                              ? 'bg-red-950 border-red-500 text-red-400'
-                              : perro.nivel_caracas === 0
+                          className={`text-xs font-black font-mono px-2.5 py-0.5 rounded-lg border-2 ${perro.nivel_caracas === 100
+                            ? 'bg-red-950 border-red-500 text-red-400'
+                            : perro.nivel_caracas === 0
                               ? 'bg-zinc-900 border-zinc-700 text-zinc-400'
                               : 'bg-zinc-950 border-amber-500 text-[#FFEB01]'
-                          }`}
+                            }`}
                         >
                           {perro.nivel_caracas}%
                         </span>
@@ -697,9 +727,9 @@ export const PitchView: React.FC<PitchViewProps> = ({
             )}
           </div>
 
-          {/* 3D FLOATING STORY CUTOUT CARDS ON RIGHT SIDE OF MENU BOARD (#1, #2, #3) */}
+          {/* 3D FLOATING STORY CUTOUT CARDS ON RIGHT SIDE OF MENU BOARD (#1, #2, #3) - DESKTOP ONLY */}
           {showStoryDeck && (
-            <div className="absolute inset-y-0 right-2 sm:right-6 z-30 pointer-events-none flex flex-col justify-between py-6">
+            <div className="hidden lg:flex absolute inset-y-0 right-2 sm:right-6 z-30 pointer-events-none flex-col justify-between py-6">
               {/* IMAGE #1: SANTA SALSA BROOKLYN STOREFRONT (TOP RIGHT) */}
               <div
                 onClick={() => setSelectedStoryIndex(0)}
@@ -835,7 +865,6 @@ export const PitchView: React.FC<PitchViewProps> = ({
                     <video
                       src={selectedStory.video}
                       controls
-                      autoPlay
                       playsInline
                       className="w-full max-h-56 object-contain mx-auto"
                     >
@@ -875,9 +904,8 @@ export const PitchView: React.FC<PitchViewProps> = ({
                   <button
                     key={i}
                     onClick={() => setSelectedStoryIndex(i)}
-                    className={`w-3 h-3 rounded-full transition-all ${
-                      i === selectedStoryIndex ? 'bg-[#FFEB01] scale-125' : 'bg-zinc-700'
-                    }`}
+                    className={`w-3 h-3 rounded-full transition-all ${i === selectedStoryIndex ? 'bg-[#FFEB01] scale-125' : 'bg-zinc-700'
+                      }`}
                   />
                 ))}
               </div>
