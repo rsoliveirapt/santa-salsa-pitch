@@ -48,24 +48,24 @@ interface StoryMilestone {
 
 const STORY_MILESTONES: StoryMilestone[] = [
   {
-    id: 'founder',
-    year: '#1 • PITCH',
-    badge: 'HISTÓRIA #1',
-    title: 'Sergio Leiva & A Alma do Santa Salsa',
-    subtitle: 'Perros Calientes com a Cultura Skate de Brooklyn',
-    image: '/story-founder.png',
-    text: 'Sergio Leiva trouxe a paixão da street food venezuelana para as ruas de Brooklyn. Combinando a arte urbana, o skate e a receita autêntica do Perro Caliente, o Santa Salsa criou um conceito de restauração de culto inconfundível.',
-    highlight: 'Uma fusão perfeita de Street Food de Caracas com a cultura urbana de Brooklyn.'
-  },
-  {
     id: 'storefront',
-    year: '#2 • VENUE',
-    badge: 'HISTÓRIA #2',
+    year: '#1 • VENUE',
+    badge: 'HISTÓRIA #1',
     title: 'O Restaurante em Brooklyn, NYC',
     subtitle: 'Venezuelan Street Food & Cocktails em Bushwick',
     image: '/story-storefront.png',
     text: 'Com uma fachada icónica repleta de arte urbana e stickers, o restaurante Santa Salsa em Brooklyn tornou-se um marco em Nova Iorque. Um espaço de encontro onde gastronomia, cocktails e o espírito de comunidade se unem.',
     highlight: 'Um espaço de culto em Nova Iorque com ambiente urbano inimitável.'
+  },
+  {
+    id: 'founder',
+    year: '#2 • PITCH',
+    badge: 'HISTÓRIA #2',
+    title: 'Sergio Leiva & A Alma do Santa Salsa',
+    subtitle: 'Perros Calientes com a Cultura Skate de Brooklyn',
+    image: '/story-founder.png',
+    text: 'Sergio Leiva trouxe a paixão da street food venezuelana para as ruas de Brooklyn. Combinando a arte urbana, o skate e a receita autêntica do Perro Caliente, o Santa Salsa criou um conceito de restauração de culto inconfundível.',
+    highlight: 'Uma fusão perfeita de Street Food de Caracas com a cultura urbana de Brooklyn.'
   },
   {
     id: 'perro-real',
@@ -698,7 +698,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
           {/* 3D FLOATING STORY CUTOUT CARDS ON RIGHT SIDE OF MENU BOARD (#1, #2, #3) */}
           {showStoryDeck && (
             <div className="absolute inset-y-0 right-2 sm:right-6 z-30 pointer-events-none flex flex-col justify-between py-6">
-              {/* IMAGE #1: FOUNDER HOLDING SKATEBOARDS (TOP RIGHT) */}
+              {/* IMAGE #1: SANTA SALSA BROOKLYN STOREFRONT (TOP RIGHT) */}
               <div
                 onClick={() => setSelectedStoryIndex(0)}
                 className="pointer-events-auto cursor-pointer transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_14px_24px_rgba(0,0,0,0.9)] animate-pop-in group"
@@ -706,19 +706,19 @@ export const PitchView: React.FC<PitchViewProps> = ({
               >
                 <div className="relative">
                   <img
-                    src="/story-founder.png"
-                    alt="#1 Sergio Leiva & Santa Salsa"
-                    className="w-28 sm:w-36 lg:w-44 object-contain"
+                    src="/story-storefront.png"
+                    alt="#1 Santa Salsa Brooklyn Storefront"
+                    className="w-32 sm:w-40 lg:w-48 object-contain"
                   />
                   {/* Floating Badge #1 */}
                   <div className="absolute top-1 left-1 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2 py-0.5 rounded-lg shadow-lg flex items-center gap-1 font-mono text-[9px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
                     <Sparkles className="w-2.5 h-2.5 animate-spin" />
-                    <span>#1 FUNDADOR</span>
+                    <span>#1 BROOKLYN NYC</span>
                   </div>
                 </div>
               </div>
 
-              {/* IMAGE #2: SANTA SALSA BROOKLYN STOREFRONT (MIDDLE RIGHT) */}
+              {/* IMAGE #2: FOUNDER HOLDING SKATEBOARDS (MIDDLE RIGHT) */}
               <div
                 onClick={() => setSelectedStoryIndex(1)}
                 className="pointer-events-auto cursor-pointer transform rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 filter drop-shadow-[0_14px_24px_rgba(0,0,0,0.9)] animate-pop-in group"
@@ -726,14 +726,14 @@ export const PitchView: React.FC<PitchViewProps> = ({
               >
                 <div className="relative">
                   <img
-                    src="/story-storefront.png"
-                    alt="#2 Santa Salsa Brooklyn Storefront"
-                    className="w-32 sm:w-40 lg:w-48 object-contain"
+                    src="/story-founder.png"
+                    alt="#2 Sergio Leiva & Santa Salsa"
+                    className="w-28 sm:w-36 lg:w-44 object-contain"
                   />
                   {/* Floating Badge #2 */}
                   <div className="absolute top-1 left-1 bg-[#991B1B] text-[#FFEB01] border-2 border-[#FFEB01] px-2 py-0.5 rounded-lg shadow-lg flex items-center gap-1 font-mono text-[9px] font-black uppercase tracking-wider group-hover:bg-[#DC2626]">
                     <Sparkles className="w-2.5 h-2.5 animate-spin" />
-                    <span>#2 BROOKLYN NYC</span>
+                    <span>#2 FUNDADOR</span>
                   </div>
                 </div>
               </div>
