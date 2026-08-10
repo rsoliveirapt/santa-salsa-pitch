@@ -53,12 +53,12 @@ export const VenueHeaderDecor: React.FC<VenueHeaderDecorProps> = ({
       </div>
 
       {/* Latin Folk Figurines Bar Shelf Accent */}
-      <div className="w-full flex justify-center gap-4 mt-3 opacity-80 text-xs font-mono text-amber-200/80">
-        <span>🌶️ STREET FOOD</span>
-        <span>•</span>
-        <span>🌭 PERROS CON TODO</span>
-        <span>•</span>
-        <span>🍹 BAR & TRUCK</span>
+      <div className="w-full flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 mt-3 text-[10px] sm:text-xs font-mono font-bold text-[#FFEB01] tracking-wider px-2 select-none">
+        <span className="whitespace-nowrap">🌶️ STREET FOOD</span>
+        <span className="text-amber-500 font-black">•</span>
+        <span className="whitespace-nowrap">🌭 PERROS CON TODO</span>
+        <span className="text-amber-500 font-black">•</span>
+        <span className="whitespace-nowrap">🍹 BAR & TRUCK</span>
       </div>
     </div>
   );
