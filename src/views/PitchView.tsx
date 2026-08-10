@@ -503,7 +503,7 @@ export const PitchView: React.FC<PitchViewProps> = ({
         {/* LEFT COLUMN: COMPACT FOCUSED QR CODE SIDEBAR (3 cols on lg) */}
         <aside className="lg:col-span-3 flex flex-col lg:h-full">
           {/* Compact QR Code Presentation Box */}
-          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row lg:flex-col items-center justify-between text-center sm:text-left lg:text-center shadow-[0_8px_0_#000] lg:h-full gap-3">
+          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-3.5 sm:p-4 lg:p-6 flex flex-col sm:flex-row lg:flex-col items-center justify-between lg:justify-center lg:gap-6 text-center sm:text-left lg:text-center shadow-[0_8px_0_#000] lg:h-full">
             <div className="flex flex-col items-center sm:items-start lg:items-center">
               <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#991B1B] border border-amber-400 text-amber-300 text-[10px] font-black uppercase tracking-wider mb-2 shadow-sm">
                 <Sparkles className="w-3 h-3" />
@@ -522,27 +522,28 @@ export const PitchView: React.FC<PitchViewProps> = ({
             <div className="flex flex-col sm:flex-row lg:flex-col items-center gap-3 w-full sm:w-auto">
               <div
                 onClick={() => setShowQrModal(true)}
-                className="p-2.5 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex flex-col items-center justify-center group relative flex-shrink-0"
+                className="p-3 bg-[#FDF6E2] rounded-2xl shadow-[0_6px_0_#000] border-4 border-zinc-950 transform hover:scale-105 transition-transform cursor-pointer flex flex-col items-center justify-center group relative flex-shrink-0"
                 title="Clica para ampliar o Código QR"
               >
                 {appUrl && (
                   <QRCodeSVG
                     value={appUrl}
-                    size={130}
+                    size={165}
                     level="H"
                     includeMargin={true}
+                    className="w-28 h-28 lg:w-44 lg:h-44"
                     imageSettings={{
                       src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌭</text></svg>',
                       x: undefined,
                       y: undefined,
-                      height: 28,
-                      width: 28,
+                      height: 32,
+                      width: 32,
                       excavate: true
                     }}
                   />
                 )}
                 {/* Zoom Hover Badge */}
-                <div className="mt-1 flex items-center gap-1 text-[9px] font-mono font-bold text-zinc-900 bg-amber-400 px-2 py-0.5 rounded-full border border-zinc-950 shadow-sm group-hover:bg-amber-300">
+                <div className="mt-1.5 flex items-center gap-1 text-[9px] font-mono font-bold text-zinc-900 bg-amber-400 px-2 py-0.5 rounded-full border border-zinc-950 shadow-sm group-hover:bg-amber-300">
                   <ZoomIn className="w-3 h-3" />
                   <span>Ampliar QR</span>
                 </div>
