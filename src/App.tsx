@@ -53,10 +53,10 @@ export function App() {
             </span>
 
             {/* View Switcher Tabs */}
-            <div className="flex items-center gap-1 bg-[#1A1A1A] p-1 rounded-xl border-2 border-zinc-800">
+            <div className="flex items-center gap-1 bg-[#1A1A1A] p-1 border-2 border-zinc-800">
               <button
                 onClick={() => navigateTo('mobile')}
-                className="px-3 py-1 rounded-lg font-bold transition-all flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200"
+                className="px-3 py-1 font-bold transition-all flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200"
               >
                 <Smartphone className="w-3.5 h-3.5" />
                 <span>Mobile (Audiência)</span>
@@ -64,7 +64,7 @@ export function App() {
 
               <button
                 onClick={() => navigateTo('pitch')}
-                className="px-3 py-1 rounded-lg font-bold transition-all flex items-center gap-1.5 bg-[#FFEB01] text-zinc-950 shadow-sm border border-zinc-950 font-black"
+                className="px-3 py-1 font-bold transition-all flex items-center gap-1.5 bg-[#FFEB01] text-zinc-950 shadow-sm border border-zinc-950 font-black"
               >
                 <Tv className="w-3.5 h-3.5" />
                 <span>Pitch (Projetor / Wall)</span>
@@ -73,7 +73,7 @@ export function App() {
 
             {/* Badges & Simular Perro Button moved here to left navbar */}
             <div className="flex items-center gap-2 border-l-2 border-zinc-800 pl-3">
-              <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-[#DC2626] border border-[#FFEB01] text-white shadow-sm">
+              <span className="px-2 py-0.5 text-[9px] font-black uppercase tracking-wider bg-[#DC2626] border border-[#FFEB01] text-white shadow-sm">
                 PITCH LIVE SCREEN
               </span>
 
@@ -81,7 +81,7 @@ export function App() {
                 <>
                   <button
                     onClick={pitchControls.openConfig}
-                    className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border-2 flex items-center gap-1 transition-all ${
+                    className={`text-[9px] font-mono font-bold px-2 py-0.5 border-2 flex items-center gap-1 transition-all ${
                       pitchControls.isConnected
                         ? 'bg-emerald-950 border-emerald-500 text-emerald-400 hover:bg-emerald-900'
                         : 'bg-amber-950 border-amber-500 text-amber-300 hover:bg-amber-900'
@@ -94,7 +94,7 @@ export function App() {
 
                   <button
                     onClick={pitchControls.simulate}
-                    className="px-2.5 py-1 rounded-lg bg-[#DC2626] text-white border-2 border-[#FFEB01] hover:bg-red-700 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider shadow-[0_2px_0_#000]"
+                    className="px-2.5 py-1 bg-[#DC2626] text-white border-2 border-[#FFEB01] hover:bg-red-700 transition-all flex items-center gap-1 text-xs font-black uppercase tracking-wider shadow-[0_2px_0_#000]"
                     title="Simular Novo Perro"
                   >
                     <Plus className="w-3.5 h-3.5 stroke-[3]" />
@@ -108,7 +108,7 @@ export function App() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowHeader((prev) => !prev)}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#1A1A1A] hover:bg-zinc-800 text-[#FFEB01] border-2 border-[#FFEB01] font-black transition-all shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1 bg-[#1A1A1A] hover:bg-zinc-800 text-[#FFEB01] border-2 border-[#FFEB01] font-black transition-all shadow-sm"
               title={showHeader ? 'Ocultar Banner Superior' : 'Mostrar Banner Superior'}
             >
               {showHeader ? (
@@ -134,7 +134,7 @@ export function App() {
       {currentRoute === 'pitch' && !showNav && (
         <button
           onClick={() => setShowNav(true)}
-          className="fixed top-3 left-4 z-50 bg-[#1A1A1A] border-2 border-[#FFEB01] text-[#FFEB01] px-3 py-1 rounded-xl text-xs font-black shadow-2xl hover:bg-zinc-800 flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-all"
+          className="fixed top-3 left-4 z-50 bg-[#1A1A1A] border-2 border-[#FFEB01] text-[#FFEB01] px-3 py-1 text-xs font-black shadow-2xl hover:bg-zinc-800 flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-all"
         >
           <Layers className="w-3.5 h-3.5 text-[#DC2626]" />
           <span>Restaurar Barra Nav</span>

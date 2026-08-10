@@ -122,8 +122,8 @@ export const MobileView: React.FC = () => {
       {/* Confirmation Screen Modal when Submitted */}
       {isSubmitted ? (
         <main className="flex-1 flex flex-col items-center justify-center text-center px-2 animate-pop-in py-4">
-          <div className="w-20 h-20 rounded-full bg-[#DC2626] border-4 border-amber-400 p-1 mb-6 animate-bounce shadow-[0_8px_0_#000]">
-            <div className="w-full h-full bg-[#0F0F0F] rounded-full flex items-center justify-center">
+          <div className="w-20 h-20 bg-[#DC2626] border-4 border-amber-400 p-1 mb-6 animate-bounce shadow-[0_8px_0_#000]">
+            <div className="w-full h-full bg-[#0F0F0F] flex items-center justify-center">
               <Check className="w-10 h-10 text-emerald-400 stroke-[3]" />
             </div>
           </div>
@@ -132,12 +132,12 @@ export const MobileView: React.FC = () => {
             ¡PERRO NO AR! 🎉
           </h2>
 
-          <div className="bg-[#1A1A1A] border-4 border-emerald-500 rounded-2xl p-6 mb-6 shadow-[0_8px_0_#000] w-full max-w-sm">
+          <div className="bg-[#1A1A1A] border-4 border-emerald-500 p-6 mb-6 shadow-[0_8px_0_#000] w-full max-w-sm">
             <p className="text-emerald-400 font-black text-lg mb-4 uppercase tracking-wide">
               O TEU PERRO JÁ ESTÁ NO ECRÃ DO PITCH!
             </p>
 
-            <div className="my-4 bg-[#0D0D0D] p-3 rounded-xl border-2 border-zinc-800">
+            <div className="my-4 bg-[#0D0D0D] p-3 border-2 border-zinc-800">
               <HotDogVisualizer selectedIngredients={selectedIngredients} size="md" />
             </div>
 
@@ -152,7 +152,7 @@ export const MobileView: React.FC = () => {
           <div className="flex flex-col gap-3 w-full max-w-sm">
             <button
               onClick={handleCreateAnother}
-              className="w-full py-4 px-6 rounded-xl font-black text-lg bg-[#F59E0B] text-zinc-950 border-4 border-zinc-950 uppercase tracking-wider shadow-[0_6px_0_#78350F] hover:bg-amber-400 active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2"
+              className="w-full py-4 px-6 font-black text-lg bg-[#F59E0B] text-zinc-950 border-4 border-zinc-950 uppercase tracking-wider shadow-[0_6px_0_#78350F] hover:bg-amber-400 active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2"
             >
               <RotateCcw className="w-5 h-5 stroke-[2.5]" />
               <span>Criar Outro Perro 🌭</span>
@@ -164,9 +164,9 @@ export const MobileView: React.FC = () => {
         /* Main Hot Dog Builder Form */
         <main className="flex-1 flex flex-col justify-between gap-4">
           {/* Dynamic Visual Hot Dog Display Frame */}
-          <div className="bg-[#1A1A1A] border-4 border-amber-500 rounded-2xl p-4 flex flex-col items-center justify-center relative shadow-[0_8px_0_#000]">
-            <div className="absolute top-3 left-3 text-[10px] font-mono font-bold bg-[#991B1B] text-amber-300 px-2 py-0.5 rounded border border-amber-400/60 flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <div className="bg-[#1A1A1A] border-4 border-amber-500 p-4 flex flex-col items-center justify-center relative shadow-[0_8px_0_#000]">
+            <div className="absolute top-3 left-3 text-[10px] font-mono font-bold bg-[#991B1B] text-amber-300 px-2 py-0.5 border border-amber-400/60 flex items-center gap-1">
+              <span className="w-2 h-2 bg-amber-400 animate-pulse"></span>
               <span>LIVE PREVIEW</span>
             </div>
 
@@ -184,7 +184,7 @@ export const MobileView: React.FC = () => {
               </button>
               <button
                 onClick={handleSelectAll}
-                className="bg-[#DC2626] text-white px-3 py-1.5 rounded-lg border-2 border-amber-400 font-black text-xs uppercase tracking-wider flex items-center gap-1 hover:bg-red-700 active:scale-95 transition-all shadow-[0_4px_0_#000]"
+                className="bg-[#DC2626] text-white px-3 py-1.5 border-2 border-amber-400 font-black text-xs uppercase tracking-wider flex items-center gap-1 hover:bg-red-700 active:scale-95 transition-all shadow-[0_4px_0_#000]"
               >
                 <Flame className="w-4 h-4 fill-amber-400 stroke-amber-400" />
                 <span>Con Todo! (Todos)</span>
@@ -193,7 +193,7 @@ export const MobileView: React.FC = () => {
           </div>
 
           {/* Progress Bar ("Nível Caracas") */}
-          <div className="bg-[#1A1A1A] border-3 border-zinc-800 rounded-2xl p-4 shadow-[0_6px_0_#000]">
+          <div className="bg-[#1A1A1A] border-3 border-zinc-800 p-4 shadow-[0_6px_0_#000]">
             <div className="flex justify-between items-end mb-2">
               <div>
                 <span className="text-[10px] uppercase tracking-widest font-black text-zinc-400">
@@ -207,9 +207,9 @@ export const MobileView: React.FC = () => {
             </div>
 
             {/* Progress Track */}
-            <div className="w-full h-3.5 bg-[#0D0D0D] rounded-full overflow-hidden p-0.5 border-2 border-zinc-800">
+            <div className="w-full h-3.5 bg-[#0D0D0D] overflow-hidden p-0.5 border-2 border-zinc-800">
               <div
-                className="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-[#DC2626] rounded-full transition-all duration-500 ease-out"
+                className="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-[#DC2626] transition-all duration-500 ease-out"
                 style={{ width: `${nivelCaracas}%` }}
               />
             </div>
@@ -235,7 +235,7 @@ export const MobileView: React.FC = () => {
                     key={ing.id}
                     type="button"
                     onClick={() => toggleIngredient(ing.id)}
-                    className={`p-3 rounded-xl border-3 text-left flex items-center justify-between transition-all duration-150 active:translate-y-0.5 ${
+                    className={`p-3 border-3 text-left flex items-center justify-between transition-all duration-150 active:translate-y-0.5 ${
                       isSelected
                         ? 'bg-[#1A1A1A] border-amber-400 shadow-[0_4px_0_#F59E0B] text-white'
                         : 'bg-[#141414] border-zinc-800 text-zinc-400 hover:border-zinc-700'
@@ -243,7 +243,7 @@ export const MobileView: React.FC = () => {
                   >
                     <div className="flex items-center gap-2.5 overflow-hidden">
                       <div
-                        className={`p-1.5 rounded-lg font-bold ${
+                        className={`p-1.5 font-bold ${
                           isSelected ? ing.badgeText : 'text-zinc-500'
                         }`}
                       >
@@ -264,7 +264,7 @@ export const MobileView: React.FC = () => {
                     </div>
 
                     <div
-                      className={`w-5 h-5 rounded-md border-2 flex items-center justify-center font-bold transition-all ${
+                      className={`w-5 h-5 border-2 flex items-center justify-center font-bold transition-all ${
                         isSelected
                           ? 'border-amber-400 bg-amber-400 text-zinc-950 scale-100'
                           : 'border-zinc-700 bg-zinc-900 scale-90'
@@ -283,14 +283,14 @@ export const MobileView: React.FC = () => {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className={`w-full py-4 px-6 rounded-xl font-black text-xl uppercase tracking-wider font-display transition-all duration-200 flex items-center justify-center gap-3 ${
+              className={`w-full py-4 px-6 font-black text-xl uppercase tracking-wider font-display transition-all duration-200 flex items-center justify-center gap-3 ${
                 !isSubmitting
                   ? 'bg-[#DC2626] text-white border-4 border-amber-400 shadow-[0_6px_0_#78350F] hover:bg-red-600 active:translate-y-1 active:shadow-none cursor-pointer'
                   : 'bg-zinc-800 text-zinc-600 border-2 border-zinc-700 cursor-not-allowed'
               }`}
             >
               {isSubmitting ? (
-                <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-6 h-6 border-4 border-white border-t-transparent animate-spin" />
               ) : (
                 <>
                   <Send className="w-6 h-6 stroke-[2.5]" />

@@ -17,7 +17,7 @@ export const VenueHeaderDecor: React.FC<VenueHeaderDecorProps> = ({
         {[...Array(10)].map((_, i) => (
           <div key={i} className="flex flex-col items-center animate-string-light" style={{ animationDelay: `${i * 0.2}s` }}>
             <div className="w-0.5 h-3 bg-zinc-800"></div>
-            <div className="w-3.5 h-3.5 rounded-full bg-amber-300 shadow-[0_0_10px_#F59E0B] border border-amber-400"></div>
+            <div className="w-3.5 h-3.5 bg-amber-300 shadow-[0_0_10px_#F59E0B] border border-amber-400"></div>
           </div>
         ))}
       </div>
@@ -32,7 +32,7 @@ export const VenueHeaderDecor: React.FC<VenueHeaderDecorProps> = ({
 
       {/* Hand-Painted Surfboard Signboard */}
       <div className="relative z-20 inline-block mx-auto max-w-full">
-        <div className="sign-board-white rounded-2xl px-6 py-3 shadow-[6px_6px_0px_#000000] transform -rotate-1 hover:rotate-0 transition-transform">
+        <div className="sign-board-white px-6 py-3 shadow-[6px_6px_0px_#000000] transform -rotate-1 hover:rotate-0 transition-transform">
           <div className="text-xs font-black uppercase tracking-widest text-[#991B1B] font-mono mb-0.5">
             BROOKLYN • NEW YORK
           </div>
@@ -47,7 +47,7 @@ export const VenueHeaderDecor: React.FC<VenueHeaderDecorProps> = ({
 
       {/* Subtitle / Venue Tagline */}
       <div className="mt-3 relative z-20">
-        <span className="inline-block bg-[#0F0F0F] text-amber-400 font-hand text-sm px-4 py-1.5 rounded-full border-2 border-amber-500 shadow-md">
+        <span className="inline-block bg-[#0F0F0F] text-amber-400 font-hand text-sm px-4 py-1.5 border-2 border-amber-500 shadow-md">
           {subtitle}
         </span>
       </div>
